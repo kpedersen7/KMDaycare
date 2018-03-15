@@ -1,0 +1,40 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Admin.master.cs" Inherits="Admin" %>
+
+<!DOCTYPE html>
+
+<style type="text/css">
+    #logo-img{
+        width:33%;
+        margin-left:33%;
+    }
+</style>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>KMDaycare</title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <script src="Scripts/jquery-3.3.1.js"></script>
+</head>
+<body>
+    <img src="Images/daycaretemplogo2.PNG" alt="" height="150" id="logo-img"/>
+    <nav class="navbar navbar-default">
+        <ul class="nav nav-pills">
+            <li><a href="Default.aspx">Home</a></li>
+            <li><a href="ViewNewsletter.aspx">Newsletter</a></li>
+            <li><a href="UpdateHomeGallery.aspx">Update Home Gallery</a> </li>
+            <li><a href="AddEvent.aspx">Manage Event</a> </li>
+            <li><a href="CreateNewsletter.aspx">Create Newsletter</a></li>
+        </ul>
+    </nav>
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+    </asp:ContentPlaceHolder>
+
+    <footer class="footermain">
+        Copyright © 2018 KMDaycare, All Rights Reserved
+
+    </footer>
+
+</body>
+</html>
