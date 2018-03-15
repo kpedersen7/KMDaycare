@@ -12,7 +12,7 @@
     <form id="form1" runat="server">
     <div>
         <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
-        
+        <asp:Table ID="testtable" runat="server"></asp:Table>
         </asp:ContentPlaceHolder>
     </div>
     </form>
