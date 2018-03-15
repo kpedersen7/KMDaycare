@@ -37,11 +37,11 @@ public class KBAIST
     public List<Event> GetEvents(DateTime minDay, DateTime maxDay)
     {
         EventTimes events = new EventTimes();
-        List<Event> eventsForDay = events.GetEvents(minDay, maxDay);
+        List<Event> eventsForDay = events.FindEvents(minDay, maxDay);
         return eventsForDay;
     }
 
-    public bool DeleteEvent(int id)
+    public bool RemoveEvent(int id)
     {
         EventTimes events = new EventTimes();
         try

@@ -80,7 +80,7 @@ public class EventTimes
         }
     }
 
-    public List<Event> GetEvents(DateTime minDay, DateTime maxDay)
+    public List<Event> FindEvents(DateTime minDay, DateTime maxDay)
     {
         List<Event> events = new List<Event>();
         using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["KMDaycare"].ConnectionString))

@@ -118,7 +118,7 @@ public partial class AddEvent : System.Web.UI.Page
     {
         SetCookie();
         KBAIST kb = new KBAIST();
-        bool b = kb.DeleteEvent(id);
+        bool b = kb.RemoveEvent(id);
         if (b)
         {
             Response.Redirect("AddEvent.aspx?d=0");
