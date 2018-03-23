@@ -98,3 +98,26 @@ ELSE
 	END
 	RETURN @ReturnCode
 
+	
+	create table tbllogin
+	(
+	UserUniqueID Uniqueidentifier,  --this will generate 32 bit encoded number
+	UserID int NOT NULL IDENTITY (1,1),
+	[Password] varchar(50),
+	RoleID int,
+	Primary Key(UserUniqueID),
+	FOREIGN KEY (RoleID) REFERENCES tblUserRole(RoleID)
+	)
+
+	create table tblUserRole
+	(
+	RoleID int NOT NULL,
+	RoleName Varchar(50)
+	Primary Key(RoleID)
+	)
+
+	insert into tblUserRole
+	(
+	RoleID,RoleName
+	)
+	values (3,'User');
