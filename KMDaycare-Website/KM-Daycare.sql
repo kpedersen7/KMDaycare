@@ -98,11 +98,12 @@ ELSE
 	END
 	RETURN @ReturnCode
 
-	
+
 	create table tbllogin
 	(
 	UserUniqueID Uniqueidentifier,  --this will generate 32 bit encoded number
 	UserID int NOT NULL IDENTITY (1,1),
+	EmailId varchar(100),
 	[Password] varchar(50),
 	RoleID int,
 	Primary Key(UserUniqueID),
@@ -121,3 +122,19 @@ ELSE
 	RoleID,RoleName
 	)
 	values (3,'User');
+
+	insert into tbllogin
+	(UserUniqueID, [Password],RoleID)
+	values(NEWID(),'123',1)
+	;
+
+	ALTER Procedure [dbo].[SP_VerifyLogin]
+	@EmailID varchar(50),
+	@Password varchar(100)
+	AS
+	BEGIN
+		Select * from tbllogin where EmailId=@EmailID AND [Password] = @Password
+ 	END
+
+
+	select * from tbllogin

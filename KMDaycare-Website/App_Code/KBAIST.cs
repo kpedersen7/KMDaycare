@@ -61,4 +61,23 @@ public class KBAIST
             return false;
         }
     }
+
+
+    #region Verify Login
+    public bool VerifyLogin(string EmailId, string Password)
+    {
+        try
+        {
+            bool success = false;
+            CheckLogin objChk = new CheckLogin();
+            success= objChk.VerifyLogin(EmailId, Password);
+            return success;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    #endregion
 }

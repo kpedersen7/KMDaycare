@@ -11,7 +11,7 @@ public partial class AddEvent : System.Web.UI.Page
     {
         if (!Page.IsPostBack)
         {
-            string cookie;
+            string cookie = null;
             if (Request.Cookies["SelectedDay"].Value != null)
             {
                 cookie = Request.Cookies["SelectedDay"].Value;
