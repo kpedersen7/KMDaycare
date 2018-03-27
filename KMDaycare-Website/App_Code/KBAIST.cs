@@ -62,6 +62,68 @@ public class KBAIST
         }
     }
 
+    public bool CreateAccount(string childFirstName, string childLastName, string parent1FirstName, string parent1LastName, string parent2FirstName, string parent2LastName, string homeAddress, string postalCode, string emergencyContact)
+    {
+        try
+        {
+            MemberController members = new MemberController();
+            Member m = new Member();
+            m.ChildFirstName = childFirstName;
+            m.ChildLastName = childLastName;
+            m.Parent1FirstName = parent1FirstName;
+            m.Parent1LastName = parent1LastName;
+            m.Parent2FirstName = parent2FirstName;
+            m.Parent2LastName = parent2LastName;
+            m.HomeAddress = homeAddress;
+            m.PostalCode = postalCode;
+            m.EmergencyContact = emergencyContact;
+            m.UserName = MakeUsername(m);
+            bool success = members.CreateMember(m);
+            if (success)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
+    }
+
+    public bool CreateUser(string email, string password, int role)
+    {
+        try
+        {
+            UserController users = new UserController();
+            User u = new User();
+            u.Email = email;
+            u.Password = password;
+            u.Role = role;
+            bool success = users.CreateUser(u);
+            if (success)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
+    }
+
+    private string MakeUsername(Member m)
+    {
+        string username = m.ChildFirstName.Substring(0,1).ToLower() + m.ChildLastName+ m.Parent1FirstName;
+        return username;
+    }
 
     #region Verify Login
     public bool VerifyLogin(string EmailId, string Password)

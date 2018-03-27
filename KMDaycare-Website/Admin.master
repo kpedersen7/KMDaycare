@@ -26,6 +26,7 @@
             <li><a href="UpdateHomeGallery.aspx">Update Home Gallery</a> </li>
             <li><a href="AddEvent.aspx">Manage Event</a> </li>
             <li><a href="CreateNewsletter.aspx">Create Newsletter</a></li>
+            <li><a href="CreateAccount.aspx">Create Account</a></li>
         </ul>
     </nav>
     <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
