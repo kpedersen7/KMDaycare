@@ -10,8 +10,13 @@
 --USE kpedersen7
 SELECT * FROM [User]
 SELECT * FROM [Member]
+--DROP TABLE [User]
+--DROP TABLE [Member]
 
-CREATE DATABASE BAISTCapstoneTest
+--DELETE FROM [User] WHERE 1 = 1
+--DELETE FROM [Member] WHERE 1 = 1
+
+--CREATE DATABASE BAISTCapstoneTest
 GO
 
 CREATE TABLE [Event](
@@ -22,7 +27,6 @@ CREATE TABLE [Event](
 	Notes VARCHAR(500) NULL
 )
 
-
 CREATE TABLE [Role](
 	RoleID int NOT NULL PRIMARY KEY,
 	RoleName Varchar(50)
@@ -30,15 +34,9 @@ CREATE TABLE [Role](
 INSERT INTO [Role](RoleID, RoleName) VALUES(1, 'Admin')
 INSERT INTO [Role](RoleID, RoleName) VALUES(2, 'Parent')
 INSERT INTO [Role](RoleID, RoleName) VALUES(3, 'Staff')
-	
-CREATE TABLE [User](
-	Email varchar(50) NOT NULL PRIMARY KEY,
-	Password varchar(50) NOT NULL,
-	Role int NOT NULL FOREIGN KEY REFERENCES Role(RoleID),
-)
 
 CREATE TABLE [Member](
-	UserName varchar(20) NOT NULL,
+	UserName varchar(50) NOT NULL PRIMARY KEY,
 	ChildFirstName varchar(20) NOT NULL,
 	ChildLastName varchar(20) NOT NULL,
 	Parent1FirstName varchar(20) NOT NULL,
@@ -50,6 +48,12 @@ CREATE TABLE [Member](
 	EmergencyContact varchar(10),
 ) 
 
+CREATE TABLE [User](
+	Email varchar(50) NOT NULL PRIMARY KEY,
+	UserName varchar(50) NOT NULL FOREIGN KEY REFERENCES Member(UserName),
+	Password varchar(100) NOT NULL,
+	Role int NOT NULL FOREIGN KEY REFERENCES Role(RoleID),
+)
 
 --------------------------------------EVENTS-------------------------------------------
 GO
@@ -162,7 +166,7 @@ ELSE
 	RETURN @ReturnCode
 
 GO
-CREATE PROCEDURE CreateUser(@email varchar(20), @password varchar(20), @role int) AS
+CREATE PROCEDURE CreateUser(@email varchar(50), @password varchar(100), @role int) AS
 DECLARE @ReturnCode INT
 SET @ReturnCode = 1
 IF @email IS NULL
@@ -181,44 +185,49 @@ ELSE
 			RAISERROR('CreateUser - Insert Error at User table', 16,1)
 	END
 	RETURN @ReturnCode
+
+GO
+ALTER PROCEDURE VerifyLogin(@UserName varchar(50), @Password varchar(100)) AS
+DECLARE @ReturnCode INT
+SET @ReturnCode = 1
+IF @UserName IS NULL
+	RAISERROR('VerifyLogin - Required Parameter : @UserName',16,1)
+IF @Password IS NULL
+	RAISERROR('VerifyLogin - Required Parameter : @Password',16,1)
+BEGIN
+	SELECT * FROM [User] WHERE UserName = @UserName AND Password = @Password
+	IF @@ERROR = 0
+			SET @ReturnCode = 0
+	ELSE
+		RAISERROR('VerifyLogin - Select Error at User table', 16,1)
+END
 -------------------------------------------------/MEMBER----------------------------------------------------
 
-	create table tbllogin
-	(
-	UserUniqueID Uniqueidentifier,  --this will generate 32 bit encoded number
-	UserID int NOT NULL IDENTITY (1,1),
-	EmailId varchar(100),
-	[Password] varchar(50),
-	RoleID int,
-	Primary Key(UserUniqueID),
-	FOREIGN KEY (RoleID) REFERENCES tblUserRole(RoleID)
-	)
+create table tbllogin
+(
+UserUniqueID Uniqueidentifier,  --this will generate 32 bit encoded number
+UserID int NOT NULL IDENTITY (1,1),
+EmailId varchar(100),
+[Password] varchar(50),
+RoleID int,
+Primary Key(UserUniqueID),
+FOREIGN KEY (RoleID) REFERENCES tblUserRole(RoleID)
+)
 
-	create table tblUserRole
-	(
-	RoleID int NOT NULL,
-	RoleName Varchar(50)
-	Primary Key(RoleID)
-	)
+create table tblUserRole
+(
+RoleID int NOT NULL,
+RoleName Varchar(50)
+Primary Key(RoleID)
+)
 
-	insert into tblUserRole
-	(
-	RoleID,RoleName
-	)
-	values (3,'User');
+insert into tblUserRole
+(
+RoleID,RoleName
+)
+values (3,'User');
 
-	insert into tbllogin
-	(UserUniqueID, [Password],RoleID)
-	values(NEWID(),'123',1)
-	;
-
-	ALTER Procedure [dbo].[SP_VerifyLogin]
-	@EmailID varchar(50),
-	@Password varchar(100)
-	AS
-	BEGIN
-		Select * from tbllogin where EmailId=@EmailID AND [Password] = @Password
- 	END
-
-
-	select * from tbllogin
+insert into tbllogin
+(UserUniqueID, [Password],RoleID)
+values(NEWID(),'123',1)
+;

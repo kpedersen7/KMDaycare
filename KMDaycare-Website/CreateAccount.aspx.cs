@@ -19,7 +19,10 @@ public partial class CreateAccount : System.Web.UI.Page
     {
         KBAIST kb = new KBAIST();
         bool success1 = kb.CreateAccount(ChildFirstName.Text, ChildLastName.Text, Parent1FirstName.Text, Parent1LastName.Text, Parent2FirstName.Text, Parent2LastName.Text, HomeAddress.Text, PostalCode.Text, EmergencyContactNumber.Text);
-        bool success2 = kb.CreateUser(Email.Text, Password.Text, int.Parse(RoleDD.SelectedValue));
+
+        Cryptography c = new Cryptography();
+        string encryptedPassword = c.Encrypt(Password.Text);
+        bool success2 = kb.CreateUser(Email.Text, encryptedPassword, int.Parse(RoleDD.SelectedValue));
         if (success1 && success2)
         {
             Response.Write("worked");
@@ -30,10 +33,10 @@ public partial class CreateAccount : System.Web.UI.Page
         }
 
 
-        System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage();
-        SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-        smtp.Credentials = new NetworkCredential("pedeyk@gmail.com", "");
-        smtp.EnableSsl = true;
-        smtp.Send("pedeyk@gmail.com", Email.Text, "Account Registered at Knottwood Montessori Daycare", "Hello! An account as been made for you at Knottwood Montessori! USERNAME AND PASSWORD");
+        //System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage();
+        //SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+        //smtp.Credentials = new NetworkCredential("pedeyk@gmail.com", "");
+        //smtp.EnableSsl = true;
+        //smtp.Send("pedeyk@gmail.com", Email.Text, "Account Registered at Knottwood Montessori Daycare", "Hello! An account as been made for you at Knottwood Montessori! USERNAME AND PASSWORD");
     }
 }

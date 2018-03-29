@@ -15,24 +15,26 @@ public class CheckLogin
     {
         try
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Local"].ConnectionString))
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["KMDaycare"].ConnectionString))
             {
-                using (SqlCommand cmd = new SqlCommand("SP_Verifylogin", con))
+                using (SqlCommand cmd = new SqlCommand("Verifylogin", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@EmailID", EmailId);
+                    cmd.Parameters.AddWithValue("@Email", EmailId);
                     cmd.Parameters.AddWithValue("@Password", Password);
                     con.Open();
 
                     SqlDataReader dr = cmd.ExecuteReader();
                     if (dr.HasRows)
                     {
+                        con.Close();
                         return true;
-                    }else
+                    }
+                    else
                     {
+                        con.Close();
                         return false;
                     }
-                    con.Close();
                 }
             }
         }
