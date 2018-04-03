@@ -12,6 +12,7 @@ public class KBAIST
     {
     }
 
+    #region Event Methods
     public bool CheckAvailability(DateTime StartDatetime, DateTime EndDateTime)
     {
         EventTimes eventTimes = new EventTimes();
@@ -61,7 +62,9 @@ public class KBAIST
             return false;
         }
     }
+    #endregion
 
+    #region Account and User Methods
     public bool CreateAccount(string childFirstName, string childLastName, string parent1FirstName, string parent1LastName, string parent2FirstName, string parent2LastName, string homeAddress, string postalCode, string emergencyContact)
     {
         try
@@ -124,6 +127,14 @@ public class KBAIST
         string username = m.ChildFirstName.Substring(0,1).ToLower() + m.ChildLastName+ m.Parent1FirstName;
         return username;
     }
+
+    public Member GetMember()
+    {
+        Member m = new Member();
+        //get member stuff
+        return m;
+    }
+    #endregion
 
     #region Verify Login
     public bool VerifyLogin(string EmailId, string Password)

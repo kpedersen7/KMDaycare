@@ -23,11 +23,10 @@
         <ul class="nav nav-pills">
             <li><a href="Default.aspx">Home</a></li>
             <li><a href="ViewNewsletter.aspx">Newsletter</a></li>
-            <li><a href="UpdateHomeGallery.aspx">Update Home Gallery</a> </li>
             <li><a href="AddEvent.aspx">Manage Event</a> </li>
-            <li><a href="CreateNewsletter.aspx">Create Newsletter</a></li>
             <li><a href="CreateAccount.aspx">Create Account</a></li>
             <li><a href="AddDailyActivity.aspx">Manage Daily Activities</a></li>
+            <li><a href="Settings.aspx">Settings</a></li>
         </ul>
     </nav>
     <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
