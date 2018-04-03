@@ -230,4 +230,8 @@ values (3,'User');
 insert into tbllogin
 (UserUniqueID, [Password],RoleID)
 values(NEWID(),'123',1)
+
 ;
+
+
+
