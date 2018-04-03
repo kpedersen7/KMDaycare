@@ -5,10 +5,11 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class AddEvent : System.Web.UI.Page
+public partial class AddDailyActivity : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+
         if (!Page.IsPostBack)
         {
             string cookie = null;
@@ -23,11 +24,11 @@ public partial class AddEvent : System.Web.UI.Page
                     int id = int.Parse(Request.QueryString["d"]);
                     if (id != 0)
                     {
-                        RemoveEvent(id);
+                        RemoveActivity(id);
                     }
                     else
                     {
-                        messageLabel.Text = "Event Deleted Successfully!";
+                        messageLabel.Text = "Activity Deleted Successfully!";
                     }
                 }
                 catch (Exception ex)
@@ -40,8 +41,8 @@ public partial class AddEvent : System.Web.UI.Page
                 try
                 {
                     DateTime selectedDate = DateTime.Parse(cookie);
-                    EventDate.SelectedDate = selectedDate;
-                    GetEventsForDay(selectedDate);
+                    ActivityDate.SelectedDate = selectedDate;
+                    GetActivitiesForDay(selectedDate);
                 }
                 catch (Exception ex)
                 {
@@ -56,76 +57,80 @@ public partial class AddEvent : System.Web.UI.Page
         SetCookie();
         KBAIST kBaist = new KBAIST();
         bool DayIsAvailable = true;
-        int year = EventDate.SelectedDate.Year;
-        int month = EventDate.SelectedDate.Month;
-        int day = EventDate.SelectedDate.Day;
+        int year = ActivityDate.SelectedDate.Year;
+        int month = ActivityDate.SelectedDate.Month;
+        int day = ActivityDate.SelectedDate.Day;
         DateTime startDateTime = DateTime.Parse(String.Format("{0}-{1}-{2} {3}", year, month, day, StartTime.SelectedValue.ToString()));
         DateTime endDateTime = DateTime.Parse(String.Format("{0}-{1}-{2} {3}", year, month, day, EndTime.SelectedValue.ToString()));
 
-        DayIsAvailable = kBaist.CheckAvailability(startDateTime, endDateTime); // call kbaist.CheckAvailability to check day is available
+        DayIsAvailable = kBaist.CheckAvailabilityforActivity(startDateTime, endDateTime); // call kbaist.CheckAvailability to check day is available
 
         if (DayIsAvailable)
         {
-            kBaist.CreateEvent(startDateTime, endDateTime, Description.Text, Notes.Text);
-            messageLabel.Text = "Event Created Successfully!";
-            Description.Text = String.Empty;
+            kBaist.CreateActivity(startDateTime, endDateTime, DescriptionofActivity.Text, Notes.Text , int.Parse(ClassID.SelectedValue));
+            messageLabel.Text = "Activity Created Successfully!";
+            DescriptionofActivity.Text = String.Empty;
             Notes.Text = String.Empty;
+            ClassID.SelectedValue = String.Empty;
         }
         else if (!DayIsAvailable)
         {
-            messageLabel.Text = "Choose another time! That time is already occupied by another event.";
+            messageLabel.Text = "Choose another time! That time is already occupied by another activity";
         }
     }
 
-    protected void EventDate_SelectionChanged(object sender, EventArgs e)
+    protected void ActivityDate_SelectionChanged(object sender, EventArgs e)
     {
-        DateTime selectedDay = EventDate.SelectedDate;
-        GetEventsForDay(selectedDay);
+        DateTime selectedDay = ActivityDate.SelectedDate;
+        GetActivitiesForDay(selectedDay);
     }
 
-    private void GetEventsForDay(DateTime selectedDay)
+    private void GetActivitiesForDay(DateTime selectedDay)
     {
         KBAIST kBaist = new KBAIST();
-        List<Event> eventsForDay = kBaist.GetEvents(selectedDay, selectedDay.AddDays(1));
-        if (eventsForDay.Count > 0)
+        List<DailyActivity> activitiesForDay = kBaist.GetActivities(selectedDay, selectedDay.AddDays(1));
+        if (activitiesForDay.Count > 0)
         {
-            foreach (Event ev in eventsForDay)
+            foreach (DailyActivity da in activitiesForDay)
             {
                 Panel p = new Panel();
                 p.Attributes.Add("class", "card");
                 Label l = new Label();
-                l.Text = ev.Description;
-                l.Attributes.Add("id", "event" + ev.EventID + "Description");
+                l.Text = da.DescriptionofActivity;
+                l.Attributes.Add("id", "activity" + da.DailyActivityID + "DescriptionofActivity");
                 p.Controls.Add(l);
                 l = new Label();
-                l.Text = ev.StartDateTime + " to " + ev.EndDateTime;
+                l.Text = da.StartDateTime + " to " + da.EndDateTime;
                 p.Controls.Add(l);
                 l = new Label();
-                l.Text = "Notes: " + ev.Notes;
+                l.Text = "Notes: " + da.Notes;
                 p.Controls.Add(l);
 
+                l = new Label();
+                l.Text = "ClassID: " + da.ClassID;
+                p.Controls.Add(l);
                 LinkButton lb = new LinkButton();
                 lb.Text = "Delete";
-                lb.Attributes.Add("href", "AddEvent.aspx?d=" + ev.EventID);
+                lb.Attributes.Add("href", "AddDailyActivity.aspx?d=" + da.DailyActivityID);
                 p.Controls.Add(lb);
-                EventsForDay.Controls.Add(p);
+                ActivitiesForDay.Controls.Add(p);
             }
         }
         SetCookie();
     }
 
-    private void RemoveEvent(int id)
+    private void RemoveActivity(int id)
     {
         SetCookie();
         KBAIST kb = new KBAIST();
-        bool b = kb.RemoveEvent(id);
+        bool b = kb.RemoveActivity(id);
         if (b)
         {
-            Response.Redirect("AddEvent.aspx?d=0");
+            Response.Redirect("AddDailyActivity.aspx?d=0");
         }
         else
         {
-            messageLabel.Text = "Something went wrong, event was not deleted.";
+            messageLabel.Text = "Something went wrong, activity was not deleted.";
         }
     }
 
@@ -139,7 +144,7 @@ public partial class AddEvent : System.Web.UI.Page
 
     private void SetCookie()
     {
-        HttpCookie cookie = new HttpCookie("SelectedDay", EventDate.SelectedDate.ToString());
+        HttpCookie cookie = new HttpCookie("SelectedDay", ActivityDate.SelectedDate.ToString());
         Response.Cookies.Add(cookie);
     }
 }

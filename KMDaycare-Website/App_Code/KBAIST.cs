@@ -142,4 +142,55 @@ public class KBAIST
     }
 
     #endregion
+
+    public bool CheckAvailabilityforActivity(DateTime StartDatetime, DateTime EndDateTime)
+    {
+        DailyActivityTimes activityTimes = new DailyActivityTimes();
+        bool DayIsAvailable = true;
+        DayIsAvailable = activityTimes.FindAvailabilityofActivity(StartDatetime, EndDateTime); // call eventTimes.FindAvailability to check day is available
+
+        return DayIsAvailable;
+    }
+
+    public bool CreateActivity(DateTime startTime, DateTime endTime, string descriptionofactivity, string notes, int Classid)
+    {
+        DailyActivityTimes activityTimes = new DailyActivityTimes();
+        DailyActivity activityForAdd = new DailyActivity();
+        activityForAdd.StartDateTime = startTime;
+        activityForAdd.EndDateTime = endTime;
+        activityForAdd.DescriptionofActivity = descriptionofactivity;
+        activityForAdd.Notes = notes;
+        activityForAdd.ClassID = Classid;
+
+        bool success = activityTimes.AddDailyActivity(activityForAdd);
+        return success;
+    }
+
+    public List<DailyActivity> GetActivities(DateTime minDay, DateTime maxDay)
+    {
+        DailyActivityTimes activities = new DailyActivityTimes();
+        List<DailyActivity> activitiesForDay = activities.FindDailyActivities(minDay, maxDay);
+        return activitiesForDay;
+    }
+
+    public bool RemoveActivity(int id)
+    {
+        DailyActivityTimes activities = new DailyActivityTimes();
+        try
+        {
+            bool b = activities.DeleteDailyActivity(id);
+            if (b)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+    }
 }
