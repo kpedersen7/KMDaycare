@@ -23,6 +23,7 @@ public class UserController
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@email", userForAdd.Email);
+                        cmd.Parameters.AddWithValue("@username", userForAdd.UserName);
                         cmd.Parameters.AddWithValue("@password", userForAdd.Password);
                         cmd.Parameters.AddWithValue("@role", userForAdd.Role);
                         con.Open();
@@ -31,7 +32,7 @@ public class UserController
                         con.Close();
                         return true;
                     }
-                    catch
+                    catch (Exception e)
                     {
                         return false;
                     }

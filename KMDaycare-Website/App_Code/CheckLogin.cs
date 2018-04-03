@@ -11,7 +11,7 @@ using System.Web;
 /// </summary>
 public class CheckLogin
 {
-    public bool VerifyLogin(string EmailId, string Password)
+    public bool VerifyLogin(string UserName, string Password)
     {
         try
         {
@@ -20,7 +20,7 @@ public class CheckLogin
                 using (SqlCommand cmd = new SqlCommand("Verifylogin", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Email", EmailId);
+                    cmd.Parameters.AddWithValue("@UserName", UserName);
                     cmd.Parameters.AddWithValue("@Password", Password);
                     con.Open();
 

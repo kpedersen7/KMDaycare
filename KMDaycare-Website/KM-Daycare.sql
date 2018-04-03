@@ -166,7 +166,7 @@ ELSE
 	RETURN @ReturnCode
 
 GO
-CREATE PROCEDURE CreateUser(@email varchar(50), @password varchar(100), @role int) AS
+CREATE PROCEDURE CreateUser(@email varchar(50), @username varchar(50), @password varchar(100), @role int) AS
 DECLARE @ReturnCode INT
 SET @ReturnCode = 1
 IF @email IS NULL
@@ -177,8 +177,8 @@ IF @role IS NULL
 	RAISERROR('CreateUser - Required Parameter : @role',16,1)
 ELSE
 	BEGIN
-		INSERT INTO [User](Email,Password,Role)
-		VALUES (@email, @password, @role)
+		INSERT INTO [User](Email,UserName,Password,Role)
+		VALUES (@email, @username ,@password, @role)
 		IF @@ERROR = 0
 			SET @ReturnCode = 0
 		ELSE

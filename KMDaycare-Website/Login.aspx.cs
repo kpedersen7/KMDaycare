@@ -15,13 +15,13 @@ public partial class Login : System.Web.UI.Page
 
     protected void btnLogin_Click(object sender, EventArgs e)
     {
-        string EmailID = txtEmail.Text;
+        string UserName = txtUserName.Text;
         string strPass = txtPassword.Text;
         Cryptography objCry = new Cryptography();
         string EncyPass= objCry.Encrypt(strPass);
 
         KBAIST objKbaist = new KBAIST();
-        bool success = objKbaist.VerifyLogin(EmailID, EncyPass);
+        bool success = objKbaist.VerifyLogin(UserName, EncyPass);
         if (success)
         {
             Response.Redirect("Default.aspx");

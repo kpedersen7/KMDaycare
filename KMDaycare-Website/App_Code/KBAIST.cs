@@ -97,15 +97,17 @@ public class KBAIST
         }
     }
 
-    public bool CreateUser(string email, string password, int role)
+    public bool CreateUser(string email, string username, string password, int role)
     {
         try
         {
             UserController users = new UserController();
             User u = new User();
             u.Email = email;
+            
             u.Password = password;
             u.Role = role;
+            u.UserName = username;
             bool success = users.CreateUser(u);
             if (success)
             {

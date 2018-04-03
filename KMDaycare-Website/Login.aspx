@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    Email <asp:TextBox ID="txtEmail" runat="server" ></asp:TextBox>
+    Email <asp:TextBox ID="txtUserName" runat="server" ></asp:TextBox>
     Password : <asp:TextBox ID="txtPassword" runat="server" TextMode="Password"></asp:TextBox>
     <asp:Button ID="btnLogin" runat="server" OnClick="btnLogin_Click" Text="Submit"/>
     <asp:Label ID="lblmsg" runat="server" ></asp:Label>
