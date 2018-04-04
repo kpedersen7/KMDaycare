@@ -15,7 +15,7 @@ public class UserController
     {
         try
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["KMDaycare"].ConnectionString))
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["LocalKyle"].ConnectionString))
             {
                 using (SqlCommand cmd = new SqlCommand("CreateUser", con))
                 {
@@ -37,6 +37,85 @@ public class UserController
                         return false;
                     }
 
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+    }
+
+    public User GetUser(string username)
+    {
+        User u = new User();
+        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["LocalKyle"].ConnectionString))
+        {
+            using (SqlCommand cmd = new SqlCommand("GetUser", con))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UserName", username);
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    u.Email = dr["Email"].ToString();
+                    u.UserName = dr["UserName"].ToString();
+                    u.Role = int.Parse(dr["Role"].ToString());
+                }
+                con.Close();
+            }
+        }
+        return u;
+    }
+
+    public string GetUserRole(int roleID)
+    {
+        string roleName = "";
+        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["LocalKyle"].ConnectionString))
+        {
+            using (SqlCommand cmd = new SqlCommand("GetUserRole", con))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@RoleID", roleID);
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    roleName = dr["RoleName"].ToString();
+                }
+                con.Close();
+            }
+        }
+        return roleName;
+    }
+
+    public bool VerifyLogin(string UserName, string Password)
+    {
+        try
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["LocalKyle"].ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("Verifylogin", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserName", UserName);
+                    cmd.Parameters.AddWithValue("@Password", Password);
+                    con.Open();
+
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        con.Close();
+                        return true;
+                    }
+                    else
+                    {
+                        con.Close();
+                        return false;
+                    }
                 }
             }
         }

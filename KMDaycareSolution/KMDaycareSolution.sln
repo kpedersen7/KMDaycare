@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "KMDaycare-Website", "..\KMDaycare-Website\", "{17D0A8AB-E52C-4473-B6A8-5986AF3318DC}"
 	ProjectSection(WebsiteProperties) = preProject

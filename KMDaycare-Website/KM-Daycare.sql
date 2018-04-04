@@ -4,19 +4,12 @@
 --GRANT Execute on DeleteEvent to [aspnet]
 --GRANT Execute on FindAvailability to [aspnet]
 --GRANT Execute on GetEvents to [aspnet]
-
---USE BAISTCapstoneTest
---USE KMDaycare
---USE kpedersen7
-SELECT * FROM [User]
 SELECT * FROM [Member]
---DROP TABLE [User]
---DROP TABLE [Member]
+SELECT * FROM [User]
 
---DELETE FROM [User] WHERE 1 = 1
---DELETE FROM [Member] WHERE 1 = 1
-
---CREATE DATABASE BAISTCapstoneTest
+CREATE DATABASE KMDaycare
+GO
+USE KMDaycare
 GO
 
 CREATE TABLE [Event](
@@ -187,7 +180,7 @@ ELSE
 	RETURN @ReturnCode
 
 GO
-ALTER PROCEDURE VerifyLogin(@UserName varchar(50), @Password varchar(100)) AS
+CREATE PROCEDURE VerifyLogin(@UserName varchar(50), @Password varchar(100)) AS
 DECLARE @ReturnCode INT
 SET @ReturnCode = 1
 IF @UserName IS NULL
@@ -201,8 +194,38 @@ BEGIN
 	ELSE
 		RAISERROR('VerifyLogin - Select Error at User table', 16,1)
 END
+
+GO
+CREATE PROCEDURE GetUser(@UserName varchar(50)) AS
+DECLARE @ReturnCode INT
+SET @ReturnCode = 1
+IF @UserName IS NULL
+	RAISERROR('GetUser - Required Parameter : @Email',16,1)
+BEGIN
+	SELECT * FROM [User] WHERE Username = @UserName
+	IF @@ERROR = 0
+			SET @ReturnCode = 0
+	ELSE
+		RAISERROR('GetUser - Select Error at User table', 16,1)
+END
+
+GO
+CREATE PROCEDURE GetUserRole(@RoleID int) AS
+DECLARE @ReturnCode INT
+SET @ReturnCode = 1
+IF @RoleID IS NULL
+	RAISERROR('GetUserRole - Required Parameter : @RoleID',16,1)
+BEGIN
+	SELECT * FROM [Role] WHERE RoleID = @RoleID
+	IF @@ERROR = 0
+			SET @ReturnCode = 0
+	ELSE
+		RAISERROR('GetUserRole - Select Error at Role table', 16,1)
+END
 -------------------------------------------------/MEMBER----------------------------------------------------
 
+
+------------------------------------------------------------------------------------------------------------
 create table tbllogin
 (
 UserUniqueID Uniqueidentifier,  --this will generate 32 bit encoded number

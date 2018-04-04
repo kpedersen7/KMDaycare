@@ -17,7 +17,7 @@ public class EventTimes
 
     public bool FindAvailability(DateTime StartDateTime, DateTime EndDateTime)
     {
-        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["KMDaycare"].ConnectionString))
+        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["LocalKyle"].ConnectionString))
         {
             using (SqlCommand cmd = new SqlCommand("FindAvailability", con))
             {
@@ -54,7 +54,7 @@ public class EventTimes
 
     public bool AddEvent(Event eventForAdd)
     {
-        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["KMDaycare"].ConnectionString))
+        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["LocalKyle"].ConnectionString))
         {
             using (SqlCommand cmd = new SqlCommand("AddEvent", con))
             {
@@ -83,7 +83,7 @@ public class EventTimes
     public List<Event> FindEvents(DateTime minDay, DateTime maxDay)
     {
         List<Event> events = new List<Event>();
-        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["KMDaycare"].ConnectionString))
+        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["LocalKyle"].ConnectionString))
         {
             using (SqlCommand cmd = new SqlCommand("GetEvents", con))
             {
@@ -121,7 +121,7 @@ public class EventTimes
     {
         try
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["KMDaycare"].ConnectionString))
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["LocalKyle"].ConnectionString))
             {
                 using (SqlCommand cmd = new SqlCommand("DeleteEvent", con))
                 {

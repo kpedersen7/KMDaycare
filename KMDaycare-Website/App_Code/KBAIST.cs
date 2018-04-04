@@ -57,7 +57,7 @@ public class KBAIST
                 return false;
             }
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             return false;
         }
@@ -91,7 +91,7 @@ public class KBAIST
                 return false;
             }
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             return false;
         }
@@ -104,7 +104,7 @@ public class KBAIST
             UserController users = new UserController();
             User u = new User();
             u.Email = email;
-            
+
             u.Password = password;
             u.Role = role;
             u.UserName = username;
@@ -118,7 +118,7 @@ public class KBAIST
                 return false;
             }
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             return false;
         }
@@ -126,26 +126,45 @@ public class KBAIST
 
     private string MakeUsername(Member m)
     {
-        string username = m.ChildFirstName.Substring(0,1).ToLower() + m.ChildLastName+ m.Parent1FirstName;
+        string username = m.ChildFirstName.Substring(0, 1).ToLower() + m.ChildLastName + m.Parent1FirstName;
         return username;
     }
 
-    public Member GetMember()
+    public User GetUser(string email)
+    {
+        UserController users = new UserController();
+        User u = users.GetUser(email);
+        return u;
+    }
+
+    public string GetUserRole(int roleID)
+    {
+        UserController users = new UserController();
+        try
+        {
+            string role = users.GetUserRole(roleID);
+            return role;
+        }
+        catch(Exception e)
+        {
+            return e.Message;
+        }
+    }
+    public Member GetMember(string username)
     {
         Member m = new Member();
-        //get member stuff
+        MemberController members = new MemberController();
+        m = members.GetMember(username);
         return m;
     }
-    #endregion
 
-    #region Verify Login
-    public bool VerifyLogin(string EmailId, string Password)
+    public bool VerifyLogin(string UserName, string Password)
     {
         try
         {
             bool success = false;
-            CheckLogin objChk = new CheckLogin();
-            success= objChk.VerifyLogin(EmailId, Password);
+            UserController users = new UserController();
+            success = users.VerifyLogin(UserName, Password);
             return success;
         }
         catch

@@ -2,20 +2,40 @@
 
 <!DOCTYPE html>
 
+<style type="text/css">
+    #logo-img {
+        width: 33%;
+        margin-left: 33%;
+    }
+    .footermain{
+        bottom:0;
+    }
+</style>
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
-    <asp:ContentPlaceHolder id="head" runat="server">
+    <title>KMDaycare</title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <script src="Scripts/jquery-3.3.1.js"></script>
 </head>
 <body>
-    <form id="form1" runat="server">
-    <div>
-        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
-        <asp:Table ID="testtable" runat="server"></asp:Table>
-        </asp:ContentPlaceHolder>
-    </div>
-    </form>
+    <img src="Images/daycaretemplogo2.PNG" alt="" height="150" id="logo-img" />
+    <nav class="navbar navbar-default clearfix">
+        <ul class="nav nav-pills">
+            <li><a href="Default.aspx">Home</a></li>
+            <li><a href="ViewNewsletter.aspx">Newsletter</a></li>
+            <%-- CONTENT PAGES NEED TO BE MADE --%>
+            <li><a href="Login.aspx">Login</a></li>
+        </ul>
+    </nav>
+
+    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+    </asp:ContentPlaceHolder>
+
+    <footer class="footermain">
+        Copyright © 2018 KMDaycare, All Rights Reserved
+    </footer>
 </body>
 </html>
-            

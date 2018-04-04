@@ -26,11 +26,11 @@ public partial class CreateAccount : System.Web.UI.Page
         bool success2 = kb.CreateUser(Email.Text, userName ,encryptedPassword, int.Parse(RoleDD.SelectedValue));
         if (success1 && success2)
         {
-            Response.Write("worked");
+            //feedback success
         }
         else
         {
-            Response.Write("did not work bro");
+            //feedback failure
         }
 
 

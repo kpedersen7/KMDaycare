@@ -7,6 +7,9 @@
         width:33%;
         margin-left:33%;
     }
+    .footermain{
+        bottom:0;
+    }
 </style>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -23,7 +26,7 @@
         <ul class="nav nav-pills">
             <li><a href="Default.aspx">Home</a></li>
             <li><a href="ViewNewsletter.aspx">Newsletter</a></li>
-            <li><a href="AddEvent.aspx">Manage Event</a> </li>
+            <li><a href="AddEvent.aspx">Manage Events</a> </li>
             <li><a href="CreateAccount.aspx">Create Account</a></li>
             <li><a href="AddDailyActivity.aspx">Manage Daily Activities</a></li>
             <li><a href="Settings.aspx">Settings</a></li>
@@ -31,11 +34,8 @@
     </nav>
     <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
     </asp:ContentPlaceHolder>
-
     <footer class="footermain">
         Copyright © 2018 KMDaycare, All Rights Reserved
-
     </footer>
-
 </body>
 </html>
