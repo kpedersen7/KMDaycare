@@ -80,7 +80,15 @@
                         <asp:Table runat="server">
                             <asp:TableRow>
                                 <asp:TableCell>
-                                    <asp:Label runat="server">Email: </asp:Label>
+                                    <asp:Label runat="server">Current Email: </asp:Label>
+                                </asp:TableCell>
+                                <asp:TableCell>
+                                    <asp:Label runat="server" ID="CurrentEmailLabel"></asp:Label>
+                                </asp:TableCell>
+                            </asp:TableRow>
+                            <asp:TableRow>
+                                <asp:TableCell>
+                                    <asp:Label runat="server">New Email: </asp:Label>
                                 </asp:TableCell>
                                 <asp:TableCell>
                                     <asp:TextBox runat="server" ID="SiteEmailAddress"></asp:TextBox>
@@ -88,10 +96,10 @@
                             </asp:TableRow>
                             <asp:TableRow>
                                 <asp:TableCell>
-                                    <asp:Label runat="server">Password: </asp:Label>
+                                    <asp:Label runat="server">New Password: </asp:Label>
                                 </asp:TableCell>
                                 <asp:TableCell>
-                                    <asp:TextBox runat="server" ID="SiteEmailPassword"></asp:TextBox>
+                                    <asp:TextBox runat="server" ID="SiteEmailPassword" TextMode="Password"></asp:TextBox>
                                 </asp:TableCell>
                             </asp:TableRow>
                         </asp:Table>

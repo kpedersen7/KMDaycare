@@ -33,6 +33,5 @@ public partial class _Default : System.Web.UI.Page
         Member m = new Member();
         KBAIST kb = new KBAIST();
         //m = kb.GetMember(Context.User.Identity.Name);
-        //Response.Write(Context.User.Identity.Name);
     }
 }

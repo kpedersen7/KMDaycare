@@ -4,6 +4,8 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <form id="form1" runat="server">
+        <asp:Label runat="server" ID="feedback"></asp:Label>
+
         <asp:Label runat="server">Child First Name</asp:Label>
         <asp:TextBox runat="server" ID="ChildFirstName"></asp:TextBox>
 

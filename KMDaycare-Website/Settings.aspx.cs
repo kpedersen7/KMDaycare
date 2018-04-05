@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,16 @@ public partial class Settings : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        SecurityController s = HttpContext.Current.User as SecurityController;
+        if (s != null)
+        {
+            UserController users = new UserController();
+            User u = users.GetUser(HttpContext.Current.User.Identity.Name);
+            if (!s.IsInRole("Admin"))
+            {
+                Response.Redirect("Default.aspx");
+            }
+        }
         DirectoryInfo dir = new DirectoryInfo(Server.MapPath("~/HomeGallery/image1.jpg"));
         dir.Refresh();
         dir = new DirectoryInfo(Server.MapPath("~/HomeGallery/image2.jpg"));
@@ -22,8 +33,8 @@ public partial class Settings : System.Web.UI.Page
         Image2.ImageUrl = "HomeGallery/image2.jpg";
         Image3.ImageUrl = "HomeGallery/image3.jpg";
 
-        SiteEmailAddress.Text = WebConfigurationManager.AppSettings["mailAccount"];
-        SiteEmailPassword.Text = WebConfigurationManager.AppSettings["mailPassword"];
+        CurrentEmailLabel.Text = WebConfigurationManager.AppSettings["mailAccount"];
+        //SiteEmailPassword.Text = WebConfigurationManager.AppSettings["mailPassword"];
     }
 
     protected void HomeGallery_Save(object sender, EventArgs e)
@@ -105,9 +116,13 @@ public partial class Settings : System.Web.UI.Page
         KBAIST kb = new KBAIST();
         if (SiteEmailAddress.Text != String.Empty && SiteEmailPassword.Text != String.Empty)
         {
-            email = SiteEmailAddress.Text;
-            password = SiteEmailPassword.Text;
-            //bool success = kb.UpdateEmailSettings(email, password);
+            email = SiteEmailAddress.Text.Trim();
+            password = SiteEmailPassword.Text.Trim();
+            Configuration webConfigApp = WebConfigurationManager.OpenWebConfiguration("~");
+            webConfigApp.AppSettings.Settings["mailAccount"].Value = email;
+            webConfigApp.AppSettings.Settings["mailPassword"].Value = password;
+            webConfigApp.Save();
+            Response.Redirect("Settings.aspx");
         }
         else
         {

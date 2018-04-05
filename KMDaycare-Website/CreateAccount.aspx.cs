@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -11,9 +12,17 @@ public partial class CreateAccount : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        SecurityController s = HttpContext.Current.User as SecurityController;
+        if (s != null)
+        {
+            UserController users = new UserController();
+            User u = users.GetUser(HttpContext.Current.User.Identity.Name);
+            if (!s.IsInRole("Admin"))
+            {
+                Response.Redirect("Default.aspx");
+            }
+        }
     }
-
 
     protected void SubmitButton_Click(object sender, EventArgs e)
     {
@@ -23,22 +32,32 @@ public partial class CreateAccount : System.Web.UI.Page
 
         Cryptography c = new Cryptography();
         string encryptedPassword = c.Encrypt(Password.Text);
-        bool success2 = kb.CreateUser(Email.Text, userName ,encryptedPassword, int.Parse(RoleDD.SelectedValue));
-        if (success1 && success2)
+        try
         {
-            //feedback success
+            bool success2 = kb.CreateUser(Email.Text, userName, encryptedPassword, int.Parse(RoleDD.SelectedValue));
+            if (success1 && success2)
+            {
+                MailAddress mailSender = new MailAddress(WebConfigurationManager.AppSettings["mailAccount"], "Knottwood Montessori Daycare");
+                MailAddress mailRecipient = new MailAddress(Email.Text);
+                MailMessage message = new MailMessage(mailSender, mailRecipient);
+                message.IsBodyHtml = true;
+                message.Subject = "Account Registered at Knottwood Montessori Daycare";
+                message.Body = "<p>Hello! An account as been made for you at Knottwood Montessori Daycare!</p> <p>Username: " + userName + "</p> <p>Password: " + Password.Text + "</p> <p><a href='knottwoodmotessori.com/Login.aspx'>Login to your account here!</a></p>";
+                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                smtp.Credentials = new NetworkCredential(WebConfigurationManager.AppSettings["mailAccount"], WebConfigurationManager.AppSettings["mailPassword"]);
+                smtp.EnableSsl = true;
+                smtp.Send(message);
+                feedback.Text = "Account has been created successfully!";
+            }
+            else
+            {
+                feedback.Text = "Something went wrong, please try again.";
+            }
         }
-        else
+        catch(Exception ex)
         {
-            //feedback failure
+            feedback.Text = "Something went wrong, please try again.";
         }
-
-
-        //System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage();
-        //SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-        //smtp.Credentials = new NetworkCredential("pedeyk@gmail.com", "");
-        //smtp.EnableSsl = true;
-        //smtp.Send("pedeyk@gmail.com", Email.Text, "Account Registered at Knottwood Montessori Daycare", "Hello! An account as been made for you at Knottwood Montessori! USERNAME AND PASSWORD");
     }
 
     private string MakeUsername(string childfname, string childlname, string parentfname)

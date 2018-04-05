@@ -9,6 +9,16 @@ public partial class AddEvent : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        SecurityController s = HttpContext.Current.User as SecurityController;
+        if (s != null)
+        {
+            UserController users = new UserController();
+            User u = users.GetUser(HttpContext.Current.User.Identity.Name);
+            if (!s.IsInRole("Admin"))
+            {
+                Response.Redirect("Default.aspx");
+            }
+        }
         if (!Page.IsPostBack)
         {
             string cookie = null;

@@ -27,6 +27,7 @@
             <li><a href="Default.aspx">Home</a></li>
             <li><a href="ViewNewsletter.aspx">Newsletter</a></li>
             <%-- CONTENT PAGES NEED TO BE MADE --%>
+            <%-- LOGOUT BUTTON --%>
             <li><a href="Login.aspx">Login</a></li>
         </ul>
     </nav>
