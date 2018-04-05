@@ -15,7 +15,7 @@ public class UserController
     {
         try
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["LocalKyle"].ConnectionString))
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["KMDaycare"].ConnectionString))
             {
                 using (SqlCommand cmd = new SqlCommand("CreateUser", con))
                 {
@@ -49,7 +49,7 @@ public class UserController
     public User GetUser(string username)
     {
         User u = new User();
-        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["LocalKyle"].ConnectionString))
+        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["KMDaycare"].ConnectionString))
         {
             using (SqlCommand cmd = new SqlCommand("GetUser", con))
             {
@@ -73,7 +73,7 @@ public class UserController
     public string GetUserRole(int roleID)
     {
         string roleName = "";
-        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["LocalKyle"].ConnectionString))
+        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["KMDaycare"].ConnectionString))
         {
             using (SqlCommand cmd = new SqlCommand("GetUserRole", con))
             {
@@ -96,7 +96,7 @@ public class UserController
     {
         try
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["LocalKyle"].ConnectionString))
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["KMDaycare"].ConnectionString))
             {
                 using (SqlCommand cmd = new SqlCommand("Verifylogin", con))
                 {

@@ -13,7 +13,7 @@ public class MemberController
 {
     public bool CreateMember(Member memberForAdd)
     {
-        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["LocalKyle"].ConnectionString))
+        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["KMDaycare"].ConnectionString))
         {
             using (SqlCommand cmd = new SqlCommand("CreateMember", con))
             {
@@ -48,7 +48,7 @@ public class MemberController
     public Member GetMember(string username)
     {
         Member m = new Member();
-        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["LocalKyle"].ConnectionString))
+        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["KMDaycare"].ConnectionString))
         {
             using (SqlCommand cmd = new SqlCommand("GetMember", con))
             {
