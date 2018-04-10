@@ -175,11 +175,11 @@ public class KBAIST
 
     #endregion
 
-    public bool CheckAvailabilityforActivity(DateTime StartDatetime, DateTime EndDateTime)
+    public bool CheckAvailabilityforActivity(DateTime StartDatetime, DateTime EndDateTime, int ClassID)
     {
         DailyActivityTimes activityTimes = new DailyActivityTimes();
         bool DayIsAvailable = true;
-        DayIsAvailable = activityTimes.FindAvailabilityofActivity(StartDatetime, EndDateTime); // call eventTimes.FindAvailability to check day is available
+        DayIsAvailable = activityTimes.FindAvailabilityofActivity(StartDatetime, EndDateTime, ClassID); // call eventTimes.FindAvailability to check day is available
 
         return DayIsAvailable;
     }
