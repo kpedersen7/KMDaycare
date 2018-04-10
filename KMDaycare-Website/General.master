@@ -26,9 +26,11 @@
         <ul class="nav nav-pills">
             <li><a href="Default.aspx">Home</a></li>
             <li><a href="ViewNewsletter.aspx">Newsletter</a></li>
+            <li><a href="" id="PhotoAlbumLink" runat="server"></a></li>
             <%-- CONTENT PAGES NEED TO BE MADE --%>
             <%-- LOGOUT BUTTON --%>
-            <li><a href="Login.aspx">Login</a></li>
+            <li><a href="Login.aspx" runat="server" id="LoginLink">Login</a></li>
+            <li><asp:LinkButton runat="server" OnClick="Signout_Click" ID="LogoutLink">Logout</asp:LinkButton></li>
         </ul>
     </nav>
 
