@@ -107,6 +107,38 @@
                     </div>
                 </div>
             </div>
+            <div class="card">
+                <div class="card-header" id="headingFour">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            Change Flickr Album URL
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseFour" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                    <div class="card-body">
+                        <asp:Table runat="server">
+                            <asp:TableRow>
+                                <asp:TableCell>
+                                    <asp:Label runat="server">Current URL: </asp:Label>
+                                </asp:TableCell>
+                                <asp:TableCell>
+                                    <asp:Label runat="server" ID="CurrentAlbumURL"></asp:Label>
+                                </asp:TableCell>
+                            </asp:TableRow>
+                            <asp:TableRow>
+                                <asp:TableCell>
+                                    <asp:Label runat="server">New URL: </asp:Label>
+                                </asp:TableCell>
+                                <asp:TableCell>
+                                    <asp:TextBox runat="server" ID="NewAlbumURL"></asp:TextBox>
+                                </asp:TableCell>
+                            </asp:TableRow>
+                        </asp:Table>
+                        <asp:Button runat="server" OnClick="AlbumURL_Save" Text="Save" />
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
 </asp:Content>

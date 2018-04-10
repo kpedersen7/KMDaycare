@@ -26,10 +26,12 @@
         <ul class="nav nav-pills">
             <li><a href="Default.aspx">Home</a></li>
             <li><a href="ViewNewsletter.aspx">Newsletter</a></li>
+            <li runat="server" id="PhotoAlbumLinkLI"><a href="" id="PhotoAlbumLink" runat="server"></a></li>
             <li><a href="AddEvent.aspx">Manage Events</a> </li>
             <li><a href="CreateAccount.aspx">Create Account</a></li>
             <li><a href="AddDailyActivity.aspx">Manage Daily Activities</a></li>
             <li><a href="Settings.aspx">Settings</a></li>
+            <li><a runat="server" OnClick="Signout_Click" ID="LogoutLink">Logout</a></li>
         </ul>
     </nav>
     <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
