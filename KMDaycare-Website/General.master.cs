@@ -20,15 +20,20 @@ public partial class General : System.Web.UI.MasterPage
             if (s.IsInRole("Parent") || s.IsInRole("Admin"))
             {
                 Configuration webConfigApp = WebConfigurationManager.OpenWebConfiguration("~");
-                PhotoAlbumLink.HRef = webConfigApp.AppSettings.Settings["albumURL"].Value;
-                PhotoAlbumLink.InnerText = "Flickr Album";
-                Page.Controls.Remove(LoginLink);
+                string url = webConfigApp.AppSettings.Settings["albumURL"].Value;
+                PhotoAlbumLink.Attributes.Add("href", url);
+                form1.Controls.Remove(LoginLink);
             }
-            else
+            else if(!s.IsInRole("Admin") && !s.IsInRole("Parent"))
             {
-                Page.Controls.Remove(PhotoAlbumLink);
-                Page.Controls.Remove(LogoutLink);
+                form1.Controls.Remove(PhotoAlbumLink);
+                form1.Controls.Remove(LogoutLink);
             }
+        }
+        else
+        {
+            form1.Controls.Remove(PhotoAlbumLink);
+            form1.Controls.Remove(LogoutLink);
         }
     }
     public void Signout_Click(object sender, EventArgs e)

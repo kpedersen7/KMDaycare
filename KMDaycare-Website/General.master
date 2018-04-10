@@ -7,8 +7,9 @@
         width: 33%;
         margin-left: 33%;
     }
-    .footermain{
-        bottom:0;
+
+    .footermain {
+        bottom: 0;
     }
 </style>
 
@@ -21,24 +22,24 @@
     <script src="Scripts/jquery-3.3.1.js"></script>
 </head>
 <body>
-    <img src="Images/daycaretemplogo2.PNG" alt="" height="150" id="logo-img" />
-    <nav class="navbar navbar-default clearfix">
-        <ul class="nav nav-pills">
-            <li><a href="Default.aspx">Home</a></li>
-            <li><a href="ViewNewsletter.aspx">Newsletter</a></li>
-            <li><a href="" id="PhotoAlbumLink" runat="server"></a></li>
-            <%-- CONTENT PAGES NEED TO BE MADE --%>
-            <%-- LOGOUT BUTTON --%>
-            <li><a href="Login.aspx" runat="server" id="LoginLink">Login</a></li>
-            <li><asp:LinkButton runat="server" OnClick="Signout_Click" ID="LogoutLink">Logout</asp:LinkButton></li>
-        </ul>
-    </nav>
+    <form runat="server" id="form1">
+        <img src="Images/daycaretemplogo2.PNG" alt="" height="150" id="logo-img" />
+        <nav class="navbar navbar-default clearfix">
+            <ul class="nav nav-pills">
+                <li><a href="Default.aspx">Home</a></li>
+                <li><a href="ViewNewsletter.aspx">Newsletter</a></li>
+                <li><asp:LinkButton id="PhotoAlbumLink" target="_blank" runat="server">Flickr Album</asp:LinkButton></li>
+                <li><a href="Login.aspx" runat="server" id="LoginLink">Login</a></li>
+                <li><asp:LinkButton runat="server" OnClick="Signout_Click" ID="LogoutLink">Logout</asp:LinkButton></li>
+            </ul>
+        </nav>
 
-    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-    </asp:ContentPlaceHolder>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
 
-    <footer class="footermain">
-        Copyright © 2018 KMDaycare, All Rights Reserved
-    </footer>
+        <footer class="footermain">
+            Copyright © 2018 KMDaycare, All Rights Reserved
+        </footer>
+    </form>
 </body>
 </html>

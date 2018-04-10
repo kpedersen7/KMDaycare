@@ -20,8 +20,8 @@ public partial class Admin : System.Web.UI.MasterPage
             if (s.IsInRole("Admin"))
             {
                 Configuration webConfigApp = WebConfigurationManager.OpenWebConfiguration("~");
-                PhotoAlbumLink.HRef = webConfigApp.AppSettings.Settings["albumURL"].Value;
-                PhotoAlbumLink.InnerText = "Flickr Album";
+                string url = webConfigApp.AppSettings.Settings["albumURL"].Value;
+                PhotoAlbumLink.Attributes.Add("href", url);
             }
         }
     }

@@ -34,7 +34,7 @@ public partial class Settings : System.Web.UI.Page
         Image3.ImageUrl = "HomeGallery/image3.jpg";
 
         CurrentEmailLabel.Text = WebConfigurationManager.AppSettings["mailAccount"];
-        CurrentAlbumURL.Text = WebConfigurationManager.AppSettings["albumURL"];
+        CurrentAlbumURL.HRef = WebConfigurationManager.AppSettings["albumURL"];
     }
 
     protected void HomeGallery_Save(object sender, EventArgs e)
@@ -131,7 +131,7 @@ public partial class Settings : System.Web.UI.Page
 
     protected void AlbumURL_Save(object sender, EventArgs e)
     {
-        if (CurrentAlbumURL.Text != String.Empty)
+        if (NewAlbumURL.Text != String.Empty)
         {
             string newURL = NewAlbumURL.Text.Trim();
             Configuration webConfigApp = WebConfigurationManager.OpenWebConfiguration("~");

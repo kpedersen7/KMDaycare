@@ -7,7 +7,6 @@
     >
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <form runat="server" id="form1" cssclass="form-heading">
         <h1>Website Settings</h1>
         <asp:Label ID="feedbackLabel" runat="server" />
         <div id="accordion">
@@ -120,10 +119,7 @@
                         <asp:Table runat="server">
                             <asp:TableRow>
                                 <asp:TableCell>
-                                    <asp:Label runat="server">Current URL: </asp:Label>
-                                </asp:TableCell>
-                                <asp:TableCell>
-                                    <asp:Label runat="server" ID="CurrentAlbumURL"></asp:Label>
+                                    <a runat="server" href="" id="CurrentAlbumURL">View Current Page</a>
                                 </asp:TableCell>
                             </asp:TableRow>
                             <asp:TableRow>
@@ -140,6 +136,5 @@
                 </div>
             </div>
         </div>
-    </form>
 </asp:Content>
 
