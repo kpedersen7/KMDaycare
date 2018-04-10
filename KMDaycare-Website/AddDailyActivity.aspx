@@ -21,7 +21,7 @@
                     <TitleStyle BackColor="#266271" Font-Bold="True" Font-Size="13pt" ForeColor="White" Height="14pt"></TitleStyle>
                     <TodayDayStyle BackColor="#CCCC99"></TodayDayStyle>
                 </asp:Calendar>
-
+          
                 <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Add Activity</a>
 
                 <div class="collapse" id="collapseExample">
