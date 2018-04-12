@@ -12,4 +12,6 @@ public class DailyActivity
     public string DescriptionofActivity { get; set; }
     public string Notes { get; set; }
     public int ClassID { get; set; }
+
+    public string ClassDescription { get; set; }
 }

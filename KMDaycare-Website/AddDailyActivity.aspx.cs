@@ -107,7 +107,7 @@ public partial class AddDailyActivity : System.Web.UI.Page
                 p.Controls.Add(l);
 
                 l = new Label();
-                l.Text = "ClassID: " + da.ClassID;
+                l.Text = "ClassDescription: " + da.ClassDescription;
                 p.Controls.Add(l);
                 LinkButton lb = new LinkButton();
                 lb.Text = "Delete";
