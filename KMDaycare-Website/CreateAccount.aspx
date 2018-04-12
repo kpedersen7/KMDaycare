@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <form id="form1" runat="server">
+    <div class="col">
         <asp:Label runat="server" ID="feedback"></asp:Label>
 
         <asp:Label runat="server">Child First Name</asp:Label>
@@ -46,6 +46,6 @@
             <asp:ListItem Value="3">Staff</asp:ListItem>
         </asp:DropDownList>
         <asp:Button runat="server" ID="SubmitButton" OnClick="SubmitButton_Click" Text="Submit" />
-    </form>
+    </div>
 </asp:Content>
 

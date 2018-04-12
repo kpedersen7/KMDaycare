@@ -9,28 +9,27 @@
         .carouselimg {
             margin: 0 auto;
         }
-        #carousel{
-            z-index:-1;
+
+        #carousel {
+            z-index: -1;
         }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <form id="form1" runat="server" cssclass="form-heading">
-        <div class="clearfix">
-            <div id="carousel" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <asp:Image runat="server" ID="Image1" CssClass="d-block w-75 carouselimg" />
-                    </div>
-                    <div class="carousel-item">
-                        <asp:Image runat="server" ID="Image2" CssClass="d-block w-75 carouselimg" />
-                    </div>
-                    <div class="carousel-item">
-                        <asp:Image runat="server" ID="Image3" CssClass="d-block w-75 carouselimg" />
-                    </div>
+    <div class="clearfix">
+        <div id="carousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <asp:Image runat="server" ID="Image1" CssClass="d-block w-75 carouselimg" />
+                </div>
+                <div class="carousel-item">
+                    <asp:Image runat="server" ID="Image2" CssClass="d-block w-75 carouselimg" />
+                </div>
+                <div class="carousel-item">
+                    <asp:Image runat="server" ID="Image3" CssClass="d-block w-75 carouselimg" />
                 </div>
             </div>
         </div>
-    </form>
+    </div>
 </asp:Content>
 

@@ -20,7 +20,7 @@ public class DailyActivityTimes
     }
 
 
-    public bool FindAvailabilityofActivity(DateTime StartDateTime, DateTime EndDateTime)
+    public bool FindAvailabilityofActivity(DateTime StartDateTime, DateTime EndDateTime, int ClassID)
     {
         using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["KMDaycare"].ConnectionString))
         {
@@ -29,6 +29,7 @@ public class DailyActivityTimes
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@StartDatetime", StartDateTime);
                 cmd.Parameters.AddWithValue("@EndDateTime", EndDateTime);
+                cmd.Parameters.AddWithValue("@ClassID", ClassID);
                 con.Open();
 
                 DailyActivity foundactivity = new DailyActivity();

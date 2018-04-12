@@ -34,7 +34,7 @@ public partial class Settings : System.Web.UI.Page
         Image3.ImageUrl = "HomeGallery/image3.jpg";
 
         CurrentEmailLabel.Text = WebConfigurationManager.AppSettings["mailAccount"];
-        //SiteEmailPassword.Text = WebConfigurationManager.AppSettings["mailPassword"];
+        CurrentAlbumURL.HRef = WebConfigurationManager.AppSettings["albumURL"];
     }
 
     protected void HomeGallery_Save(object sender, EventArgs e)
@@ -113,7 +113,6 @@ public partial class Settings : System.Web.UI.Page
     {
         string email;
         string password;
-        KBAIST kb = new KBAIST();
         if (SiteEmailAddress.Text != String.Empty && SiteEmailPassword.Text != String.Empty)
         {
             email = SiteEmailAddress.Text.Trim();
@@ -127,6 +126,22 @@ public partial class Settings : System.Web.UI.Page
         else
         {
             feedbackLabel.Text = "Email and/or password were not filled out.";
+        }
+    }
+
+    protected void AlbumURL_Save(object sender, EventArgs e)
+    {
+        if (NewAlbumURL.Text != String.Empty)
+        {
+            string newURL = NewAlbumURL.Text.Trim();
+            Configuration webConfigApp = WebConfigurationManager.OpenWebConfiguration("~");
+            webConfigApp.AppSettings.Settings["albumURL"].Value = newURL;
+            webConfigApp.Save();
+            Response.Redirect("Settings.aspx");
+        }
+        else
+        {
+            feedbackLabel.Text = "URL field has not been filled out properly";
         }
     }
 }

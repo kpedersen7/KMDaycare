@@ -62,8 +62,8 @@ public partial class AddDailyActivity : System.Web.UI.Page
         int day = ActivityDate.SelectedDate.Day;
         DateTime startDateTime = DateTime.Parse(String.Format("{0}-{1}-{2} {3}", year, month, day, StartTime.SelectedValue.ToString()));
         DateTime endDateTime = DateTime.Parse(String.Format("{0}-{1}-{2} {3}", year, month, day, EndTime.SelectedValue.ToString()));
-
-        DayIsAvailable = kBaist.CheckAvailabilityforActivity(startDateTime, endDateTime); // call kbaist.CheckAvailability to check day is available
+    
+        DayIsAvailable = kBaist.CheckAvailabilityforActivity(startDateTime, endDateTime, int.Parse(ClassID.SelectedValue)); // call kbaist.CheckAvailability to check day is available
 
         if (DayIsAvailable)
         {
@@ -71,7 +71,7 @@ public partial class AddDailyActivity : System.Web.UI.Page
             messageLabel.Text = "Activity Created Successfully!";
             DescriptionofActivity.Text = String.Empty;
             Notes.Text = String.Empty;
-            ClassID.SelectedValue = String.Empty;
+         
         }
         else if (!DayIsAvailable)
         {
