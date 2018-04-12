@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <form id="form1" runat="server">
+    
         <h2>Contact Us
         </h2>
         <asp:Panel ID="Panel1" runat="server" DefaultButton="btnSend">
@@ -40,6 +40,6 @@
         <p>
             <asp:Label ID="DisplayMessage" runat="server" Visible="false" />
         </p>
-    </form>
+  
 </asp:Content>
 
