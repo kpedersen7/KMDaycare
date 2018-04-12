@@ -116,7 +116,7 @@ public class DailyActivityTimes
                     }
                     con.Close();
                 }
-                catch
+                catch(Exception e)
                 {
 
                 }

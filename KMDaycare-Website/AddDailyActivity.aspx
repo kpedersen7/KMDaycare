@@ -6,7 +6,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <form id="form1" runat="server">
         <h1>Event Calendar</h1>
         <div class="row">
             <div class="col-6">
@@ -130,5 +129,4 @@
                 <div id="ActivitiesForDay" runat="server"></div>
             </div>
         </div>
-    </form>
 </asp:Content>
