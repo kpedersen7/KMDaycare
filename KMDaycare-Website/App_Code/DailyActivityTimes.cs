@@ -111,7 +111,7 @@ public class DailyActivityTimes
                         anActivity.EndDateTime = DateTime.Parse(sqldr["EndDateTime"].ToString());
                         anActivity.DescriptionofActivity = sqldr["DescriptionofActivity"].ToString();
                         anActivity.Notes = sqldr["Notes"].ToString();
-                        anActivity.ClassID = int.Parse(sqldr["ClassID"].ToString());
+                        anActivity.ClassDescription = sqldr["ClassDescription"].ToString();
                         activities.Add(anActivity);
                     }
                     con.Close();
