@@ -75,9 +75,6 @@ public partial class Settings : System.Web.UI.Page
             {
             }
         }
-        else
-        {
-        }
     }
 
     protected void Newsletter_Save(object sender, EventArgs e)
@@ -100,12 +97,12 @@ public partial class Settings : System.Web.UI.Page
             }
             catch (Exception ex)
             {
-                feedbackLabel.Text = "Something went wrong";
+                feedbackLabel.Text = "Something went wrong, make sure there is a PDF in the in the file upload.";
             }
         }
         else
         {
-
+            feedbackLabel.Text = "Make sure there is a PDF in the in the file upload.";
         }
     }
 

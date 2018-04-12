@@ -75,4 +75,37 @@ public class MemberController
         }
         return m;
     }
+
+    public List<Member> SearchMembers(string text)
+    {
+        List<Member> foundMembers = new List<Member>();
+        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["KMDaycare"].ConnectionString))
+        {
+            using (SqlCommand cmd = new SqlCommand("SearchMembers", con))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@SearchQuery", text);
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    Member m = new Member();
+                    m.UserName = dr["UserName"].ToString();
+                    m.ChildFirstName = dr["ChildFirstName"].ToString();
+                    m.ChildLastName = dr["ChildLastName"].ToString();
+                    m.Parent1FirstName = dr["Parent1FirstName"].ToString();
+                    m.Parent1LastName = dr["Parent1LastName"].ToString();
+                    m.Parent2FirstName = dr["Parent2FirstName"].ToString();
+                    m.Parent2LastName = dr["Parent2LastName"].ToString();
+                    m.PostalCode = dr["PostalCode"].ToString();
+                    m.HomeAddress = dr["HomeAddress"].ToString();
+                    m.EmergencyContact = dr["EmergencyContact"].ToString();
+                    foundMembers.Add(m);
+                }
+                con.Close();
+            }
+        }
+        return foundMembers;
+    }
 }

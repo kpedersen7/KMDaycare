@@ -29,6 +29,7 @@
                 <li><a href="Default.aspx">Home</a></li>
                 <li><a href="ViewNewsletter.aspx">Newsletter</a></li>
                 <li><asp:LinkButton href="" id="PhotoAlbumLink" target="_blank" runat="server">Flickr Album</asp:LinkButton></li>
+                <li><a href="MyAccount.aspx">Accounts</a></li>
                 <li><a href="AddEvent.aspx">Manage Events</a> </li>
                 <li><a href="CreateAccount.aspx">Create Account</a></li>
                 <li><a href="AddDailyActivity.aspx">Manage Daily Activities</a></li>

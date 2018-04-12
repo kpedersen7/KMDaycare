@@ -173,6 +173,13 @@ public class KBAIST
         }
     }
 
+    public List<Member> SearchMembers(string text)
+    {
+        MemberController members = new MemberController();
+        List<Member> foundMembers = members.SearchMembers(text);
+        return foundMembers;
+    }
+
     #endregion
 
     public bool CheckAvailabilityforActivity(DateTime StartDatetime, DateTime EndDateTime, int ClassID)

@@ -222,6 +222,39 @@ BEGIN
 	ELSE
 		RAISERROR('GetUserRole - Select Error at Role table', 16,1)
 END
+
+GO
+CREATE PROCEDURE GetMember(@UserName varchar(50)) AS
+DECLARE @ReturnCode INT
+SET @ReturnCode = 1
+IF @UserName IS NULL
+	RAISERROR('GetMember - Required Parameter : @UserName',16,1)
+BEGIN
+	SELECT * FROM [Member] WHERE Username = @UserName
+	IF @@ERROR = 0
+			SET @ReturnCode = 0
+	ELSE
+		RAISERROR('GetUser - Select Error at Member table', 16,1)
+END
+
+GO
+CREATE PROCEDURE SearchMembers(@SearchQuery varchar(50)) AS
+DECLARE @ReturnCode INT
+SET @ReturnCode = 1
+IF @SearchQuery IS NULL
+	RAISERROR('SearchMembers - Required Parameter : @SearchQuery',16,1)
+BEGIN
+	SELECT * FROM [Member] 
+	WHERE Username LIKE '%' + @SearchQuery + '%' 
+	OR ChildLastName LIKE '%' + @SearchQuery + '%' 
+	OR Parent1LastName = '%' + @SearchQuery + '%' 
+	OR Parent2LastName = '%' + @SearchQuery + '%' 
+	OR EmergencyContact = '%' + @SearchQuery + '%'
+	IF @@ERROR = 0
+			SET @ReturnCode = 0
+	ELSE
+		RAISERROR('GetUser - Select Error at Member table', 16,1)
+END
 -------------------------------------------------/MEMBER----------------------------------------------------
 
 

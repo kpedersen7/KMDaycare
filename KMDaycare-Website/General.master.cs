@@ -17,6 +17,7 @@ public partial class General : System.Web.UI.MasterPage
         {
             UserController users = new UserController();
             User u = users.GetUser(HttpContext.Current.User.Identity.Name);
+            LoggedInUser.Text = "Logged in as " + HttpContext.Current.User.Identity.Name;
             if (s.IsInRole("Parent") || s.IsInRole("Admin"))
             {
                 Configuration webConfigApp = WebConfigurationManager.OpenWebConfiguration("~");
