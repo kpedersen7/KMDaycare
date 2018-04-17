@@ -97,6 +97,37 @@ public class KBAIST
         }
     }
 
+    public bool UpdateAccount(string username,string childFirstName, string childLastName, string parent1FirstName, string parent1LastName, string parent2FirstName, string parent2LastName, string homeAddress, string postalCode, string emergencyContact)
+    {
+        try
+        {
+            MemberController members = new MemberController();
+            Member m = new Member();
+            m.UserName = username;
+            m.ChildFirstName = childFirstName;
+            m.ChildLastName = childLastName;
+            m.Parent1FirstName = parent1FirstName;
+            m.Parent1LastName = parent1LastName;
+            m.Parent2FirstName = parent2FirstName;
+            m.Parent2LastName = parent2LastName;
+            m.HomeAddress = homeAddress;
+            m.PostalCode = postalCode;
+            bool b = members.UpdateMember(m);
+            if (b)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
+    }
+
     public bool CreateUser(string email, string username, string password, int role)
     {
         try
@@ -130,10 +161,17 @@ public class KBAIST
         return username;
     }
 
-    public User GetUser(string email)
+    public User GetUser(string username)
     {
         UserController users = new UserController();
-        User u = users.GetUser(email);
+        User u = users.GetUser(username);
+        return u;
+    }
+
+    public User GetUserByEmail(string email)
+    {
+        UserController users = new UserController();
+        User u = users.GetUserByEmail(email);
         return u;
     }
 
@@ -150,6 +188,7 @@ public class KBAIST
             return e.Message;
         }
     }
+
     public Member GetMember(string username)
     {
         Member m = new Member();

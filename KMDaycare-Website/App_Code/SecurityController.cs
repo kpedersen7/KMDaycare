@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Text;
@@ -25,7 +29,7 @@ public class SecurityController : IPrincipal
 
     public bool IsInRole(string role)
     {
-        if(_role == role)
+        if (_role == role)
         {
             return true;
         }

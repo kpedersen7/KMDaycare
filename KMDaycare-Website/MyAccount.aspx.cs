@@ -23,32 +23,40 @@ public partial class MyAccount : System.Web.UI.Page
             {
                 Response.Redirect("Default.aspx");
             }
-        }
+        }   
     }
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        SecurityController s = HttpContext.Current.User as SecurityController;
-        if (s != null)
+        if (!Page.IsPostBack)
         {
-
-            if (s.IsInRole("Admin"))
+            SecurityController s = HttpContext.Current.User as SecurityController;
+            if (s != null)
             {
-                DoAdminStuff();
 
-            }
+                if (s.IsInRole("Admin"))
+                {
+                    DoAdminStuff();
 
-            if (s.IsInRole("Parent"))
-            {
-                DoNotAdminStuff();
+                }
+
+                if (s.IsInRole("Parent"))
+                {
+                    DoNotAdminStuff();
+                }
             }
         }
+        
     }
 
     private void DoAdminStuff()
     {
         if (Request.QueryString["m"] != null)
         {
+            if(Request.QueryString["m"] == "aProfileAdmin")
+            {
+                Response.Redirect("MyAccount.aspx");
+            }
             KBAIST kb = new KBAIST();
             Member m = kb.GetMember(Request.QueryString["m"]);
             FillForm(m);
@@ -64,6 +72,10 @@ public partial class MyAccount : System.Web.UI.Page
         KBAIST kb = new KBAIST();
         UserController users = new UserController();
         User u = users.GetUser(HttpContext.Current.User.Identity.Name);
+        if (u.UserName != HttpContext.Current.User.Identity.Name)
+        {
+            Response.Redirect("MyAccount.aspx?m=" + HttpContext.Current.User.Identity.Name);
+        }
         Member m = kb.GetMember(u.UserName);
         FillForm(m);
 
@@ -89,7 +101,33 @@ public partial class MyAccount : System.Web.UI.Page
 
     protected void SubmitUpdateButton_Click(object sender, EventArgs e)
     {
+        KBAIST kb = new KBAIST();
 
+        string[] childName = ChildNameTextbox.Text.Trim().Split(null);
+        string childFirstName = childName[0];
+        string childLastName = childName[1];
+
+        string[] parent1Name = Parent1NameTextbox.Text.Trim().Split(null);
+        string parent1FirstName = parent1Name[0];
+        string parent1LastName = parent1Name[1];
+
+        string[] parent2Name = Parent2NameTextbox.Text.Trim().Split(null);
+        string parent2FirstName = parent1Name[0];
+        string parent2LastName = parent1Name[1];
+
+        string homeAddress = HomeAddressTextbox.Text.Trim();
+        string postalCode = PostalCodeTextbox.Text.Trim();
+        string contactNumber = ContactNumberTextbox.Text.Trim();
+
+        bool b = kb.UpdateAccount(Request.QueryString["m"], childFirstName, childLastName, parent1FirstName, parent1LastName, parent2FirstName, parent2LastName, homeAddress,postalCode,contactNumber);
+        if (b)
+        {
+            //success
+        }
+        else
+        {
+            //failure
+        }
     }
 
     protected void SearchMemberButton_Click(object sender, EventArgs e)

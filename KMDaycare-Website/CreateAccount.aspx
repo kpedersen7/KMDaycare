@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <div class="col">
+    <div class="col clearfix">
         <asp:Label runat="server" ID="feedback"></asp:Label>
 
         <asp:Label runat="server">Child First Name</asp:Label>

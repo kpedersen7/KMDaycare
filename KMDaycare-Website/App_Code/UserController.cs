@@ -70,6 +70,30 @@ public class UserController
         return u;
     }
 
+    public User GetUserByEmail(string email)
+    {
+        User u = new User();
+        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["KMDaycare"].ConnectionString))
+        {
+            using (SqlCommand cmd = new SqlCommand("GetUserbyEmail", con))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Email", email);
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    u.Email = dr["Email"].ToString();
+                    u.UserName = dr["UserName"].ToString();
+                    u.Role = int.Parse(dr["Role"].ToString());
+                }
+                con.Close();
+            }
+        }
+        return u;
+    }
+
     public string GetUserRole(int roleID)
     {
         string roleName = "";

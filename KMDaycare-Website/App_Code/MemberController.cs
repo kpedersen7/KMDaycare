@@ -108,4 +108,38 @@ public class MemberController
         }
         return foundMembers;
     }
+
+    public bool UpdateMember(Member m)
+    {
+        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["KMDaycare"].ConnectionString))
+        {
+            using (SqlCommand cmd = new SqlCommand("UpdateMember", con))
+            {
+                try
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@userName", m.UserName);
+                    cmd.Parameters.AddWithValue("@childFirstName", m.ChildFirstName);
+                    cmd.Parameters.AddWithValue("@childLastName", m.ChildLastName);
+                    cmd.Parameters.AddWithValue("@parent1FirstName", m.Parent1FirstName);
+                    cmd.Parameters.AddWithValue("@parent1LastName", m.Parent1LastName);
+                    cmd.Parameters.AddWithValue("@parent2FirstName", m.Parent2FirstName);
+                    cmd.Parameters.AddWithValue("@parent2LastName", m.Parent2LastName);
+                    cmd.Parameters.AddWithValue("@homeAddress", m.HomeAddress);
+                    cmd.Parameters.AddWithValue("@postalCode", m.PostalCode);
+                    cmd.Parameters.AddWithValue("@emergencyContact", m.EmergencyContact);
+                    con.Open();
+
+                    SqlDataReader sqldr = cmd.ExecuteReader();
+                    con.Close();
+                    return true;
+                }
+                catch(Exception e)
+                {
+                    return false;
+                }
+
+            }
+        }
+    }
 }
