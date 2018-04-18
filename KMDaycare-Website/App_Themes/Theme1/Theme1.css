@@ -1401,7 +1401,6 @@ body {
     line-height: 1.42857143;
     color: #333;
     background-color: #fff;
-    background-image: url("../../Images/light-blue-background.jpg");
     background-size: cover;
 }
 
@@ -3888,8 +3887,8 @@ fieldset[disabled] a.btn {
 
 .btn-primary {
     color: #fff;
-    background-color: #266271;
-    border-color: #2e6da4;
+    background-color: #BEE25A;
+    border-color: #e7e7e7;
     padding: 10px 33px;
     margin: 10px;
 }
@@ -3903,7 +3902,7 @@ fieldset[disabled] a.btn {
 
     .btn-primary:hover {
         color: #fff;
-        background-color: #33AD95;
+        background-color:#7D2547;
         border-color: #204d74;
     }
 
@@ -4913,12 +4912,12 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
             .nav > li > a:hover,
             .nav > li > a:focus {
                 text-decoration: none;
-                background-color: #2cad95;
+                background-color: #7D2547;
                 color: #fff;
             }
 
         .nav > li.disabled > a {
-            color: #777;
+            color: #7D2547;
         }
 
             .nav > li.disabled > a:hover,
@@ -4926,7 +4925,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
                 color: #777;
                 text-decoration: none;
                 cursor: not-allowed;
-                background-color: transparent;
+                background-color: #7D2547;
             }
 
     .nav .open > a,
@@ -5524,7 +5523,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-default {
-    background-color: #236272;
+    background-color: #BEE25A;
     border-color: #e7e7e7;
 }
 
@@ -5543,7 +5542,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     }
 
     .navbar-default .navbar-nav > li > a {
-        color: #777;
+        color: #fff;
     }
 
         .navbar-default .navbar-nav > li > a:hover,
@@ -5555,8 +5554,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     .navbar-default .navbar-nav > .active > a,
     .navbar-default .navbar-nav > .active > a:hover,
     .navbar-default .navbar-nav > .active > a:focus {
-        color: #555;
-        background-color: #e7e7e7;
+        color: #fff;
+        background-color: #7D2547;
     }
 
     .navbar-default .navbar-nav > .disabled > a,
@@ -8211,7 +8210,7 @@ button.close {
 .footermain {
     width: 100%;
     padding: 10px 0;
-    background-color: #266271;
+    background-color: #BEE25A;
     color: white;
     position: fixed;
     /*bottom: 0;*/

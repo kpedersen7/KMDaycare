@@ -13,11 +13,7 @@ public partial class General : System.Web.UI.MasterPage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        DirectoryInfo dir = new DirectoryInfo(Server.MapPath("~/HomeGallery/"));
-        dir.Refresh();
-        Image1.ImageUrl = "HomeGallery/image1.jpg";
-        Image2.ImageUrl = "HomeGallery/image2.jpg";
-        Image3.ImageUrl = "HomeGallery/image3.jpg";
+      
         SecurityController s = HttpContext.Current.User as SecurityController;
         if (s != null)
         {
