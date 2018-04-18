@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -18,6 +17,10 @@ public partial class AddEvent : System.Web.UI.Page
             {
                 Response.Redirect("Default.aspx");
             }
+        }
+        else
+        {
+            Response.Redirect("Default.aspx");
         }
         if (!Page.IsPostBack)
         {

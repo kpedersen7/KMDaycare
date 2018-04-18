@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -23,7 +22,11 @@ public partial class MyAccount : System.Web.UI.Page
             {
                 Response.Redirect("Default.aspx");
             }
-        }   
+        }
+        else
+        {
+            Response.Redirect("Default.aspx");
+        }
     }
 
     protected void Page_Load(object sender, EventArgs e)
@@ -33,23 +36,22 @@ public partial class MyAccount : System.Web.UI.Page
             SecurityController s = HttpContext.Current.User as SecurityController;
             if (s != null)
             {
-
                 if (s.IsInRole("Admin"))
                 {
-                    DoAdminStuff();
+                    DoAdminLoad();
 
                 }
 
                 if (s.IsInRole("Parent"))
                 {
-                    DoNotAdminStuff();
+                    DoParentLoad();
                 }
             }
         }
         
     }
 
-    private void DoAdminStuff()
+    private void DoAdminLoad()
     {
         if (Request.QueryString["m"] != null)
         {
@@ -67,7 +69,7 @@ public partial class MyAccount : System.Web.UI.Page
         }
     }
 
-    private void DoNotAdminStuff()
+    private void DoParentLoad()
     {
         KBAIST kb = new KBAIST();
         UserController users = new UserController();

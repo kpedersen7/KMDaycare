@@ -38,7 +38,6 @@ CREATE TABLE [Member](
 	PostalCode varchar(6) NULL,
 	ContactNumber varchar(10) NOT NULL,
 ) 
-
 CREATE TABLE [User](
 	Email varchar(50) NOT NULL PRIMARY KEY,
 	UserName varchar(50) NOT NULL FOREIGN KEY REFERENCES Member(UserName),
