@@ -32,7 +32,7 @@
                                     <asp:Label runat="server" CssClass="form-heading">Event Name</asp:Label>
                             </asp:TableCell>
                             <asp:TableCell>
-                                <asp:TextBox runat="server" CssClass="form-textbox" ID="Description"></asp:TextBox>
+                                <asp:TextBox runat="server" CssClass="form-textbox" ID="Description" MaxLength="100"></asp:TextBox>
                             </asp:TableCell>
                         </asp:TableRow>
                         <asp:TableRow>

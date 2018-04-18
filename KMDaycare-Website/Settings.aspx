@@ -90,7 +90,7 @@
                                     <asp:Label runat="server">New Email: </asp:Label>
                                 </asp:TableCell>
                                 <asp:TableCell>
-                                    <asp:TextBox runat="server" ID="SiteEmailAddress"></asp:TextBox>
+                                    <asp:TextBox runat="server" ID="SiteEmailAddress" TextMode="Email"></asp:TextBox>
                                 </asp:TableCell>
                             </asp:TableRow>
                             <asp:TableRow>
@@ -127,7 +127,7 @@
                                     <asp:Label runat="server">New URL: </asp:Label>
                                 </asp:TableCell>
                                 <asp:TableCell>
-                                    <asp:TextBox runat="server" ID="NewAlbumURL"></asp:TextBox>
+                                    <asp:TextBox runat="server" ID="NewAlbumURL" TextMode="Url"></asp:TextBox>
                                 </asp:TableCell>
                             </asp:TableRow>
                         </asp:Table>

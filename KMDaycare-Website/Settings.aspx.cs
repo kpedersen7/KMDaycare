@@ -49,6 +49,7 @@ public partial class Settings : System.Web.UI.Page
             }
             catch (Exception ex)
             {
+                feedbackLabel.Text += "Image 1 could not be uploaded. ";
             }
         }
         if (fileupload2.HasFile)
@@ -61,6 +62,7 @@ public partial class Settings : System.Web.UI.Page
             }
             catch (Exception ex)
             {
+                feedbackLabel.Text += "Image 2 could not be uploaded. ";
             }
         }
         if (fileupload3.HasFile)
@@ -73,6 +75,7 @@ public partial class Settings : System.Web.UI.Page
             }
             catch (Exception ex)
             {
+                feedbackLabel.Text += "Image 3 could not be uploaded. ";
             }
         }
     }
@@ -110,7 +113,7 @@ public partial class Settings : System.Web.UI.Page
     {
         string email;
         string password;
-        if (SiteEmailAddress.Text != String.Empty && SiteEmailPassword.Text != String.Empty)
+        if (!string.IsNullOrEmpty(SiteEmailAddress.Text.Trim()) && !string.IsNullOrEmpty(SiteEmailPassword.Text.Trim()))
         {
             email = SiteEmailAddress.Text.Trim();
             password = SiteEmailPassword.Text.Trim();
@@ -128,7 +131,7 @@ public partial class Settings : System.Web.UI.Page
 
     protected void AlbumURL_Save(object sender, EventArgs e)
     {
-        if (NewAlbumURL.Text != String.Empty)
+        if (!string.IsNullOrEmpty(NewAlbumURL.Text.Trim()))
         {
             string newURL = NewAlbumURL.Text.Trim();
             Configuration webConfigApp = WebConfigurationManager.OpenWebConfiguration("~");

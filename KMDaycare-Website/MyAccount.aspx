@@ -4,6 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div class="clearfix">
+        <asp:Label runat="server" ID="FeedbackLabel"></asp:Label>
         <asp:Table runat="server" ID="FoundUsersTable">
             <asp:TableRow ID="MemberSearch">
                 <asp:TableCell>
@@ -23,7 +24,7 @@
                     <asp:Label runat="server" ID="ChildNameLabel">Child Name: </asp:Label>
                 </asp:TableCell>
                 <asp:TableCell>
-                    <asp:TextBox runat="server" ID="ChildNameTextbox"></asp:TextBox>
+                    <asp:TextBox runat="server" ID="ChildNameTextbox" MaxLength="101"></asp:TextBox>
                 </asp:TableCell>
             </asp:TableRow>
             <asp:TableRow>
@@ -31,7 +32,7 @@
                     <asp:Label runat="server" ID="Parent1NameLabel">Parent 1 Name: </asp:Label>
                 </asp:TableCell>
                 <asp:TableCell>
-                    <asp:TextBox runat="server" ID="Parent1NameTextbox"></asp:TextBox>
+                    <asp:TextBox runat="server" ID="Parent1NameTextbox" MaxLength="101"></asp:TextBox>
                 </asp:TableCell>
             </asp:TableRow>
             <asp:TableRow>
@@ -39,7 +40,7 @@
                     <asp:Label runat="server" ID="Parent2NameLabel">Parent 2 Name: </asp:Label>
                 </asp:TableCell>
                 <asp:TableCell>
-                    <asp:TextBox runat="server" ID="Parent2NameTextbox"></asp:TextBox>
+                    <asp:TextBox runat="server" ID="Parent2NameTextbox" MaxLength="101"></asp:TextBox>
                 </asp:TableCell>
             </asp:TableRow>
             <asp:TableRow>
@@ -47,7 +48,7 @@
                     <asp:Label runat="server" ID="HomeAddressLabel">Home Address: </asp:Label>
                 </asp:TableCell>
                 <asp:TableCell>
-                    <asp:TextBox runat="server" ID="HomeAddressTextbox"></asp:TextBox>
+                    <asp:TextBox runat="server" ID="HomeAddressTextbox" MaxLength="50"></asp:TextBox>
                 </asp:TableCell>
             </asp:TableRow>
             <asp:TableRow>
@@ -55,7 +56,7 @@
                     <asp:Label runat="server" ID="PostalCodeLabel">Postal Code: </asp:Label>
                 </asp:TableCell>
                 <asp:TableCell>
-                    <asp:TextBox runat="server" ID="PostalCodeTextbox"></asp:TextBox>
+                    <asp:TextBox runat="server" ID="PostalCodeTextbox" MaxLength="6"></asp:TextBox>
                 </asp:TableCell>
             </asp:TableRow>
             <asp:TableRow>
@@ -63,7 +64,7 @@
                     <asp:Label runat="server" ID="ContactNumberLabel">Contact Number: </asp:Label>
                 </asp:TableCell>
                 <asp:TableCell>
-                    <asp:TextBox runat="server" ID="ContactNumberTextbox"></asp:TextBox>
+                    <asp:TextBox runat="server" ID="ContactNumberTextbox" MaxLength="10"></asp:TextBox>
                 </asp:TableCell>
             </asp:TableRow>
             <asp:TableRow>

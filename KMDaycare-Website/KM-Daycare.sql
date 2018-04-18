@@ -4,6 +4,7 @@
 --GRANT Execute on DeleteEvent to [aspnet]
 --GRANT Execute on FindAvailability to [aspnet]
 --GRANT Execute on GetEvents to [aspnet]
+--'pIbvhgmpVHahDBTYUgQvew=='
 CREATE DATABASE KMDaycare
 GO
 USE KMDaycare
@@ -27,15 +28,15 @@ INSERT INTO [Role](RoleID, RoleName) VALUES(3, 'Staff')
 
 CREATE TABLE [Member](
 	UserName varchar(50) NOT NULL PRIMARY KEY,
-	ChildFirstName varchar(20) NOT NULL,
-	ChildLastName varchar(20) NOT NULL,
-	Parent1FirstName varchar(20) NOT NULL,
-	Parent1LastName varchar(20) NOT NULL,
-	Parent2FirstName varchar(20) NULL,
-	Parent2LastName varchar(20) NULL,
-	HomeAddress varchar(20) NULL,
+	ChildFirstName varchar(50) NOT NULL,
+	ChildLastName varchar(50) NOT NULL,
+	Parent1FirstName varchar(50) NOT NULL,
+	Parent1LastName varchar(50) NOT NULL,
+	Parent2FirstName varchar(50) NULL,
+	Parent2LastName varchar(50) NULL,
+	HomeAddress varchar(50) NULL,
 	PostalCode varchar(6) NULL,
-	EmergencyContact varchar(10),
+	ContactNumber varchar(10) NOT NULL,
 ) 
 
 CREATE TABLE [User](
@@ -136,7 +137,7 @@ ELSE
 
 -------------------------------------------------MEMBER----------------------------------------------------
 GO
-CREATE PROCEDURE CreateMember(@userName varchar(20), @childFirstName varchar(20), @childLastName varchar(20), @parent1FirstName varchar(20), @parent1LastName varchar(20), @parent2FirstName varchar(20), @parent2LastName varchar(20), @homeAddress varchar(20), @postalCode varchar(6), @emergencyContact varchar(10)) AS
+CREATE PROCEDURE CreateMember(@userName varchar(20), @childFirstName varchar(20), @childLastName varchar(20), @parent1FirstName varchar(20), @parent1LastName varchar(20), @parent2FirstName varchar(20), @parent2LastName varchar(20), @homeAddress varchar(20), @postalCode varchar(6), @contactNumber varchar(10)) AS
 DECLARE @ReturnCode INT
 SET @ReturnCode = 1
 IF @userName IS NULL
@@ -151,8 +152,8 @@ IF @parent1LastName IS NULL
 	RAISERROR('CreateMember - Required Parameter : @parent1LastName',16,1)
 ELSE
 	BEGIN
-		INSERT INTO [Member](UserName,ChildFirstName,ChildLastName,Parent1FirstName,Parent1LastName, Parent2FirstName, Parent2LastName, HomeAddress, PostalCode,EmergencyContact)
-		VALUES (@userName, @childFirstName, @childLastName, @parent1FirstName, @parent1LastName, @parent2FirstName, @parent2LastName, @homeAddress, @postalCode, @emergencyContact)
+		INSERT INTO [Member](UserName,ChildFirstName,ChildLastName,Parent1FirstName,Parent1LastName, Parent2FirstName, Parent2LastName, HomeAddress, PostalCode,ContactNumber)
+		VALUES (@userName, @childFirstName, @childLastName, @parent1FirstName, @parent1LastName, @parent2FirstName, @parent2LastName, @homeAddress, @postalCode, @contactNumber)
 		IF @@ERROR = 0
 			SET @ReturnCode = 0
 		ELSE

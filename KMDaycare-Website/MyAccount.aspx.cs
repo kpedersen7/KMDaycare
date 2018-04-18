@@ -118,11 +118,18 @@ public partial class MyAccount : System.Web.UI.Page
         string homeAddress = HomeAddressTextbox.Text.Trim();
         string postalCode = PostalCodeTextbox.Text.Trim();
         string contactNumber = ContactNumberTextbox.Text.Trim();
-
-        bool b = kb.UpdateAccount(Request.QueryString["m"], childFirstName, childLastName, parent1FirstName, parent1LastName, parent2FirstName, parent2LastName, homeAddress,postalCode,contactNumber);
-        if (b)
+        bool validated = ValidateInput(childFirstName, childLastName, parent1FirstName, parent1LastName, parent2FirstName, parent2LastName, homeAddress, postalCode, contactNumber);
+        if (validated)
         {
-            //success
+            bool b = kb.UpdateAccount(Request.QueryString["m"], childFirstName, childLastName, parent1FirstName, parent1LastName, parent2FirstName, parent2LastName, homeAddress, postalCode, contactNumber);
+            if (b)
+            {
+                //succes
+            }
+            else
+            {
+
+            }
         }
         else
         {
@@ -144,6 +151,33 @@ public partial class MyAccount : System.Web.UI.Page
             cell.Controls.Add(lb);
             row.Cells.Add(cell);
             FoundUsersTable.Rows.Add(row);
+        }
+    }
+
+    private bool ValidateInput(string childFirstName, string childLastName, string parent1FirstName, string parent1LastName, string parent2FirstName, string parent2LastName, string homeAddress, string postalCode, string contactNumber)
+    {
+        try
+        {
+            string errorMessage = "";
+            if (string.IsNullOrEmpty(childFirstName) || string.IsNullOrEmpty(childLastName) || string.IsNullOrEmpty(parent1FirstName) || string.IsNullOrEmpty(parent1LastName) || string.IsNullOrEmpty(contactNumber))
+            {
+                errorMessage += "One or more required fields are not filled out. ";
+                return false;
+            }
+            if (childFirstName.Length > 50 || childLastName.Length > 50 || parent1FirstName.Length > 50 || parent1LastName.Length > 50 || childFirstName.Length > 50 || contactNumber.Length > 10)
+            {
+                errorMessage += "One or more required fields contain too many characters. ";
+                return false;
+            }
+            if (errorMessage != "")
+            {
+                FeedbackLabel.Text = errorMessage;
+            }
+            return true;
+        }
+        catch (Exception ex)
+        {
+            return false;
         }
     }
 }

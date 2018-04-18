@@ -65,7 +65,7 @@ public class KBAIST
     #endregion
 
     #region Account and User Methods
-    public bool CreateAccount(string childFirstName, string childLastName, string parent1FirstName, string parent1LastName, string parent2FirstName, string parent2LastName, string homeAddress, string postalCode, string emergencyContact)
+    public bool CreateAccount(string username, string childFirstName, string childLastName, string parent1FirstName, string parent1LastName, string parent2FirstName, string parent2LastName, string homeAddress, string postalCode, string emergencyContact)
     {
         try
         {
@@ -80,7 +80,7 @@ public class KBAIST
             m.HomeAddress = homeAddress;
             m.PostalCode = postalCode;
             m.EmergencyContact = emergencyContact;
-            m.UserName = MakeUsername(m);
+            m.UserName = username;
             bool success = members.CreateMember(m);
             if (success)
             {
@@ -155,9 +155,9 @@ public class KBAIST
         }
     }
 
-    private string MakeUsername(Member m)
+    public string MakeUsername(string one, string two, string three)
     {
-        string username = m.ChildFirstName.Substring(0, 1).ToLower() + m.ChildLastName + m.Parent1FirstName;
+        string username = one.Substring(0, 1).ToLower() + two + three;
         return username;
     }
 

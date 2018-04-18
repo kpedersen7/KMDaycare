@@ -36,7 +36,6 @@ public class Cryptography
         return clearText;
     }
 
-
     public string Decrypt(string cipherText)
     {
         string EncryptionKey = "MAKV2SPBNI99212";
@@ -62,8 +61,7 @@ public class Cryptography
     private static string GetUniqueKey(int maxSize)
     {
         char[] chars = new char[62];
-        chars =
-        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
+        chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
         byte[] data = new byte[1];
         using (RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider())
         {
@@ -100,7 +98,7 @@ public class Cryptography
                     }
                     catch (Exception e)
                     {
-
+                        ticket = "";
                     }
 
                 }
