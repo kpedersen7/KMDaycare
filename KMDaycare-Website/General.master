@@ -50,7 +50,8 @@
             height: 65px;
             width: 330px;
         }
-        .clsSocialMedia1{
+
+        .clsSocialMedia1 {
             margin: 3px;
             height: 130px;
             width: 330px;
@@ -72,8 +73,6 @@
             </ul>
         </nav>--%>
 
-
-
         <div class="container">
 
             <div class="col-lg-12">
@@ -83,7 +82,7 @@
             </div>
 
             <div class="col-lg-12" style="min-height: 65px;">
-                <nav class="navbar navbar-default" style="margin-bottom:0px;">
+                <nav class="navbar navbar-default" style="margin-bottom: 0px;">
                     <div class="container-fluid">
                         <div class="navbar-header">
                             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -103,7 +102,7 @@
                                 <li>
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About Us <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="#">About Us</a></li>
+                                        <li><a href="AboutUs.aspx">Our Philosophy</a></li>
                                     </ul>
                                 </li>
 
@@ -147,7 +146,7 @@
                                 <li>
                                     <asp:LinkButton runat="server" OnClick="Signout_Click" ID="LogoutLink">Logout</asp:LinkButton></li>
                                 <li><a href="Login.aspx" runat="server" id="LoginLink">Login</a></li>
-                              
+
 
                             </ul>
                         </div>
@@ -156,15 +155,12 @@
                     <!--/.container-fluid -->
                 </nav>
             </div>
-            
+
 
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
             </asp:ContentPlaceHolder>
             <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
             </asp:ContentPlaceHolder>
-
-
-
 
 
             <div class="col-lg-12">
@@ -232,7 +228,7 @@
                         <a href="#">
                             <img src="Images/FacebookButtonImage.png" class="clsSocialMedia" /></a>
                     </div>
-                
+
                     <div class="col-lg-12">
                         <a href="ViewNewsletter.aspx">
                             <img src="Images/newsletter1.jpg" class="clsSocialMedia1" /></a>
