@@ -23,6 +23,10 @@ public partial class Settings : System.Web.UI.Page
                 Response.Redirect("Default.aspx");
             }
         }
+        else
+        {
+            Response.Redirect("Default.aspx");
+        }
         DirectoryInfo dir = new DirectoryInfo(Server.MapPath("~/HomeGallery/image1.jpg"));
         dir.Refresh();
         dir = new DirectoryInfo(Server.MapPath("~/HomeGallery/image2.jpg"));
@@ -117,6 +121,7 @@ public partial class Settings : System.Web.UI.Page
         {
             email = SiteEmailAddress.Text.Trim();
             password = SiteEmailPassword.Text.Trim();
+            SetEmailServerAndPort(email);
             Configuration webConfigApp = WebConfigurationManager.OpenWebConfiguration("~");
             webConfigApp.AppSettings.Settings["mailAccount"].Value = email;
             webConfigApp.AppSettings.Settings["mailPassword"].Value = password;
@@ -127,6 +132,27 @@ public partial class Settings : System.Web.UI.Page
         {
             feedbackLabel.Text = "Email and/or password were not filled out.";
         }
+    }
+
+    private void SetEmailServerAndPort(string email)
+    {
+        Configuration webConfigApp = WebConfigurationManager.OpenWebConfiguration("~");
+        if (email.Contains("gmail"))
+        {
+            webConfigApp.AppSettings.Settings["mailServer"].Value = "smtp.gmail.com";
+            webConfigApp.AppSettings.Settings["mailPort"].Value = "587";
+        }
+        if (email.Contains("outlook"))
+        {
+            webConfigApp.AppSettings.Settings["mailServer"].Value = "smtp-mail.outlook.com";
+            webConfigApp.AppSettings.Settings["mailPort"].Value = "587";
+        }
+        if (email.Contains("yahoo"))
+        {
+            webConfigApp.AppSettings.Settings["mailServer"].Value = "smtp.mail.yahoo.com";
+            webConfigApp.AppSettings.Settings["mailPort"].Value = "465";
+        }
+        webConfigApp.Save();
     }
 
     protected void AlbumURL_Save(object sender, EventArgs e)

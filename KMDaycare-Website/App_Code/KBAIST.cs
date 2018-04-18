@@ -201,9 +201,8 @@ public class KBAIST
     {
         try
         {
-            bool success = false;
             UserController users = new UserController();
-            success = users.VerifyLogin(UserName, Password);
+            bool success = users.VerifyLogin(UserName, Password);
             return success;
         }
         catch

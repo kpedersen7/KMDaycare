@@ -11,7 +11,11 @@ public partial class Login : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        SecurityController s = HttpContext.Current.User as SecurityController;
+        if (s != null)
+        {
+            Response.Redirect("Default.aspx");
+        }
     }
 
     protected void btnLogin_Click(object sender, EventArgs e)

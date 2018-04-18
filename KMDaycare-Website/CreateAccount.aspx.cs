@@ -23,6 +23,10 @@ public partial class CreateAccount : System.Web.UI.Page
                 Response.Redirect("Default.aspx");
             }
         }
+        else
+        {
+            Response.Redirect("Default.aspx");
+        }
     }
 
     protected void SubmitButton_Click(object sender, EventArgs e)
@@ -55,7 +59,7 @@ public partial class CreateAccount : System.Web.UI.Page
                 message.IsBodyHtml = true;
                 message.Subject = "Account Registered at Knottwood Montessori Daycare";
                 message.Body = "<p>Hello! An account as been made for you at Knottwood Montessori Daycare!</p> <p>Username: " + userName + "</p> <p>Password: " + Password.Text + "</p> <p><a href='knottwoodmotessori.com/Login.aspx'>Login to your account here!</a></p>";
-                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                SmtpClient smtp = new SmtpClient(WebConfigurationManager.AppSettings["mailServer"], int.Parse(WebConfigurationManager.AppSettings["mailPort"]));
                 smtp.Credentials = new NetworkCredential(WebConfigurationManager.AppSettings["mailAccount"], WebConfigurationManager.AppSettings["mailPassword"]);
                 smtp.EnableSsl = true;
                 smtp.Send(message);

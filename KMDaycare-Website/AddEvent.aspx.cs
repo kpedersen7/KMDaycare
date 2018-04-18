@@ -19,6 +19,10 @@ public partial class AddEvent : System.Web.UI.Page
                 Response.Redirect("Default.aspx");
             }
         }
+        else
+        {
+            Response.Redirect("Default.aspx");
+        }
         if (!Page.IsPostBack)
         {
             string cookie = null;
