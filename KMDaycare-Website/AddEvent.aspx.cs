@@ -13,10 +13,15 @@ public partial class AddEvent : System.Web.UI.Page
         {
             UserController users = new UserController();
             User u = users.GetUser(HttpContext.Current.User.Identity.Name);
-            if (!s.IsInRole("Admin"))
+            if (!s.IsInRole("Admin") && !s.IsInRole("Parent"))
             {
                 Response.Redirect("Default.aspx");
             }
+            if (s.IsInRole("Parent"))
+            {
+                DoParentLoad();
+            }
+
         }
         else
         {
@@ -64,6 +69,11 @@ public partial class AddEvent : System.Web.UI.Page
         }
     }
 
+    private void DoParentLoad()
+    {
+        AdminControlsPanel.Controls.Remove(AdminControls);
+    }
+
     protected void submit_button_Click(object sender, EventArgs e)
     {
         SetCookie();
@@ -102,7 +112,7 @@ public partial class AddEvent : System.Web.UI.Page
                 messageLabel.Text = "The end time cannot be before, or the same as, the start time.";
                 return false;
             }
-            if(DateTime.Compare(start, DateTime.Now) >= 0)
+            if(DateTime.Compare(start, DateTime.Now) <= 0)
             {
                 messageLabel.Text = "The start time must be in the future.";
                 return false;
