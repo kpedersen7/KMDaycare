@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/General.master" AutoEventWireup="true" CodeFile="AboutUs.aspx.cs" Inherits="AboutUs" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/General.master" AutoEventWireup="true" Theme="Theme1" CodeFile="AboutUs.aspx.cs" Inherits="AboutUs" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
     
@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-lg-12">
   <img src="Images/AboutUs.jpg" class="pull-left" alt="Responsive image" style="margin-right:5px;">
-  <p> Knottwood Montessori Daycare & OSC has an open door policy and learning through play is the base of our program. Learning through play provides the children opportunities to grow and enhance their creative, intellectual, social, physical and emotional development. We strive to foster a positive self-image and respect for all the children and adults.
+ <p class="SomeClass"> Knottwood Montessori Daycare & OSC has an open door policy and learning through play is the base of our program. Learning through play provides the children opportunities to grow and enhance their creative, intellectual, social, physical and emotional development. We strive to foster a positive self-image and respect for all the children and adults.
 
 Building positive relationships is the core of our practice. Families play the most important role in children’s lives.  We believe keeping open communication with families is important for the optimal care of the children.
 

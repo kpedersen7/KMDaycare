@@ -30,7 +30,8 @@
 </head>
 <body>
     <form runat="server" id="form1">
-        <img src="Images/daycaretemplogo2.PNG" alt="" height="150" id="logo-img" />
+         <div class="container">
+         <img src="HomeGallery/CaptureHeader4.jpg" class="img-responsive" style="width: 99%; max-height: 200px;" /> </div>
         <nav class="navbar navbar-default">
             <ul class="nav nav-pills">
                 <li><a href="Default.aspx">Home</a></li>

@@ -8207,6 +8207,8 @@ button.close {
     }
 }
 
+.SomeClass { font-family: "Comic Sans MS"; font-size: 1.2em; }
+
 .footermain {
     width: 100%;
     padding: 10px 0;

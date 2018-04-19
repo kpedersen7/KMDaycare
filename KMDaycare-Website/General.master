@@ -56,6 +56,18 @@
             height: 130px;
             width: 330px;
         }
+
+        .SomeClass {
+            font-family: "Comic Sans MS";
+            font-size: 1.1em;
+            color: #7D2547;
+        }
+
+          .SomeClass1 {
+            font-family: "Comic Sans MS";
+            font-size: 1.2em;
+            color: #7D2547;
+        }
     </style>
 </head>
 <body>
@@ -103,6 +115,8 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About Us <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li><a href="AboutUs.aspx">Our Philosophy</a></li>
+                                        <li><a href="Mission.aspx">Our Mission</a></li>
+                                        <li><a href="Goal.aspx">Our Goal</a></li>
                                     </ul>
                                 </li>
 
@@ -121,10 +135,7 @@
                                 </li>
 
                                 <li>
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Enrollment <span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">Enrollment</a></li>
-                                    </ul>
+                                   <a href="SendQuery.aspx">Enrollment</a>
                                 </li>
 
                                 <li>
@@ -207,11 +218,10 @@
 
                 </div>
                 <div class="col-lg-4">
-
-                    <div class="col-lg-12">
-                        <h2>Knotwood Montessori Daycare Location</h2>
-                    </div>
-                    <div class="col-lg-12">
+                    <div class="SomeClass1">
+                        <h2 class="SomeClass1">Knotwood Montessori Daycare Location</h2>
+                    </div> <br />
+                    <div class="SomeClass"> 
                         1047 Knottwood Rd E Northwest<br />
                         Edmonton<br />
                         AB; T6K 3N5
@@ -219,7 +229,7 @@
 
                     </div>
 
-                    <div class="col-lg-12">
+                    <div class="SomeClass">
                         <strong>(M) </strong>- (780) 461-3320
                     </div>
                 </div>
