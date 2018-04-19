@@ -102,8 +102,14 @@
                             <a class="dropdown-item" href="Goal.aspx">Our Goal</a>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Program</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Our Program</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="AboutUs.aspx">6-9 months</a>
+                            <a class="dropdown-item" href="Mission.aspx">3 Years Old</a>
+                              <a class="dropdown-item" href="Mission.aspx">PreSchool (4 Years +)</a>
+                            <a class="dropdown-item" href="Mission.aspx">KinderGarten(5 Years +)</a>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="Policies.aspx">Policies</a>
@@ -116,6 +122,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="SendQuery.aspx">Contact Us</a>
+                    </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="Location.aspx">Our Location</a>
                     </li>
                     <li class="nav-item">
                         <asp:LinkButton runat="server" CssClass="nav-link" ID="EventsLink">Events</asp:LinkButton>
@@ -139,7 +148,7 @@
         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
         <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server"></asp:ContentPlaceHolder>
 
-        <div class="row clearfix">
+        <%--<div class="row clearfix">--%>
 
 
             <div class="col-lg-12">
@@ -202,7 +211,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        <%--</div>--%>
         <div class="col-lg-12 bgfooter">
             <span>Copyright © 2018 KMDaycare, All Rights Reserved</span>
         </div>
