@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/General.master" AutoEventWireup="true" Theme="Theme1" CodeFile="Volunteer.aspx.cs" Inherits="Volunteer" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/General.master" AutoEventWireup="true" Theme="Theme1" CodeFile="Enrollment.aspx.cs" Inherits="Volunteer" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
@@ -10,7 +10,7 @@
                 <div class="col-lg-12">  <br />
                    <%-- <img src="Images/policies.jpg" class="pull-left" alt="Responsive image" style="height: 300px;">--%>
                     <p class="SomeClass">
-                       &nbsp;  Please Go through our policies
+                       &nbsp;  Not a Member Yet?????
 
                     </p>
                      <p class="SomeClass">
