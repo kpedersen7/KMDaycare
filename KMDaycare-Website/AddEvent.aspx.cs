@@ -68,11 +68,8 @@ public partial class AddEvent : System.Web.UI.Page
     {
         SetCookie();
         KBAIST kBaist = new KBAIST();
-        int year = EventDate.SelectedDate.Year;
-        int month = EventDate.SelectedDate.Month;
-        int day = EventDate.SelectedDate.Day;
-        DateTime startDateTime = DateTime.Parse(String.Format("{0}-{1}-{2} {3}", year, month, day, StartTime.SelectedValue.ToString()));
-        DateTime endDateTime = DateTime.Parse(String.Format("{0}-{1}-{2} {3}", year, month, day, EndTime.SelectedValue.ToString()));
+        DateTime startDateTime = kBaist.MakeSQLDateTime(EventDate.SelectedDate.Year, EventDate.SelectedDate.Month, EventDate.SelectedDate.Day, StartTime.SelectedValue.ToString());
+        DateTime endDateTime = kBaist.MakeSQLDateTime(EventDate.SelectedDate.Year, EventDate.SelectedDate.Month, EventDate.SelectedDate.Day, EndTime.SelectedValue.ToString());
         string description = Description.Text.Trim();
         string notes = Notes.Text.Trim();
         bool validated = ValidateInput(startDateTime, endDateTime, description, notes);
@@ -88,6 +85,12 @@ public partial class AddEvent : System.Web.UI.Page
         {
             messageLabel.Text = "Choose another time! That time is already occupied by another event.";
         }
+    }
+
+    protected void EventDate_SelectionChanged(object sender, EventArgs e)
+    {
+        DateTime selectedDay = EventDate.SelectedDate;
+        GetEventsForDay(selectedDay);
     }
 
     private bool ValidateInput(DateTime start, DateTime end, string description, string notes)
@@ -127,12 +130,6 @@ public partial class AddEvent : System.Web.UI.Page
             messageLabel.Text = "Nice try, Dave";
             return false;
         }
-    }
-
-    protected void EventDate_SelectionChanged(object sender, EventArgs e)
-    {
-        DateTime selectedDay = EventDate.SelectedDate;
-        GetEventsForDay(selectedDay);
     }
 
     private void GetEventsForDay(DateTime selectedDay)
@@ -179,14 +176,6 @@ public partial class AddEvent : System.Web.UI.Page
         {
             messageLabel.Text = "Something went wrong, event was not deleted.";
         }
-    }
-
-    private string MakeFormattedDate(DateTime d)
-    {
-        int year = d.Year;
-        int month = d.Month;
-        int day = d.Day;
-        return String.Format("{0}-{1}-{2} 00.000", year, month, day);
     }
 
     private void SetCookie()

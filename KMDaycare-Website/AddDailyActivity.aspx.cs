@@ -69,24 +69,20 @@ public partial class AddDailyActivity : System.Web.UI.Page
     {
         SetCookie();
         KBAIST kBaist = new KBAIST();
-        bool DayIsAvailable = true;
-        int year = ActivityDate.SelectedDate.Year;
-        int month = ActivityDate.SelectedDate.Month;
-        int day = ActivityDate.SelectedDate.Day;
-        DateTime startDateTime = DateTime.Parse(String.Format("{0}-{1}-{2} {3}", year, month, day, StartTime.SelectedValue.ToString()));
-        DateTime endDateTime = DateTime.Parse(String.Format("{0}-{1}-{2} {3}", year, month, day, EndTime.SelectedValue.ToString()));
-    
-        DayIsAvailable = kBaist.CheckAvailabilityforActivity(startDateTime, endDateTime, int.Parse(ClassID.SelectedValue)); // call kbaist.CheckAvailability to check day is available
-
-        if (DayIsAvailable)
+        DateTime startDateTime = kBaist.MakeSQLDateTime(ActivityDate.SelectedDate.Year, ActivityDate.SelectedDate.Month, ActivityDate.SelectedDate.Day, StartTime.SelectedValue.ToString());
+        DateTime endDateTime = kBaist.MakeSQLDateTime(ActivityDate.SelectedDate.Year, ActivityDate.SelectedDate.Month, ActivityDate.SelectedDate.Day, EndTime.SelectedValue.ToString());
+        string description = DescriptionofActivity.Text.Trim();
+        string notes = Notes.Text.Trim();
+        bool dayIsAvailable = kBaist.CheckAvailabilityforActivity(startDateTime, endDateTime, int.Parse(ClassID.SelectedValue));
+        bool validated = ValidateInput(startDateTime, endDateTime, description, notes);
+        if (dayIsAvailable && validated)
         {
             kBaist.CreateActivity(startDateTime, endDateTime, DescriptionofActivity.Text, Notes.Text , int.Parse(ClassID.SelectedValue));
             messageLabel.Text = "Activity Created Successfully!";
             DescriptionofActivity.Text = String.Empty;
             Notes.Text = String.Empty;
-         
         }
-        else if (!DayIsAvailable)
+        else
         {
             messageLabel.Text = "Choose another time! That time is already occupied by another activity";
         }
@@ -96,6 +92,45 @@ public partial class AddDailyActivity : System.Web.UI.Page
     {
         DateTime selectedDay = ActivityDate.SelectedDate;
         GetActivitiesForDay(selectedDay);
+    }
+
+    private bool ValidateInput(DateTime start, DateTime end, string description, string notes)
+    {
+        try
+        {
+            if (DateTime.Compare(start, end) >= 0)
+            {
+                messageLabel.Text = "The end time cannot be before, or the same as, the start time.";
+                return false;
+            }
+            if (DateTime.Compare(start, DateTime.Now) >= 0)
+            {
+                messageLabel.Text = "The start time must be in the future.";
+                return false;
+            }
+            if (string.IsNullOrEmpty(description))
+            {
+                messageLabel.Text = "Please give the activity a name/description.";
+                return false;
+            }
+            if (description.Length > 100)
+            {
+                messageLabel.Text = "Name cannot exceed 100 characters.";
+                return false;
+            }
+            if (notes.Length > 500)
+            {
+                messageLabel.Text = "Notes cannot exceed 500 characters.";
+                return false;
+            }
+            return true;
+        }
+        catch (Exception e)
+        {
+            messageLabel.Text = "Whoops, something is wrong with one or more of the input fields.";
+            messageLabel.Text = "Nice try, Dave";
+            return false;
+        }
     }
 
     private void GetActivitiesForDay(DateTime selectedDay)
@@ -145,14 +180,6 @@ public partial class AddDailyActivity : System.Web.UI.Page
         {
             messageLabel.Text = "Something went wrong, activity was not deleted.";
         }
-    }
-
-    private string MakeFormattedDate(DateTime d)
-    {
-        int year = d.Year;
-        int month = d.Month;
-        int day = d.Day;
-        return String.Format("{0}-{1}-{2} 00.000", year, month, day);
     }
 
     private void SetCookie()
