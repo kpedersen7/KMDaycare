@@ -13,10 +13,15 @@ public partial class AddEvent : System.Web.UI.Page
         {
             UserController users = new UserController();
             User u = users.GetUser(HttpContext.Current.User.Identity.Name);
-            if (!s.IsInRole("Admin"))
+            if (!s.IsInRole("Admin") && !s.IsInRole("Parent"))
             {
                 Response.Redirect("Default.aspx");
             }
+            if (s.IsInRole("Parent"))
+            {
+                DoParentLoad();
+            }
+
         }
         else
         {
@@ -64,15 +69,17 @@ public partial class AddEvent : System.Web.UI.Page
         }
     }
 
+    private void DoParentLoad()
+    {
+        AdminControlsPanel.Controls.Remove(AdminControls);
+    }
+
     protected void submit_button_Click(object sender, EventArgs e)
     {
         SetCookie();
         KBAIST kBaist = new KBAIST();
-        int year = EventDate.SelectedDate.Year;
-        int month = EventDate.SelectedDate.Month;
-        int day = EventDate.SelectedDate.Day;
-        DateTime startDateTime = DateTime.Parse(String.Format("{0}-{1}-{2} {3}", year, month, day, StartTime.SelectedValue.ToString()));
-        DateTime endDateTime = DateTime.Parse(String.Format("{0}-{1}-{2} {3}", year, month, day, EndTime.SelectedValue.ToString()));
+        DateTime startDateTime = kBaist.MakeSQLDateTime(EventDate.SelectedDate.Year, EventDate.SelectedDate.Month, EventDate.SelectedDate.Day, StartTime.SelectedValue.ToString());
+        DateTime endDateTime = kBaist.MakeSQLDateTime(EventDate.SelectedDate.Year, EventDate.SelectedDate.Month, EventDate.SelectedDate.Day, EndTime.SelectedValue.ToString());
         string description = Description.Text.Trim();
         string notes = Notes.Text.Trim();
         bool validated = ValidateInput(startDateTime, endDateTime, description, notes);
@@ -90,6 +97,12 @@ public partial class AddEvent : System.Web.UI.Page
         }
     }
 
+    protected void EventDate_SelectionChanged(object sender, EventArgs e)
+    {
+        DateTime selectedDay = EventDate.SelectedDate;
+        GetEventsForDay(selectedDay);
+    }
+
     private bool ValidateInput(DateTime start, DateTime end, string description, string notes)
     {
         try
@@ -99,7 +112,7 @@ public partial class AddEvent : System.Web.UI.Page
                 messageLabel.Text = "The end time cannot be before, or the same as, the start time.";
                 return false;
             }
-            if(DateTime.Compare(start, DateTime.Now) >= 0)
+            if(DateTime.Compare(start, DateTime.Now) <= 0)
             {
                 messageLabel.Text = "The start time must be in the future.";
                 return false;
@@ -127,12 +140,6 @@ public partial class AddEvent : System.Web.UI.Page
             messageLabel.Text = "Nice try, Dave";
             return false;
         }
-    }
-
-    protected void EventDate_SelectionChanged(object sender, EventArgs e)
-    {
-        DateTime selectedDay = EventDate.SelectedDate;
-        GetEventsForDay(selectedDay);
     }
 
     private void GetEventsForDay(DateTime selectedDay)
@@ -179,14 +186,6 @@ public partial class AddEvent : System.Web.UI.Page
         {
             messageLabel.Text = "Something went wrong, event was not deleted.";
         }
-    }
-
-    private string MakeFormattedDate(DateTime d)
-    {
-        int year = d.Year;
-        int month = d.Month;
-        int day = d.Day;
-        return String.Format("{0}-{1}-{2} 00.000", year, month, day);
     }
 
     private void SetCookie()

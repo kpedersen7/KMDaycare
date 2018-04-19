@@ -4,6 +4,7 @@
 --GRANT Execute on DeleteEvent to [aspnet]
 --GRANT Execute on FindAvailability to [aspnet]
 --GRANT Execute on GetEvents to [aspnet]
+--GRANT Execute on VerifyLogin to [aspnet]
 --'pIbvhgmpVHahDBTYUgQvew=='
 CREATE DATABASE KMDaycare
 GO

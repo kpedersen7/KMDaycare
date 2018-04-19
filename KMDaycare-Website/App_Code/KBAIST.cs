@@ -2,14 +2,10 @@
 using System.Collections.Generic;
 
 /// <summary>
-/// Summary description for KBAIST
+/// KBAIST acts as an interface between the UI and almost every other class in this folder, except the SecurityController and Cryptography classes.
 /// </summary>
 public class KBAIST
 {
-    public KBAIST()
-    {
-    }
-
     #region Event Methods
     public bool CheckAvailability(DateTime StartDatetime, DateTime EndDateTime)
     {
@@ -59,6 +55,12 @@ public class KBAIST
         {
             return false;
         }
+    }
+
+    public DateTime MakeSQLDateTime(int year, int month, int day, string time)
+    {
+        DateTime date = DateTime.Parse(String.Format("{0}-{1}-{2} {3}", year, month, day, time));
+        return date;
     }
     #endregion
 
@@ -218,6 +220,8 @@ public class KBAIST
 
     #endregion
 
+    #region Activity Methods
+
     public bool CheckAvailabilityforActivity(DateTime StartDatetime, DateTime EndDateTime, int ClassID)
     {
         DailyActivityTimes activityTimes = new DailyActivityTimes();
@@ -268,4 +272,6 @@ public class KBAIST
             return false;
         }
     }
+
+    #endregion
 }

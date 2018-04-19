@@ -33,7 +33,6 @@ public partial class ChangePassword : System.Web.UI.Page
 
     protected void RequestButton_Click(object sender, EventArgs e)
     {
-        //validate email and send email to the email
         Cryptography c = new Cryptography();
         string email = EmailTB.Text.Trim();
         KBAIST kb = new KBAIST();
@@ -54,9 +53,9 @@ public partial class ChangePassword : System.Web.UI.Page
                     MailMessage message = new MailMessage(mailSender, mailRecipient);
                     message.IsBodyHtml = true;
                     message.Subject = "Knottwood Montessori Daycare - Password Change Requested";
-                    //NEED TO MAKE PROPER LINK
-                    message.Body = String.Format("<p>A password change has been requested for your account.</p><a href='ChangePassword.aspx?t={0}'>Click here to change your password</a></p>", ticket);
-                    SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                    string link = "http://webbaist.nait.ca/Projects/Kyle/ChangePassword.aspx";
+                    message.Body = String.Format("<p>A password change has been requested for your account.</p><a href='{0}?t={1}'>Click here to change your password</a></p>", link,ticket);
+                    SmtpClient smtp = new SmtpClient(WebConfigurationManager.AppSettings["mailServer"], int.Parse(WebConfigurationManager.AppSettings["mailPort"]));
                     smtp.Credentials = new NetworkCredential(WebConfigurationManager.AppSettings["mailAccount"], WebConfigurationManager.AppSettings["mailPassword"]);
                     smtp.EnableSsl = true;
                     smtp.Send(message);
