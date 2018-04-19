@@ -116,6 +116,7 @@ public partial class Settings : System.Web.UI.Page
             password = SiteEmailPassword.Text.Trim();
             SetEmailServerAndPort(email);
             Configuration webConfigApp = WebConfigurationManager.OpenWebConfiguration("~");
+            //HttpRuntimeSection section = config.GetSection("system.web/httpRuntime") as HttpRuntimeSection;
             webConfigApp.AppSettings.Settings["mailAccount"].Value = email;
             webConfigApp.AppSettings.Settings["mailPassword"].Value = password;
             webConfigApp.Save();

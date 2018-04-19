@@ -6,6 +6,32 @@
 --GRANT Execute on GetEvents to [aspnet]
 --GRANT Execute on VerifyLogin to [aspnet]
 --'pIbvhgmpVHahDBTYUgQvew=='
+GRANT Execute on AddClass to [aspnet]
+GRANT Execute on AddDailyActivity to [aspnet]
+GRANT Execute on AddEvent to [aspnet]
+GRANT Execute on CreateMember to [aspnet]
+GRANT Execute on CreateTicket to [aspnet]
+GRANT Execute on CreateUser to [aspnet]
+GRANT Execute on DeleteActivity to [aspnet]
+GRANT Execute on DeleteEvent to [aspnet]
+GRANT Execute on FindAvailability to [aspnet]
+GRANT Execute on FindAvailabilityfordailyactivity to [aspnet]
+GRANT Execute on GetDailyActivities to [aspnet]
+GRANT Execute on GetEvents to [aspnet]
+GRANT Execute on GetMember to [aspnet]
+GRANT Execute on GetTicket to [aspnet]
+GRANT Execute on GetUser to [aspnet]
+GRANT Execute on GetUserByEmail to [aspnet]
+GRANT Execute on GetUserRole to [aspnet]
+GRANT Execute on SearchMembers to [aspnet]
+GRANT Execute on UpdateMember to [aspnet]
+GRANT Execute on UpdatePassword to [aspnet]
+GRANT Execute on VerifyLogin to [aspnet]
+SELECT * FROM [User]
+--kmdaycaretestemail@gmail.com
+--KMDaycare
+SELECT * FROM [User]
+SELECT * FROM [Member]
 CREATE DATABASE KMDaycare
 GO
 USE KMDaycare
@@ -137,7 +163,13 @@ ELSE
 
 -------------------------------------------------MEMBER----------------------------------------------------
 GO
-CREATE PROCEDURE CreateMember(@userName varchar(20), @childFirstName varchar(20), @childLastName varchar(20), @parent1FirstName varchar(20), @parent1LastName varchar(20), @parent2FirstName varchar(20), @parent2LastName varchar(20), @homeAddress varchar(20), @postalCode varchar(6), @contactNumber varchar(10)) AS
+
+DELETE FROM Member WHERE UserName = 'kPedersenPaula'
+DELETE From [User] Where Email = 'pedeyk@gmail.com' 
+DELETE FROM [PasswordChangeTicket] WHERE Email = 'pedeyk@gmail.com' 
+SELECT * FROM [User]
+SELECT * FROM Member
+CREATE PROCEDURE CreateMember(@userName varchar(20), @childFirstName varchar(20), @childLastName varchar(20), @parent1FirstName varchar(20), @parent1LastName varchar(20), @parent2FirstName varchar(20), @parent2LastName varchar(20), @homeAddress varchar(20), @postalCode varchar(6), @emergencyContact varchar(10)) AS
 DECLARE @ReturnCode INT
 SET @ReturnCode = 1
 IF @userName IS NULL
@@ -152,8 +184,8 @@ IF @parent1LastName IS NULL
 	RAISERROR('CreateMember - Required Parameter : @parent1LastName',16,1)
 ELSE
 	BEGIN
-		INSERT INTO [Member](UserName,ChildFirstName,ChildLastName,Parent1FirstName,Parent1LastName, Parent2FirstName, Parent2LastName, HomeAddress, PostalCode,ContactNumber)
-		VALUES (@userName, @childFirstName, @childLastName, @parent1FirstName, @parent1LastName, @parent2FirstName, @parent2LastName, @homeAddress, @postalCode, @contactNumber)
+		INSERT INTO [Member](UserName,ChildFirstName,ChildLastName,Parent1FirstName,Parent1LastName, Parent2FirstName, Parent2LastName, HomeAddress, PostalCode,EmergencyContact)
+		VALUES (@userName, @childFirstName, @childLastName, @parent1FirstName, @parent1LastName, @parent2FirstName, @parent2LastName, @homeAddress, @postalCode, @emergencyContact)
 		IF @@ERROR = 0
 			SET @ReturnCode = 0
 		ELSE

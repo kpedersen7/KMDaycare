@@ -11,9 +11,9 @@
                 <DayStyle Width="14%"></DayStyle>
                 <NextPrevStyle Font-Size="10pt" ForeColor="White"></NextPrevStyle>
                 <OtherMonthDayStyle ForeColor="#999999"></OtherMonthDayStyle>
-                <SelectedDayStyle BackColor="#CC3333" ForeColor="White"></SelectedDayStyle>
+                <SelectedDayStyle BackColor="#811F45" ForeColor="White"></SelectedDayStyle>
                 <SelectorStyle BackColor="#CCCCCC" Font-Bold="True" Font-Names="Verdana" Font-Size="8pt" ForeColor="#333333" Width="1%"></SelectorStyle>
-                <TitleStyle BackColor="#266271" Font-Bold="True" Font-Size="13pt" ForeColor="White" Height="14pt"></TitleStyle>
+                <TitleStyle BackColor="#BEE25A" Font-Bold="True" Font-Size="13pt" ForeColor="White" Height="14pt"></TitleStyle>
                 <TodayDayStyle BackColor="#CCCC99"></TodayDayStyle>
             </asp:Calendar>
 

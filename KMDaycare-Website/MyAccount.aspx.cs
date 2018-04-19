@@ -124,16 +124,16 @@ public partial class MyAccount : System.Web.UI.Page
             bool b = kb.UpdateAccount(Request.QueryString["m"], childFirstName, childLastName, parent1FirstName, parent1LastName, parent2FirstName, parent2LastName, homeAddress, postalCode, contactNumber);
             if (b)
             {
-                //succes
+                FeedbackLabel.Text = "Account updated successfully!";
             }
             else
             {
-
+                FeedbackLabel.Text = "Account was not updated!";
             }
         }
         else
         {
-            //failure
+            FeedbackLabel.Text = "One or more fields are not filled out properly.";
         }
     }
 

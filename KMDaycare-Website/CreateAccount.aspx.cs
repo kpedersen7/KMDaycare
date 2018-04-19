@@ -54,7 +54,7 @@ public partial class CreateAccount : System.Web.UI.Page
                 MailMessage message = new MailMessage(mailSender, mailRecipient);
                 message.IsBodyHtml = true;
                 message.Subject = "Account Registered at Knottwood Montessori Daycare";
-                message.Body = "<p>Hello! An account as been made for you at Knottwood Montessori Daycare!</p> <p>Username: " + userName + "</p> <p>Password: " + Password.Text + "</p> <p><a href='knottwoodmotessori.com/Login.aspx'>Login to your account here!</a></p>";
+                message.Body = "<p>Hello! An account as been made for you at Knottwood Montessori Daycare!</p> <p>Username: " + userName + "</p> <p>Password: " + Password.Text + "</p> <p><a href='webbaist.nait.ca/Projects/Kyle/Login.aspx'>Login to your account here!</a></p>";
                 SmtpClient smtp = new SmtpClient(WebConfigurationManager.AppSettings["mailServer"], int.Parse(WebConfigurationManager.AppSettings["mailPort"]));
                 smtp.Credentials = new NetworkCredential(WebConfigurationManager.AppSettings["mailAccount"], WebConfigurationManager.AppSettings["mailPassword"]);
                 smtp.EnableSsl = true;

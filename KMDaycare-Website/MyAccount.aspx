@@ -67,6 +67,11 @@
                     <asp:TextBox runat="server" ID="ContactNumberTextbox" MaxLength="10"></asp:TextBox>
                 </asp:TableCell>
             </asp:TableRow>
+            <asp:TableRow>
+                <asp:TableCell>
+                    <a href="ChangePassword.aspx"></a>
+                </asp:TableCell>
+            </asp:TableRow>
             <asp:TableRow runat="server" ID="ButtonRow">
                 <asp:TableCell>
                     <asp:Button runat="server" ID="SubmitUpdateButton" OnClick="SubmitUpdateButton_Click" Text="Submit" />
