@@ -11,8 +11,7 @@
                    <%-- <img src="Images/policies.jpg" class="pull-left" alt="Responsive image" style="height: 300px;">--%>
                     <p class="SomeClass">
                        &nbsp;  Not a Member Yet?????
-
-                    </p>
+                                            </p>
                      <p class="SomeClass">
                       &nbsp;  <a href="SendQuery.aspx">Sign Up Here
                                     </a>
