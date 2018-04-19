@@ -12,8 +12,6 @@ public partial class MyAccount : System.Web.UI.Page
         SecurityController s = HttpContext.Current.User as SecurityController;
         if (s != null)
         {
-            UserController users = new UserController();
-            User u = users.GetUser(HttpContext.Current.User.Identity.Name);
             if (s.IsInRole("Admin"))
             {
                 Page.MasterPageFile = "~/Admin.master";
@@ -87,13 +85,13 @@ public partial class MyAccount : System.Web.UI.Page
         HomeAddressTextbox.Enabled = false;
         PostalCodeTextbox.Enabled = false;
         ContactNumberTextbox.Enabled = false;
-        AccountDetails.Controls.Remove(SubmitUpdateButton);
-        Page.Controls.Remove(FoundUsersTable);
+        AccountDetails.Rows.Remove(ButtonRow);
+        FoundUsersTable.Rows.Clear();
     }
 
     private void FillForm(Member m)
     {
-        ChildNameTextbox.Text = String.Format(m.ChildFirstName) + " " + String.Format(m.ChildFirstName);
+        ChildNameTextbox.Text = String.Format(m.ChildFirstName) + " " + String.Format(m.ChildLastName);
         Parent1NameTextbox.Text = String.Format(m.Parent1FirstName) + " " + String.Format(m.Parent1LastName);
         Parent2NameTextbox.Text = String.Format(m.Parent2FirstName) + " " + String.Format(m.Parent2LastName);
         HomeAddressTextbox.Text = String.Format(m.HomeAddress);

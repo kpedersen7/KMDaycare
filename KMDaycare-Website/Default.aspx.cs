@@ -8,17 +8,22 @@ public partial class _Default : System.Web.UI.Page
     protected void Page_PreInit(object sender, EventArgs e)
     {
         SecurityController s = HttpContext.Current.User as SecurityController;
-        if(s != null)
+        if (s != null)
         {
-            UserController users = new UserController();
-            User u = users.GetUser(HttpContext.Current.User.Identity.Name);
             if (s.IsInRole("Admin"))
             {
                 Page.MasterPageFile = "~/Admin.master";
             }
+            else
+            {
+                Page.MasterPageFile = "~/General.master";
+            }
+        }
+        else
+        {
+            Page.MasterPageFile = "~/General.master";
         }
     }
-
     protected void Page_Load(object sender, EventArgs e)
     {
         DirectoryInfo dir = new DirectoryInfo(Server.MapPath("~/HomeGallery/"));

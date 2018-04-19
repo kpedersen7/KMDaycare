@@ -1,10 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/General.master" Theme="Theme1" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-    
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <style>
         .carouselimg {
             margin: 0 auto;
@@ -17,41 +13,34 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div class="col-lg-12">
-                <%--<img src="HomeGallery/KMDayCareBanner1.png" class="img-responsive" />--%>
-                <div id="myCarousel" class="carousel slide" data-ride="carousel">
-                    <!-- Indicators -->
-                    <ol class="carousel-indicators">
-                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                        <li data-target="#myCarousel" data-slide-to="1"></li>
-                        <li data-target="#myCarousel" data-slide-to="2"></li>
-                    </ol>
-
-                    <!-- Wrapper for slides -->
-                    <div class="carousel-inner">
-                        <div class="item active">
-                            <asp:Image runat="server" ID="Image1" CssClass="d-block w-75 carouselimg" />
-                        </div>
-
-                        <div class="item">
-                            <asp:Image runat="server" ID="Image2" CssClass="d-block w-75 carouselimg" />
-                        </div>
-
-                        <div class="item">
-                            <asp:Image runat="server" ID="Image3" CssClass="d-block w-75 carouselimg" />
-                        </div>
-                    </div>
-
-                    <!-- Left and right controls -->
-                    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+        <div id="demo" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ul class="carousel-indicators">
+                <li data-target="#demo" data-slide-to="0" class="active"></li>
+                <li data-target="#demo" data-slide-to="1"></li>
+                <li data-target="#demo" data-slide-to="2"></li>
+            </ul>
+            <!-- The slideshow -->
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <asp:Image runat="server" ID="Image1" CssClass="d-block w-100 carouselimg" Height="420" />
+                </div>
+                <div class="carousel-item">
+                    <asp:Image runat="server" ID="Image2" CssClass="d-block w-100 carouselimg" Height="420" />
+                </div>
+                <div class="carousel-item">
+                    <asp:Image runat="server" ID="Image3" CssClass=" d-block w-100 carouselimg" Height="420" />
                 </div>
             </div>
+            <!-- Left and right controls -->
+            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#demo" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+        </div>
+    </div>
     <div class="col-lg-12">
         <h3 style="color: mediumblue">Welcome And Thanks for visiting us!</h3>
     </div>
@@ -71,7 +60,7 @@
             <li>Affordable fees.</li>
             <li>Open 7:30am to 6:00pm Monday to Friday.</li>
             <li>The maximum capacity of children in our care is 70.</li>
-           <%-- <li>Enhanced ratios</li>--%>
+            <%-- <li>Enhanced ratios</li>--%>
         </ul>
     </div>
 

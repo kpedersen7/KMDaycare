@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <div class="clearfix">
+    <div class="clearfix" style="margin:3%;">
         <asp:Label runat="server" ID="FeedbackLabel"></asp:Label>
         <asp:Table runat="server" ID="FoundUsersTable">
             <asp:TableRow ID="MemberSearch">
@@ -67,7 +67,7 @@
                     <asp:TextBox runat="server" ID="ContactNumberTextbox" MaxLength="10"></asp:TextBox>
                 </asp:TableCell>
             </asp:TableRow>
-            <asp:TableRow>
+            <asp:TableRow runat="server" ID="ButtonRow">
                 <asp:TableCell>
                     <asp:Button runat="server" ID="SubmitUpdateButton" OnClick="SubmitUpdateButton_Click" Text="Submit" />
                 </asp:TableCell>

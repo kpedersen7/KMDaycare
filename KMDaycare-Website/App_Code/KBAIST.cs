@@ -112,6 +112,7 @@ public class KBAIST
             m.Parent2LastName = parent2LastName;
             m.HomeAddress = homeAddress;
             m.PostalCode = postalCode;
+            m.EmergencyContact = emergencyContact;
             bool b = members.UpdateMember(m);
             if (b)
             {

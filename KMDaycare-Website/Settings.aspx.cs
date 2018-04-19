@@ -11,8 +11,6 @@ public partial class Settings : System.Web.UI.Page
         SecurityController s = HttpContext.Current.User as SecurityController;
         if (s != null)
         {
-            UserController users = new UserController();
-            User u = users.GetUser(HttpContext.Current.User.Identity.Name);
             if (!s.IsInRole("Admin"))
             {
                 Response.Redirect("Default.aspx");
@@ -22,6 +20,7 @@ public partial class Settings : System.Web.UI.Page
         {
             Response.Redirect("Default.aspx");
         }
+
         DirectoryInfo dir = new DirectoryInfo(Server.MapPath("~/HomeGallery/image1.jpg"));
         dir.Refresh();
         dir = new DirectoryInfo(Server.MapPath("~/HomeGallery/image2.jpg"));
@@ -31,7 +30,6 @@ public partial class Settings : System.Web.UI.Page
         Image1.ImageUrl = "HomeGallery/image1.jpg";
         Image2.ImageUrl = "HomeGallery/image2.jpg";
         Image3.ImageUrl = "HomeGallery/image3.jpg";
-
         CurrentEmailLabel.Text = WebConfigurationManager.AppSettings["mailAccount"];
         CurrentAlbumURL.HRef = WebConfigurationManager.AppSettings["albumURL"];
     }

@@ -13,8 +13,8 @@
                 <div style="padding-top: 30px" class="panel-body">
 
 
-                    <asp:Label ID="lblmsg" runat="server"></asp:Label>
-                    <asp:Panel ID="Panel1" runat="server" DefaultButton="btnSend">
+                    <asp:label id="lblmsg" runat="server"></asp:label>
+                    <asp:panel id="Panel1" runat="server" defaultbutton="btnSend">
                         <p>
                             Please Fill the Following to Contact us.
                         </p>
@@ -50,9 +50,9 @@
                         <p>
                             <asp:Button ID="btnSend" runat="server" Text="Send" CssClass="btn btn-primary" OnClick="btnSend_Click" ValidationGroup="save" />
                         </p>
-                    </asp:Panel>
+                    </asp:panel>
                     <p>
-                        <asp:Label ID="DisplayMessage" runat="server" Visible="false" />
+                        <asp:label id="DisplayMessage" runat="server" visible="false" />
                     </p>
                 </div>
             </div>

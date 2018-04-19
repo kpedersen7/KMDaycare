@@ -7,6 +7,25 @@ using System.Web.UI.WebControls;
 
 public partial class ParentHandBook : System.Web.UI.Page
 {
+    protected void Page_PreInit(object sender, EventArgs e)
+    {
+        SecurityController s = HttpContext.Current.User as SecurityController;
+        if (s != null)
+        {
+            if (s.IsInRole("Admin"))
+            {
+                Page.MasterPageFile = "~/Admin.master";
+            }
+            else
+            {
+                Page.MasterPageFile = "~/General.master";
+            }
+        }
+        else
+        {
+            Response.Redirect("Default.aspx");
+        }
+    }
     protected void Page_Load(object sender, EventArgs e)
     {
 

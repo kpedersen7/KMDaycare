@@ -15,12 +15,11 @@ public partial class General : System.Web.UI.MasterPage
         {
             UserController users = new UserController();
             User u = users.GetUser(HttpContext.Current.User.Identity.Name);
-            LoggedInUser.Text = "Logged in as " + HttpContext.Current.User.Identity.Name;
+            LoggedInUser.Text = HttpContext.Current.User.Identity.Name;
             Configuration webConfigApp = WebConfigurationManager.OpenWebConfiguration("~");
             string url = webConfigApp.AppSettings.Settings["albumURL"].Value;
             if (s.IsInRole("Parent") || s.IsInRole("Admin"))
             {
-                
                 PhotoAlbumLink.Attributes.Add("href", url);
                 form1.Controls.Remove(LoginLink);
             }
@@ -28,13 +27,16 @@ public partial class General : System.Web.UI.MasterPage
             {
                 PhotoAlbumLink.Attributes.Remove("href");
                 PhotoAlbumLink.Attributes.Add("href", url);
-                //form1.Controls.Remove(PhotoAlbumLink);
+                form1.Controls.Remove(PhotoAlbumLink);
                 form1.Controls.Remove(LogoutLink);
             }
         }
         else
         {
-            //form1.Controls.Remove(PhotoAlbumLink);
+            form1.Controls.Remove(ParentHandbookLink);
+            form1.Controls.Remove(PhotoAlbumLink);
+            form1.Controls.Remove(EventsLink);
+            form1.Controls.Remove(LoggedInUser);
             form1.Controls.Remove(LogoutLink);
         }
     }

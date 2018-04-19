@@ -31,8 +31,8 @@ public partial class SendQuery : System.Web.UI.Page
         // smtp settings
         var smtp = new System.Net.Mail.SmtpClient();
         {
-            smtp.Host = "smtp.gmail.com";
-            smtp.Port = 587;
+            smtp.Host = WebConfigurationManager.AppSettings["mailServer"];
+            smtp.Port = int.Parse(WebConfigurationManager.AppSettings["mailPort"]);
             smtp.EnableSsl = true;
             smtp.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
             smtp.Credentials = new NetworkCredential(WebConfigurationManager.AppSettings["mailAccount"], WebConfigurationManager.AppSettings["mailPassword"]);

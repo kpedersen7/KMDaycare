@@ -6,27 +6,34 @@ using System.Web.UI.WebControls;
 
 public partial class AddEvent : System.Web.UI.Page
 {
-    protected void Page_Load(object sender, EventArgs e)
+    protected void Page_PreInit(object sender, EventArgs e)
     {
         SecurityController s = HttpContext.Current.User as SecurityController;
         if (s != null)
         {
-            UserController users = new UserController();
-            User u = users.GetUser(HttpContext.Current.User.Identity.Name);
+            if (s.IsInRole("Parent"))
+            {
+                Page.MasterPageFile = "~/General.master";
+            }
             if (!s.IsInRole("Admin") && !s.IsInRole("Parent"))
             {
                 Response.Redirect("Default.aspx");
             }
-            if (s.IsInRole("Parent"))
-            {
-                DoParentLoad();
-            }
-
         }
         else
         {
             Response.Redirect("Default.aspx");
         }
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        SecurityController s = HttpContext.Current.User as SecurityController;
+        if (s.IsInRole("Parent"))
+        {
+            DoParentLoad();
+        }
+
         if (!Page.IsPostBack)
         {
             string cookie = null;
@@ -107,12 +114,12 @@ public partial class AddEvent : System.Web.UI.Page
     {
         try
         {
-            if(DateTime.Compare(start, end) >= 0)
+            if (DateTime.Compare(start, end) >= 0)
             {
                 messageLabel.Text = "The end time cannot be before, or the same as, the start time.";
                 return false;
             }
-            if(DateTime.Compare(start, DateTime.Now) <= 0)
+            if (DateTime.Compare(start, DateTime.Now) <= 0)
             {
                 messageLabel.Text = "The start time must be in the future.";
                 return false;
@@ -122,7 +129,7 @@ public partial class AddEvent : System.Web.UI.Page
                 messageLabel.Text = "Please give the event a name/description.";
                 return false;
             }
-            if(description.Length > 100)
+            if (description.Length > 100)
             {
                 messageLabel.Text = "Name cannot exceed 100 characters.";
                 return false;
@@ -134,7 +141,7 @@ public partial class AddEvent : System.Web.UI.Page
             }
             return true;
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             messageLabel.Text = "Whoops, something is wrong with one or more of the input fields.";
             messageLabel.Text = "Nice try, Dave";
