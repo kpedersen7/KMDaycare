@@ -74,8 +74,8 @@ public partial class AddDailyActivity : System.Web.UI.Page
         string description = DescriptionofActivity.Text.Trim();
         string notes = Notes.Text.Trim();
         bool dayIsAvailable = kBaist.CheckAvailabilityforActivity(startDateTime, endDateTime, int.Parse(ClassID.SelectedValue));
-        bool validated = ValidateInput(startDateTime, endDateTime, description, notes);
-        if (dayIsAvailable && validated)
+        //bool validated = ValidateInput(startDateTime, endDateTime, description, notes);
+        if (dayIsAvailable)/* && validated*/
         {
             kBaist.CreateActivity(startDateTime, endDateTime, DescriptionofActivity.Text, Notes.Text , int.Parse(ClassID.SelectedValue));
             messageLabel.Text = "Activity Created Successfully!";

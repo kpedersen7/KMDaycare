@@ -27,7 +27,7 @@
                                     <asp:Label runat="server" CssClass="form-heading">Activity Name</asp:Label>
                             </asp:TableCell>
                             <asp:TableCell>
-                                <asp:TextBox runat="server" CssClass="form-textbox" ID="DescriptionofActivity"></asp:TextBox>
+                                <asp:TextBox runat="server" CssClass="form-textbox" ID="DescriptionofActivity" required></asp:TextBox>
                             </asp:TableCell>
                         </asp:TableRow>
                         <asp:TableRow>
@@ -95,7 +95,7 @@
                                     <asp:Label runat="server" CssClass="form-heading" >Notes about this Activity:</asp:Label>
                             </asp:TableCell>
                             <asp:TableCell>
-                                <asp:TextBox runat="server" CssClass="form-textbox" ID="Notes" TextMode="MultiLine" Rows="5" Style="overflow: hidden"></asp:TextBox>
+                                <asp:TextBox runat="server" CssClass="form-textbox" ID="Notes" TextMode="MultiLine" Rows="5" Style="overflow: hidden" required></asp:TextBox>
                             </asp:TableCell>
                         </asp:TableRow>
                         <asp:TableRow>
