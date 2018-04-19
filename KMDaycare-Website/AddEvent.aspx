@@ -37,7 +37,7 @@
                                     </asp:TableCell>
                                     <asp:TableCell>
                                         <asp:DropDownList runat="server" ID="StartTime">
-                                            <asp:ListItem Value="7:00">7:00AM</asp:ListItem>
+                                           <%-- <asp:ListItem Value="7:00">7:00AM</asp:ListItem>
                                             <asp:ListItem Value="7:30">7:30AM</asp:ListItem>
                                             <asp:ListItem Value="8:00">8:00AM</asp:ListItem>
                                             <asp:ListItem Value="8:30">8:30AM</asp:ListItem>
@@ -57,7 +57,7 @@
                                             <asp:ListItem Value="15:30">3:30PM</asp:ListItem>
                                             <asp:ListItem Value="16:00">4:00PM</asp:ListItem>
                                             <asp:ListItem Value="16:30">4:30PM</asp:ListItem>
-                                            <asp:ListItem Value="17:00">5:00PM</asp:ListItem>
+                                            <asp:ListItem Value="17:00">5:00PM</asp:ListItem>--%>
                                         </asp:DropDownList>
                                     </asp:TableCell>
                                 </asp:TableRow>
@@ -67,7 +67,7 @@
                                     </asp:TableCell>
                                     <asp:TableCell>
                                         <asp:DropDownList runat="server" ID="EndTime">
-                                            <asp:ListItem Value="7:00">7:00AM</asp:ListItem>
+                                           <%-- <asp:ListItem Value="7:00">7:00AM</asp:ListItem>
                                             <asp:ListItem Value="7:30">7:30AM</asp:ListItem>
                                             <asp:ListItem Value="8:00">8:00AM</asp:ListItem>
                                             <asp:ListItem Value="8:30">8:30AM</asp:ListItem>
@@ -87,7 +87,7 @@
                                             <asp:ListItem Value="15:30">3:30PM</asp:ListItem>
                                             <asp:ListItem Value="16:00">4:00PM</asp:ListItem>
                                             <asp:ListItem Value="16:30">4:30PM</asp:ListItem>
-                                            <asp:ListItem Value="17:00">5:00PM</asp:ListItem>
+                                            <asp:ListItem Value="17:00">5:00PM</asp:ListItem>--%>
                                         </asp:DropDownList>
                                     </asp:TableCell>
                                 </asp:TableRow>

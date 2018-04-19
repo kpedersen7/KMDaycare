@@ -90,7 +90,7 @@ public partial class AddEvent : System.Web.UI.Page
         DateTime endDateTime = kBaist.MakeSQLDateTime(EventDate.SelectedDate.Year, EventDate.SelectedDate.Month, EventDate.SelectedDate.Day, EndTime.SelectedValue.ToString());
         string description = Description.Text.Trim();
         string notes = Notes.Text.Trim();
-        bool validated = ValidateInput(startDateTime, endDateTime, description, notes);
+        bool validated = true;// ValidateInput(startDateTime, endDateTime, description, notes);
         bool dayIsAvailable = kBaist.CheckAvailability(startDateTime, endDateTime);
         if (dayIsAvailable && validated)
         {
@@ -179,6 +179,30 @@ public partial class AddEvent : System.Web.UI.Page
             }
         }
         SetCookie();
+        string[] dateRef = {"6:00 AM",
+"6:30 AM",
+"7:00 AM",
+"7:30 AM",
+"8:00 AM",
+"8:30 AM",
+"9:00 AM",
+"9:30 AM",
+"10:00 AM",
+"10:30 AM",
+"11:00 AM",
+"11:30 AM",
+"12:00 PM",
+"12:30 PM",
+"1:00 PM",
+"1:30 PM",
+"2:00 PM",
+"2:30 PM",
+"3:00 PM",
+"3:30 PM",
+"4:00 PM",
+"4:30 PM",
+"5:00 PM"
+};
 
         string[] NewdateArray = {"6:00 AM",
 "6:30 AM",
@@ -204,22 +228,101 @@ public partial class AddEvent : System.Web.UI.Page
 "4:30 PM",
 "5:00 PM"
 };
+        string[] NewEndArray = {"6:00 AM",
+"6:30 AM",
+"7:00 AM",
+"7:30 AM",
+"8:00 AM",
+"8:30 AM",
+"9:00 AM",
+"9:30 AM",
+"10:00 AM",
+"10:30 AM",
+"11:00 AM",
+"11:30 AM",
+"12:00 PM",
+"12:30 PM",
+"1:00 PM",
+"1:30 PM",
+"2:00 PM",
+"2:30 PM",
+"3:00 PM",
+"3:30 PM",
+"4:00 PM",
+"4:30 PM",
+"5:00 PM"
+};
         List<string> dateList = new List<string>();
 
-        
+        bool deleteFlag = false;
             foreach (Event ev in eventsForDay)
             {
+                for (int k = 0; k < dateRef.Length; k++)
+                {
+                string aDate = ev.StartDateTime.ToString("h:mm tt");
+                string aEnd = ev.EndDateTime.ToString("h:mm tt");
+                if (aDate== dateRef[k] || deleteFlag==true)
+                {
+                    deleteFlag = true;
+                    if (aEnd == dateRef[k])
+                        deleteFlag = false;
+                    NewdateArray = NewdateArray.Where(w => w != dateRef[k]).ToArray();
 
-                    string aDate = ev.StartDateTime.ToString("h:mm tt");
-                    NewdateArray = NewdateArray.Where(w => w != aDate).ToArray();
+                    
+                }
+                
+
+                }
             }
-        
-       
+
+        ListItem koko;
+        StartTime.Items.Clear();
+        for (int k = 0; k < NewdateArray.Length; k++) {
+             koko = new ListItem();
+            koko.Text = NewdateArray[k];
+            koko.Value = NewdateArray[k];
+            StartTime.Items.Add(koko);
+           
+        }
+
+        deleteFlag = false;
+        foreach (Event ev in eventsForDay)
+        {
+            for (int k = 0; k < dateRef.Length; k++)
+            {
+                string aDate = ev.StartDateTime.ToString("h:mm tt");
+                string aEnd = ev.EndDateTime.ToString("h:mm tt");
+                if (aDate == dateRef[k] || deleteFlag == true)
+                {
+                    deleteFlag = true;
+                    if (dateRef.Length != k+1 )
+                    NewEndArray = NewEndArray.Where(w => w != dateRef[k+1]).ToArray();
+
+                    if (aEnd == dateRef[k])
+                        deleteFlag = false;
+                }
 
 
-        
+            }
+        }
+
+        EndTime.Items.Clear();
+        for (int k = 0; k < NewEndArray.Length; k++)
+        {
+            koko = new ListItem();
+            koko.Text = NewEndArray[k];
+            koko.Value = NewEndArray[k];
+            EndTime.Items.Add(koko);
+
+        }
+
+
+
+
+
 
     }
+    
 
     private void RemoveEvent(int id)
     {
