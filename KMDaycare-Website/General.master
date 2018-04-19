@@ -63,7 +63,7 @@
             color: #7D2547;
         }
 
-          .SomeClass1 {
+        .SomeClass1 {
             font-family: "Comic Sans MS";
             font-size: 1.2em;
             color: #7D2547;
@@ -130,19 +130,16 @@
                                 <li>
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Policies <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="#">Policies</a></li>
+                                        <li><a href="Policies.aspx">Policies</a></li>
                                     </ul>
                                 </li>
 
                                 <li>
-                                   <a href="SendQuery.aspx">Enrollment</a>
+                                    <a href="SendQuery.aspx">Enrollment</a>
                                 </li>
 
                                 <li>
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gallery <span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">Gallery</a></li>
-                                    </ul>
+                                    <a href="Volunteer.aspx">Volunteer Job Opportunity</a>
                                 </li>
 
                                 <li>
@@ -151,7 +148,7 @@
                                 </li>
 
                                 <li>
-                                    <asp:LinkButton ID="PhotoAlbumLink" target="_blank" runat="server">Flickr Album</asp:LinkButton></li>
+                                    <asp:LinkButton ID="PhotoAlbumLink" target="_blank" runat="server">View Our Photo Gallary</asp:LinkButton></li>
                                 <li>
                                     <asp:Label runat="server" ID="LoggedInUser"></asp:Label></li>
                                 <li>
@@ -220,8 +217,9 @@
                 <div class="col-lg-4">
                     <div class="SomeClass1">
                         <h2 class="SomeClass1">Knotwood Montessori Daycare Location</h2>
-                    </div> <br />
-                    <div class="SomeClass"> 
+                    </div>
+                    <br />
+                    <div class="SomeClass">
                         1047 Knottwood Rd E Northwest<br />
                         Edmonton<br />
                         AB; T6K 3N5

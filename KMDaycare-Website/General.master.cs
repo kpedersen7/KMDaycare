@@ -16,22 +16,25 @@ public partial class General : System.Web.UI.MasterPage
             UserController users = new UserController();
             User u = users.GetUser(HttpContext.Current.User.Identity.Name);
             LoggedInUser.Text = "Logged in as " + HttpContext.Current.User.Identity.Name;
+            Configuration webConfigApp = WebConfigurationManager.OpenWebConfiguration("~");
+            string url = webConfigApp.AppSettings.Settings["albumURL"].Value;
             if (s.IsInRole("Parent") || s.IsInRole("Admin"))
             {
-                Configuration webConfigApp = WebConfigurationManager.OpenWebConfiguration("~");
-                string url = webConfigApp.AppSettings.Settings["albumURL"].Value;
+                
                 PhotoAlbumLink.Attributes.Add("href", url);
                 form1.Controls.Remove(LoginLink);
             }
             else if (!s.IsInRole("Admin") && !s.IsInRole("Parent"))
             {
-                form1.Controls.Remove(PhotoAlbumLink);
+                PhotoAlbumLink.Attributes.Remove("href");
+                PhotoAlbumLink.Attributes.Add("href", url);
+                //form1.Controls.Remove(PhotoAlbumLink);
                 form1.Controls.Remove(LogoutLink);
             }
         }
         else
         {
-            form1.Controls.Remove(PhotoAlbumLink);
+            //form1.Controls.Remove(PhotoAlbumLink);
             form1.Controls.Remove(LogoutLink);
         }
     }
