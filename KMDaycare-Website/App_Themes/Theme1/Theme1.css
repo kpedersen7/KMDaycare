@@ -5133,7 +5133,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     position: relative;
     margin-bottom: 20px;
     padding: 10px;
-    float: left;
+    /*float: left;*/
     width: 100%;
     border: 1px solid transparent;
 }
