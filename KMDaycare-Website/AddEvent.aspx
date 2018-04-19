@@ -25,7 +25,7 @@
                 <asp:Panel runat="server" ID="AdminControls">
                     <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Add Event</a>
 
-                    <div class="collapse" id="collapseExample">
+                    <div  class="form-horizontal" id="collapseExample">
                         <div class="card card-body">
                             <asp:Table runat="server" ID="addtable">
                                 <asp:TableRow>
