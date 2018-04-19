@@ -150,7 +150,7 @@
                                 <li>
                                     <asp:LinkButton ID="PhotoAlbumLink" target="_blank" runat="server">View Our Photo Gallary</asp:LinkButton></li>
                                 <li>
-                                    <asp:Label runat="server" ID="LoggedInUser"></asp:Label></li>
+                                    <asp:Label runat="server" ID="LoggedInUser" ></asp:Label></li>
                                 <li>
                                     <asp:LinkButton runat="server" OnClick="Signout_Click" ID="LogoutLink">Logout</asp:LinkButton></li>
                                 <li><a href="Login.aspx" runat="server" id="LoginLink">Login</a></li>
