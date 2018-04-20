@@ -59,6 +59,17 @@ public partial class MyAccount : System.Web.UI.Page
             }
             KBAIST kb = new KBAIST();
             Member m = kb.GetMember(Request.QueryString["m"]);
+            User u = kb.GetUser(Request.QueryString["m"]);
+            if (u.Active == 1)
+            {
+                ToggleActive.Text = "Deactivate Member";
+                ToggleActive.Attributes.Add("class", "btn btn-warning");
+            }
+            if (u.Active == 0)
+            {
+                ToggleActive.Text = "Activate Member";
+                ToggleActive.Attributes.Add("class", "btn btn-success");
+            }
             FillForm(m);
         }
         else
@@ -85,8 +96,10 @@ public partial class MyAccount : System.Web.UI.Page
         HomeAddressTextbox.Enabled = false;
         PostalCodeTextbox.Enabled = false;
         ContactNumberTextbox.Enabled = false;
-        AccountDetails.Rows.Remove(ButtonRow);
-        FoundUsersTable.Rows.Clear();
+        AccountDetails.Controls.Remove(SubmitUpdateButton);
+        AccountDetails.Controls.Remove(ToggleActive);
+        MemberSearchPanel.Controls.Remove(MemberSearchTextbox);
+        MemberSearchPanel.Controls.Remove(MemberSearchButton);
     }
 
     private void FillForm(Member m)
@@ -143,17 +156,39 @@ public partial class MyAccount : System.Web.UI.Page
         List<Member> foundMembers = kb.SearchMembers(MemberSearchTextbox.Text);
         foreach (Member m in foundMembers)
         {
-            TableRow row = new TableRow();
-            TableCell cell = new TableCell();
+            Panel p = new Panel();
             LinkButton lb = new LinkButton();
             lb.Text = m.ChildFirstName + " " + m.ChildLastName;
             lb.Attributes.Add("href", "MyAccount.aspx?m=" + m.UserName);
-            cell.Controls.Add(lb);
-            row.Cells.Add(cell);
-            FoundUsersTable.Rows.Add(row);
+            p.Controls.Add(lb);
+            MemberSearchPanel.Controls.Add(p);
         }
     }
 
+    protected void ToggleActive_Click(object sender, EventArgs e)
+    {
+        KBAIST kb = new KBAIST();
+        User u = kb.GetUser(Request.QueryString["m"]);
+        int active;
+        if(u.Active == 0)
+        {
+            active = 1;
+        }
+        else
+        {
+            active = 0;
+        }
+        bool success = kb.ToggleUserActiveStatus(Request.QueryString["m"], active);
+        if (success)
+        {
+            FeedbackLabel.Text = "Member's active status has been changed.";
+        }
+        else
+        {
+            FeedbackLabel.Text = "Member's active status could not be changed.";
+        }
+        Response.Redirect(Request.RawUrl);
+    }
     private bool ValidateInput(string childFirstName, string childLastName, string parent1FirstName, string parent1LastName, string parent2FirstName, string parent2LastName, string homeAddress, string postalCode, string contactNumber)
     {
         try

@@ -60,6 +60,7 @@ public class UserController
                     u.Email = dr["Email"].ToString();
                     u.UserName = dr["UserName"].ToString();
                     u.Role = int.Parse(dr["Role"].ToString());
+                    u.Active = int.Parse(dr["Active"].ToString());
                 }
                 con.Close();
             }
@@ -141,6 +142,38 @@ public class UserController
             }
         }
         catch (Exception e)
+        {
+            return false;
+        }
+    }
+
+    public bool ToggleUserActiveStatus(string u, int active)
+    {
+        try
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["KMDaycare"].ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("ToggleUserActiveStatus", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@userName", u);
+                    cmd.Parameters.AddWithValue("@active", active);
+                    con.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    if (dr.RecordsAffected > 0)
+                    {
+                        con.Close();
+                        return true;
+                    }
+                    else
+                    {
+                        con.Close();
+                        return false;
+                    }
+                }
+            }
+        }
+        catch(Exception ex)
         {
             return false;
         }

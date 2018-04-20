@@ -1,11 +1,5 @@
 --CREATE User[aspnet] for login
 --[NAIT\webbaist$]
---GRANT Execute on AddEvent to [aspnet]
---GRANT Execute on DeleteEvent to [aspnet]
---GRANT Execute on FindAvailability to [aspnet]
---GRANT Execute on GetEvents to [aspnet]
---GRANT Execute on VerifyLogin to [aspnet]
---'pIbvhgmpVHahDBTYUgQvew=='
 GRANT Execute on AddClass to [aspnet]
 GRANT Execute on AddDailyActivity to [aspnet]
 GRANT Execute on AddEvent to [aspnet]
@@ -27,9 +21,9 @@ GRANT Execute on SearchMembers to [aspnet]
 GRANT Execute on UpdateMember to [aspnet]
 GRANT Execute on UpdatePassword to [aspnet]
 GRANT Execute on VerifyLogin to [aspnet]
-SELECT * FROM [User]
 --kmdaycaretestemail@gmail.com
 --KMDaycare
+--'pIbvhgmpVHahDBTYUgQvew=='
 SELECT * FROM [User]
 SELECT * FROM [Member]
 CREATE DATABASE KMDaycare
@@ -223,7 +217,7 @@ IF @UserName IS NULL
 IF @Password IS NULL
 	RAISERROR('VerifyLogin - Required Parameter : @Password',16,1)
 BEGIN
-	SELECT * FROM [User] WHERE UserName = @UserName AND Password = @Password
+	SELECT * FROM [User] WHERE UserName = @UserName AND Password = @Password AND Active = 1
 	IF @@ERROR = 0
 			SET @ReturnCode = 0
 	ELSE
@@ -338,6 +332,25 @@ ELSE
 			RAISERROR('UpdateMember - Update Error at Member table', 16,1)
 	END
 RETURN @ReturnCode
+
+GO
+CREATE PROCEDURE ToggleUserActiveStatus(@userName varchar(50), @active int) AS
+DECLARE @ReturnCode INT
+SET @ReturnCode = 1
+IF @userName IS NULL
+	RAISERROR('ToggleUserActiveStatus - Required Parameter : @userName',16,1)
+ELSE
+	BEGIN
+		UPDATE [User]
+		SET Active = @active
+		WHERE UserName = @userName
+		IF @@ERROR = 0
+			SET @ReturnCode = 0
+		ELSE
+			RAISERROR('UpdateMember - Update Error at Member table', 16,1)
+	END
+RETURN @ReturnCode
+
 -------------------------------------------------/MEMBER----------------------------------------------------
 
 -------------------------------------------------/PASSWORD CHANGE TICKET-----------------------------------
@@ -393,3 +406,30 @@ BEGIN
 	ELSE
 		RAISERROR('UpdatePassword - Update Error at User table', 16,1)
 END
+
+---------------------------DAILY ACTIVITIES ----------------------
+GO
+CREATE PROCEDURE FindAvailabilityfordailyactivity(@StartDateTime DATETIME, @EndDateTime DATETIME, @ClassID int) AS
+DECLARE @ReturnCode INT
+SET @ReturnCode = 1
+
+IF @StartDateTime IS NULL
+	RAISERROR('FindAvailability - Required Parameter : @@StartDateTime',16,1)
+IF @EndDateTime IS NULL
+	RAISERROR('FindAvailability - Required Parameter : @@EndDateTime',16,1)
+	IF @ClassID IS NULL
+	RAISERROR('FindAvailability - Required Parameter : @@EndDateTime',16,1)
+ELSE
+	BEGIN
+		SELECT DailyActivityID, StartDateTime, EndDateTime, [DescriptionofActivity], Notes, ClassID
+		FROM DailyActivity 
+		WHERE ClassID = @ClassID AND
+		((StartDateTime < @StartDateTime AND EndDateTime > @StartDateTime)
+		OR(StartDateTime < @EndDateTime AND EndDateTime > @EndDateTime)
+		OR(StartDateTime = @StartDateTime AND EndDateTime > @EndDateTime)) 
+		IF @@ERROR = 0
+			SET @ReturnCode = 0
+		ELSE
+			RAISERROR('FindAvailability - Select Error from DailyAcivity table', 16,1)
+	END
+	RETURN @ReturnCode

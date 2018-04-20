@@ -198,6 +198,20 @@ public class KBAIST
         return m;
     }
 
+    public bool ToggleUserActiveStatus(string u, int active)
+    {
+        try
+        {
+            UserController users = new UserController();
+            bool success = users.ToggleUserActiveStatus(u, active);
+            return success;
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
+    }
+
     public bool VerifyLogin(string UserName, string Password)
     {
         try
