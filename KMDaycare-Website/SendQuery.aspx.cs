@@ -49,7 +49,7 @@ public partial class SendQuery : System.Web.UI.Page
         {
             //here on button click what will done 
             SendMail();
-            DisplayMessage.Text = "Your Comments after sending the mail";
+            DisplayMessage.Text = "Your Comments has been sent";
             DisplayMessage.Visible = true;
             YourSubject.Text = "";
             YourEmail.Text = "";

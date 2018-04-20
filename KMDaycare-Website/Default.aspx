@@ -42,64 +42,64 @@
         </div>
     </div>
     <div class="col-lg-12">
-        <h3 style="color: mediumblue">Welcome And Thanks for visiting us!</h3>
+        <div class="SomeClass2">Welcome To Knottwood Montessori Daycare </div>
     </div>
 
     <div class="col-lg-12 text-justify">
-        knotwood montessori Daycare development Center is a fully licensed and Accredited Childcare 
-        facility approved by Alberta Health Authority. Our program provides a quality child care service 
-        for children ages 13months to 6 year old . We believe that each child is unique and will grow at his or her own pace. 
-        Therefore, our program is flexible and adaptable to meet the needs of each child. We strive to provide a safe, fun, nurtured and 
-        learning environment that foster growth in all their developmental domains. Features:
+        <div class="SomeClass">
+            Knottwood Montessori Daycare & OSC has an open door policy and learning through play is the base of our program. Learning through play provides the children opportunities to grow and enhance their creative, intellectual, social, physical and emotional development. We strive to foster a positive self-image and respect for all the children and adults.
+        Building positive relationships is the core of our practice. Families play the most important role in children’s lives. We believe keeping open communication with families is important for the optimal care of the children.
+        </div>
     </div>
 
     <div class="col-lg-12">
+         <div class="SomeClass">
         <ul>
-            <li>experienced staff.</li>
-            <li>Subsidy welcome.</li>
+            <li>Open 6.30AM-6PM Monday to Friday</li>
+            <li>Experienced staff.</li>
+            <li>Easy Access.</li>
             <li>Affordable fees.</li>
-            <li>Open 7:30am to 6:00pm Monday to Friday.</li>
-            <li>The maximum capacity of children in our care is 70.</li>
+            <li>The maximum capacity of children in our daycare is 70.</li>
             <%-- <li>Enhanced ratios</li>--%>
         </ul>
     </div>
-
+</div>
     <div class="col-lg-12">
         <div class="panel panel-default">
-            <div class="panel-heading">Recent Blog Post</div>
+            <div class="panel-heading">Our Events</div>
             <div class="panel-body">
                 <div class="col-lg-12">
                     <div class="col-lg-4">
                         <div class="col-lg-12">
-                            <img src="HomeGallery/KMDayCareThumbnail3.jpg" class="img-thumbnail" />
-                        </div>
-                        <div class="col-lg-12">
-                            <h4>Exploring Nature</h4>
-                        </div>
-                        <div class="col-lg-12">
-                            Children visited Prairie garden to explore Flora and Fauna
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="col-lg-12">
-                            <img src="HomeGallery/KMDayCareThumbnail2.jpg" class="img-thumbnail" />
+                            <img src="HomeGallery/event1.jpg" class="img-thumbnail" />
                         </div>
                         <div class="col-lg-12">
                             <h4>Summer fun</h4>
                         </div>
                         <div class="col-lg-12">
-                            We had great summer with lots of field trips one of our favorite is Visit to Elk Island Park. Thanks to all the parent volunteer
+                            We have exciting activities for the Summer, We take the Kids  for outing and play games and much more....
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="col-lg-12">
-                            <img src="HomeGallery/KMDayCareThumbnail5.jpg" class="img-thumbnail" />
+                            <img src="HomeGallery/event2.jpg" class="img-thumbnail" />
                         </div>
                         <div class="col-lg-12">
-                            <h4>April/May</h4>
+                            <h4>Halloween Party</h4>
                         </div>
                         <div class="col-lg-12">
-                            Our children really enjoyed their visit to Salisbury green house. some important dates for April and May Yoga days: April -8th   and   29th May- 6th and 20th  Rainbow music: will be visiting on the following dates -April 21st, May […]
+                            Our lovely kids dresses up for the halloween party and we had greate fun togeather.
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="col-lg-12">
+                            <img src="HomeGallery/event3.jpg" class="img-thumbnail" />
+                        </div>
+                        <div class="col-lg-12">
+                            <h4>Christmas Celebration</h4>
+                        </div>
+                        <div class="col-lg-12">
+                            Our children really enjoyed their Christams party, they shared gifts with thier friends and teachers. we had greate time togeather.
                         </div>
                     </div>
 
@@ -108,6 +108,6 @@
             </div>
         </div>
     </div>
-    
+
 </asp:Content>
 

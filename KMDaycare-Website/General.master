@@ -61,6 +61,13 @@
             color: #7D2547;
         }
 
+        .SomeClass2 {
+            font-family: "Comic Sans MS";
+            font-size: 1.25em;
+            color: #7D2547;
+            font-weight: bold;
+        }
+
         #thenavbar {
             background-color: #BEE25A;
         }
@@ -107,7 +114,7 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="AboutUs.aspx">6-9 months</a>
                             <a class="dropdown-item" href="Mission.aspx">3 Years Old</a>
-                              <a class="dropdown-item" href="Mission.aspx">PreSchool (4 Years +)</a>
+                            <a class="dropdown-item" href="Mission.aspx">PreSchool (4 Years +)</a>
                             <a class="dropdown-item" href="Mission.aspx">KinderGarten(5 Years +)</a>
                         </div>
                     </li>
@@ -123,7 +130,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="SendQuery.aspx">Contact Us</a>
                     </li>
-                      <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link" href="Location.aspx">Our Location</a>
                     </li>
                     <li class="nav-item">
@@ -149,73 +156,73 @@
         <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server"></asp:ContentPlaceHolder>
 
         <%--<div class="row clearfix">--%>
-        
-            <div class="col-lg-12">
-                <div class="col-lg-4">
-                    <div class="col-lg-12">
-                        <a href="Default.aspx">
-                            <h5>Home</h5>
-                        </a>
-                    </div>
-                    <div class="col-lg-12">
-                        <a href="AboutUs.aspx">
-                            <h5>About Us</h5>
-                        </a>
-                    </div>
-                    <div class="col-lg-12">
-                        <a href="#">
-                            <h5>Program</h5>
-                        </a>
-                    </div>
-                    <div class="col-lg-12">
-                        <a href="Policies.aspx">
-                            <h5>Policies</h5>
-                        </a>
-                    </div>
-                    <div class="col-lg-12">
-                        <a href="Enrollment.aspx">
-                            <h5>Enrollment</h5>
-                        </a>
-                    </div>
-                    <div class="col-lg-12">
-                        <a href="SendQuery.aspx">
-                            <h5>Contact Us</h5>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="SomeClass1">
-                        <h2 class="SomeClass1">Knotwood Montessori Daycare Location</h2>
-                    </div>
-                    <br />
-                    <div class="SomeClass">
-                        1047 Knottwood Rd E Northwest<br />
-                        Edmonton<br />
-                        AB; T6K 3N5
-                    <br />
-                    </div>
-                    <div class="SomeClass">
-                        <strong>(M) </strong>- (780) 461-3320
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="col-lg-12">
-                        <a href="https://www.facebook.com/pg/knottwoodmontessori/about/" target="_blank">
-                            <img src="Images/FacebookButtonImage.png" class="clsSocialMedia" /></a>
-                    </div>
 
-                    <div class="col-lg-12">
-                        <a href="ViewNewsletter.aspx">
-                            <img src="Images/newsletter1.jpg" class="clsSocialMedia1" /></a>
-                    </div>
+        <div class="col-lg-12">
+            <div class="col-lg-4">
+                <div class="col-lg-12">
+                    <a href="Default.aspx">
+                        <h5>Home</h5>
+                    </a>
+                </div>
+                <div class="col-lg-12">
+                    <a href="AboutUs.aspx">
+                        <h5>About Us</h5>
+                    </a>
+                </div>
+                <div class="col-lg-12">
+                    <a href="#">
+                        <h5>Program</h5>
+                    </a>
+                </div>
+                <div class="col-lg-12">
+                    <a href="Policies.aspx">
+                        <h5>Policies</h5>
+                    </a>
+                </div>
+                <div class="col-lg-12">
+                    <a href="Enrollment.aspx">
+                        <h5>Enrollment</h5>
+                    </a>
+                </div>
+                <div class="col-lg-12">
+                    <a href="SendQuery.aspx">
+                        <h5>Contact Us</h5>
+                    </a>
                 </div>
             </div>
-        
+            <div class="col-lg-4">
+                <div class="SomeClass1">
+                    <h2 class="SomeClass1">Knotwood Montessori Daycare & Out-of-SchoolCare</h2>
+                </div>
+                <br />
+                <div class="SomeClass">
+                    1047 Knottwood Rd E Northwest<br />
+                    Edmonton<br />
+                    AB; T6K 3N5
+                    <br />
+                </div>
+                <div class="SomeClass">
+                    <strong>(M) </strong>- (780) 461-3320
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="col-lg-12">
+                    <a href="https://www.facebook.com/pg/knottwoodmontessori/about/" target="_blank">
+                        <img src="Images/FacebookButtonImage.png" class="clsSocialMedia" /></a>
+                </div>
+
+                <div class="col-lg-12">
+                    <a href="ViewNewsletter.aspx">
+                        <img src="Images/newsletter1.jpg" class="clsSocialMedia1" /></a>
+                </div>
+            </div>
+        </div>
+
         <%--</div>--%>
         <div class="col-lg-12 bgfooter">
             <span>Copyright © 2018 KMDaycare, All Rights Reserved</span>
         </div>
-        
+
     </form>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

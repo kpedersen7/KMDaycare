@@ -3,6 +3,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+
+    <img src="Images/programimage.png" class="pull-left thumbnail" alt="Responsive image" style="height: 300px; margin-right:45px;"/> 
     <div style="margin:5%;">
         <p class="SomeClass">
             Not a Member Yet?
