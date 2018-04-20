@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -9,27 +10,11 @@ public partial class AddDailyActivity : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        SecurityController s = HttpContext.Current.User as SecurityController;
-        if (s != null)
-        {
-            UserController users = new UserController();
-            User u = users.GetUser(HttpContext.Current.User.Identity.Name);
-            if (!s.IsInRole("Admin"))
-            {
-                Response.Redirect("Default.aspx");
-            }
-        }
-        else
-        {
-            Response.Redirect("Default.aspx");
-        }
+        Authenticate();
+        DateTime selectedDate = ActivityDate.SelectedDate;
         if (!Page.IsPostBack)
         {
-            string cookie = null;
-            if (Response.Cookies["SelectedDay"].Value != null)
-            {
-                cookie = Response.Cookies["SelectedDay"].Value;
-            }
+            GetActivitiesForDay(selectedDate);
             if (Request.QueryString["d"] != null)
             {
                 try
@@ -49,25 +34,16 @@ public partial class AddDailyActivity : System.Web.UI.Page
 
                 }
             }
-            if (cookie != null)
-            {
-                try
-                {
-                    DateTime selectedDate = DateTime.Parse(cookie);
-                    ActivityDate.SelectedDate = selectedDate;
-                    GetActivitiesForDay(selectedDate);
-                }
-                catch (Exception ex)
-                {
-
-                }
-            }
+        }
+        else
+        {
+            GetActivitiesForDay(selectedDate);
         }
     }
 
     protected void submit_button_Click(object sender, EventArgs e)
     {
-        SetCookie();
+        //SetCookie();
         KBAIST kBaist = new KBAIST();
         DateTime startDateTime = kBaist.MakeSQLDateTime(ActivityDate.SelectedDate.Year, ActivityDate.SelectedDate.Month, ActivityDate.SelectedDate.Day, StartTime.SelectedValue.ToString());
         DateTime endDateTime = kBaist.MakeSQLDateTime(ActivityDate.SelectedDate.Year, ActivityDate.SelectedDate.Month, ActivityDate.SelectedDate.Day, EndTime.SelectedValue.ToString());
@@ -92,6 +68,7 @@ public partial class AddDailyActivity : System.Web.UI.Page
     {
         DateTime selectedDay = ActivityDate.SelectedDate;
         GetActivitiesForDay(selectedDay);
+        TheDate.Text = " - " + MakeMuricanDate(selectedDay);
     }
 
     private bool ValidateInput(DateTime start, DateTime end, string description, string notes)
@@ -135,6 +112,10 @@ public partial class AddDailyActivity : System.Web.UI.Page
 
     private void GetActivitiesForDay(DateTime selectedDay)
     {
+        Activities1.Controls.Clear();
+        Activities2.Controls.Clear();
+        Activities3.Controls.Clear();
+        Activities4.Controls.Clear();
         KBAIST kBaist = new KBAIST();
         List<DailyActivity> activitiesForDay = kBaist.GetActivities(selectedDay, selectedDay.AddDays(1));
         if (activitiesForDay.Count > 0)
@@ -143,33 +124,56 @@ public partial class AddDailyActivity : System.Web.UI.Page
             {
                 Panel p = new Panel();
                 p.Attributes.Add("class", "card");
+
+                LinkButton lb = new LinkButton();
+                lb.Text = "(-)";
+                lb.Attributes.Add("href", "AddDailyActivity.aspx?d=" + da.DailyActivityID);
+                lb.Attributes.Add("class", "pull-right");
+                p.Controls.Add(lb);
+
+                Panel linkPanel = new Panel();
+
                 Label l = new Label();
+                l.Text = MakeNiceTime(da.StartDateTime);
+                linkPanel.Controls.Add(l);
+                linkPanel.Controls.Add(lb);
+                p.Controls.Add(linkPanel);
+
+                l = new Label();
                 l.Text = da.DescriptionofActivity;
                 l.Attributes.Add("id", "activity" + da.DailyActivityID + "DescriptionofActivity");
                 p.Controls.Add(l);
-                l = new Label();
-                l.Text = da.StartDateTime + " to " + da.EndDateTime;
-                p.Controls.Add(l);
+
+                
                 l = new Label();
                 l.Text = "Notes: " + da.Notes;
                 p.Controls.Add(l);
 
                 l = new Label();
-                l.Text = "ClassDescription: " + da.ClassDescription;
+                l.Text = MakeNiceTime(da.EndDateTime);
                 p.Controls.Add(l);
-                LinkButton lb = new LinkButton();
-                lb.Text = "Delete";
-                lb.Attributes.Add("href", "AddDailyActivity.aspx?d=" + da.DailyActivityID);
-                p.Controls.Add(lb);
-                ActivitiesForDay.Controls.Add(p);
+
+                switch (da.ClassDescription)
+                {
+                    case "6-9 months":
+                        Activities1.Controls.Add(p);
+                        break;
+                    case "3 Years Old":
+                        Activities2.Controls.Add(p);
+                        break;
+                    case "PreSchool (4 Years+)":
+                        Activities3.Controls.Add(p);
+                        break;
+                    case "KinderGarten(5 Years +)":
+                        Activities4.Controls.Add(p);
+                        break;
+                }
             }
         }
-        SetCookie();
     }
 
     private void RemoveActivity(int id)
     {
-        SetCookie();
         KBAIST kb = new KBAIST();
         bool b = kb.RemoveActivity(id);
         if (b)
@@ -182,9 +186,108 @@ public partial class AddDailyActivity : System.Web.UI.Page
         }
     }
 
-    private void SetCookie()
+    private string MakeMuricanDate(DateTime d)
     {
-        HttpCookie cookie = new HttpCookie("SelectedDay", ActivityDate.SelectedDate.ToString());
-        Response.Cookies.Add(cookie);
+        string humanFriendlyDate = "";
+        string dayOfWeek = d.Date.DayOfWeek.ToString();
+        string month = "";
+        switch (d.Month)
+        {
+            case 1:
+                month = "January";
+                break;
+            case 2:
+                month = "February";
+                break;
+            case 3:
+                month = "March";
+                break;
+            case 4:
+                month = "April";
+                break;
+            case 5:
+                month = "May";
+                break;
+            case 6:
+                month = "June";
+                break;
+            case 7:
+                month = "July";
+                break;
+            case 8:
+                month = "August";
+                break;
+            case 9:
+                month = "September";
+                break;
+            case 10:
+                month = "October";
+                break;
+            case 11:
+                month = "November";
+                break;
+            case 12:
+                month = "December";
+                break;
+            default:
+                month = "?";
+                break;
+        }
+        string day = d.Day.ToString();
+        string year = d.Year.ToString();
+        humanFriendlyDate = string.Format("{0} {1} {2}, {3}", dayOfWeek,month,day,year );
+        return humanFriendlyDate;
+    }
+
+    private string MakeNiceTime(DateTime d)
+    {
+        DateTime dAtNoon = d.Subtract(d.TimeOfDay);
+        dAtNoon = dAtNoon.AddHours(12);
+        string time = "";
+        if(d > dAtNoon)
+        {
+            if (d.Hour != 12)
+            {
+                time = d.AddHours(12).TimeOfDay.ToString();
+            }
+            else
+            {
+                time = d.TimeOfDay.ToString();
+            }
+            time = time.Remove(5, 3);
+            if (d.Hour >= 13 && d.Hour < 22)
+            {
+                time = time.Substring(1);
+            }
+            time = time + " PM";
+        }
+        else
+        {
+
+            time = d.TimeOfDay.ToString();
+            time = time.Remove(5, 3);
+            if(d.Hour < 10)
+            {
+                time = time.Substring(1);
+            }
+            time = time + " AM";
+        }
+        return time;
+    }
+
+    private void Authenticate()
+    {
+        SecurityController s = HttpContext.Current.User as SecurityController;
+        if (s != null)
+        {
+            if (!s.IsInRole("Admin"))
+            {
+                Response.Redirect("Default.aspx");
+            }
+        }
+        else
+        {
+            Response.Redirect("Default.aspx");
+        }
     }
 }

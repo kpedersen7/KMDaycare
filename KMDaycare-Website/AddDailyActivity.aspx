@@ -2,9 +2,9 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server"></asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <h1>Daily Activity Calendar</h1>
+    <h1>Daily Activity Calendar <asp:Label runat="server" ID="TheDate"></asp:Label></h1>
     <div class="row">
-        <div class="col-6">
+        <div class="col-4">
             <asp:Label runat="server" ID="messageLabel" CssClass="form-heading"></asp:Label>
             <asp:Calendar runat="server" ID="ActivityDate" OnSelectionChanged="ActivityDate_SelectionChanged" BackColor="White" BorderColor="Black" DayNameFormat="Shortest" Font-Names="Times New Roman" Font-Size="10pt" ForeColor="Black" Height="220px" NextPrevFormat="FullMonth" TitleFormat="Month" Width="400px">
                 <DayHeaderStyle BackColor="#CCCCCC" Font-Bold="True" Font-Size="10pt" ForeColor="#333333" Height="20pt"></DayHeaderStyle>
@@ -120,8 +120,21 @@
                 </div>
             </div>
         </div>
-        <div class="col-6">
-            <div id="ActivitiesForDay" runat="server"></div>
+        <div class="col-2">
+            <h4>6-9 Months</h4>
+            <div id="Activities1" runat="server" style="border: 1px solid #E39C93;"></div>
+        </div>
+        <div class="col-2">
+            <h4>3 Years Old</h4>
+            <div id="Activities2" runat="server" style="border: 1px solid #EE5E2D;"></div>
+        </div>
+        <div class="col-2">
+            <h4>PreSchool (4 Years+)</h4>
+            <div id="Activities3" runat="server" style="border: 1px solid #F49574;"></div>
+        </div>
+        <div class="col-2">
+            <h4>KinderGarten (5 Years+)</h4>
+            <div id="Activities4" runat="server" style="border: 1px solid #FCDE4F;"></div>
         </div>
     </div>
 </asp:Content>
