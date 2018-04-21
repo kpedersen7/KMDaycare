@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server"></asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <h1>Event Calendar</h1>
+    <h1>Event Calendar <asp:Label runat="server" ID="TheDate"></asp:Label></h1>
     <div class="row">
         <div class="col-6">
             <asp:Label runat="server" ID="messageLabel" CssClass="form-heading"></asp:Label>
@@ -101,7 +101,7 @@
                                 </asp:TableRow>
                                 <asp:TableRow>
                                     <asp:TableCell>
-                                        <asp:Button runat="server" ID="submit_button" CssClass="btn btn-primary" OnClick="submit_button_Click" Text="Submit" />
+                                        <asp:Button runat="server" ID="SubmitButton" CssClass="btn btn-primary" OnClick="SubmitButton_Click" Text="Submit" />
                                     </asp:TableCell>
                                 </asp:TableRow>
                             </asp:Table>

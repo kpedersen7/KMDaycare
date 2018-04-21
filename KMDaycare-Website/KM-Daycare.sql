@@ -21,6 +21,7 @@ GRANT Execute on SearchMembers to [aspnet]
 GRANT Execute on UpdateMember to [aspnet]
 GRANT Execute on UpdatePassword to [aspnet]
 GRANT Execute on VerifyLogin to [aspnet]
+GRANT Execute on ToggleUserActiveStatus to [aspnet]
 --kmdaycaretestemail@gmail.com
 --KMDaycare
 --'pIbvhgmpVHahDBTYUgQvew=='
@@ -32,8 +33,7 @@ USE KMDaycare
 GO
 
 CREATE TABLE [Event](
-	EventID int IDENTITY(1,1) NOT NULL,
-	StartDateTime DATETIME NOT NULL,
+	EventID int IDENTITY(1,1) NOT NULL,	StartDateTime DATETIME NOT NULL,
 	EndDateTime DATETIME NOT NULL,
 	[Description] VARCHAR(100) NOT NULL,
 	Notes VARCHAR(500) NULL
@@ -409,27 +409,54 @@ END
 
 ---------------------------DAILY ACTIVITIES ----------------------
 GO
-CREATE PROCEDURE FindAvailabilityfordailyactivity(@StartDateTime DATETIME, @EndDateTime DATETIME, @ClassID int) AS
+ALTER PROCEDURE FindAvailabilityfordailyactivity(@StartDateTime DATETIME, @EndDateTime DATETIME, @ClassID int) AS
 DECLARE @ReturnCode INT
 SET @ReturnCode = 1
-
 IF @StartDateTime IS NULL
 	RAISERROR('FindAvailability - Required Parameter : @@StartDateTime',16,1)
 IF @EndDateTime IS NULL
 	RAISERROR('FindAvailability - Required Parameter : @@EndDateTime',16,1)
-	IF @ClassID IS NULL
+IF @ClassID IS NULL
 	RAISERROR('FindAvailability - Required Parameter : @@EndDateTime',16,1)
 ELSE
 	BEGIN
 		SELECT DailyActivityID, StartDateTime, EndDateTime, [DescriptionofActivity], Notes, ClassID
 		FROM DailyActivity 
-		WHERE ClassID = @ClassID AND
-		((StartDateTime < @StartDateTime AND EndDateTime > @StartDateTime)
-		OR(StartDateTime < @EndDateTime AND EndDateTime > @EndDateTime)
-		OR(StartDateTime = @StartDateTime AND EndDateTime > @EndDateTime)) 
+		WHERE ClassID = @ClassID
+		AND((StartDateTime = @StartDateTime) -- event starts at the same time as another
+		OR(EndDateTime = @EndDateTime) -- event ends at the same time as another
+		OR(StartDateTime < @EndDateTime AND EndDateTime > @EndDateTime) -- event is inside another event completely
+		OR(StartDateTime > @StartDateTime AND EndDateTime < @EndDateTime) -- event engulfs another event completely
+		OR(StartDateTime < @EndDateTime AND StartDateTime > @EndDateTime) -- event start is inside another event
+		OR(EndDateTime < @StartDateTime AND EndDateTime > @EndDateTime)) -- event end is inside another event
 		IF @@ERROR = 0
 			SET @ReturnCode = 0
 		ELSE
 			RAISERROR('FindAvailability - Select Error from DailyAcivity table', 16,1)
 	END
-	RETURN @ReturnCode
+RETURN @ReturnCode
+
+----------------------------------------------------------------------------------
+ALTER PROCEDURE FindAvailability(@StartDateTime DATETIME, @EndDateTime DATETIME) AS
+DECLARE @ReturnCode INT
+SET @ReturnCode = 1
+IF @StartDateTime IS NULL
+	RAISERROR('FindAvailability - Required Parameter : @StartDateTime',16,1)
+IF @EndDateTime IS NULL
+	RAISERROR('FindAvailability - Required Parameter : @EndDateTime',16,1)
+ELSE
+	BEGIN
+		SELECT EventID, StartDateTime, EndDateTime, [Description], Notes
+		FROM Event
+		WHERE ((StartDateTime = @StartDateTime) -- event starts at the same time as another
+		OR(EndDateTime = @EndDateTime) -- event ends at the same time as another
+		OR(StartDateTime < @EndDateTime AND EndDateTime > @EndDateTime) -- event is inside another event completely
+		OR(StartDateTime > @StartDateTime AND EndDateTime < @EndDateTime) -- event engulfs another event completely
+		OR(StartDateTime < @EndDateTime AND StartDateTime > @EndDateTime) -- event start is inside another event
+		OR(EndDateTime < @StartDateTime AND EndDateTime > @EndDateTime)) -- event end is inside another event 
+		IF @@ERROR = 0
+			SET @ReturnCode = 0
+		ELSE
+			RAISERROR('FindAvailability - Select Error from Event table', 16,1)
+	END
+RETURN @ReturnCode

@@ -31,28 +31,28 @@ public class DailyActivityTimes
                 cmd.Parameters.AddWithValue("@EndDateTime", EndDateTime);
                 cmd.Parameters.AddWithValue("@ClassID", ClassID);
                 con.Open();
-
-                DailyActivity foundactivity = new DailyActivity();
+                List<DailyActivity> FoundActivities = new List<DailyActivity>();
                 SqlDataReader sqldr = cmd.ExecuteReader();
                 while (sqldr.Read())
                 {
+                    DailyActivity foundactivity = new DailyActivity();
                     foundactivity.DailyActivityID = int.Parse(sqldr["DailyActivityID"].ToString());
                     foundactivity.StartDateTime = DateTime.Parse(sqldr["StartDateTime"].ToString());
                     foundactivity.EndDateTime = DateTime.Parse(sqldr["EndDateTime"].ToString());
                     foundactivity.DescriptionofActivity = sqldr["DescriptionofActivity"].ToString();
                     foundactivity.Notes = sqldr["Notes"].ToString();
                     foundactivity.ClassID = int.Parse(sqldr["ClassID"].ToString());
-                    //somethingFound = true;
+                    FoundActivities.Add(foundactivity);
                 }
                 con.Close();
 
-                if (foundactivity.DailyActivityID != 0)
+                if (FoundActivities.Count > 0)
                 {
-                    return false; // day is taken
+                    return false;
                 }
                 else
                 {
-                    return true; // day is not taken
+                    return true;
                 }
             }
         }
@@ -116,7 +116,7 @@ public class DailyActivityTimes
                     }
                     con.Close();
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
 
                 }

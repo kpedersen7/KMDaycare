@@ -8,42 +8,45 @@ using System.Web.UI.WebControls;
 
 public partial class AddDailyActivity : System.Web.UI.Page
 {
-    protected void Page_Load(object sender, EventArgs e)
+    protected void Page_PreInit(object sender, EventArgs e)
     {
         Authenticate();
-        DateTime selectedDate = ActivityDate.SelectedDate;
-        if (!Page.IsPostBack)
-        {
-            GetActivitiesForDay(selectedDate);
-            if (Request.QueryString["d"] != null)
-            {
-                try
-                {
-                    int id = int.Parse(Request.QueryString["d"]);
-                    if (id != 0)
-                    {
-                        RemoveActivity(id);
-                    }
-                    else
-                    {
-                        messageLabel.Text = "Activity Deleted Successfully!";
-                    }
-                }
-                catch (Exception ex)
-                {
+    }
 
-                }
+    private void Authenticate()
+    {
+        SecurityController s = HttpContext.Current.User as SecurityController;
+        if (s != null)
+        {
+            if (!s.IsInRole("Admin"))
+            {
+                Response.Redirect("Default.aspx");
             }
         }
         else
         {
-            GetActivitiesForDay(selectedDate);
+            Response.Redirect("Default.aspx");
         }
     }
 
-    protected void submit_button_Click(object sender, EventArgs e)
+    protected void Page_Load(object sender, EventArgs e)
     {
-        //SetCookie();
+        if (!Page.IsPostBack)
+        {
+            CheckForCookie();
+            if (Request.QueryString["d"] != null)
+            {
+                RemoveActivity(int.Parse(Request.QueryString["d"]));
+            }
+        }
+        else
+        {
+            CheckForCookie();
+        }
+    }
+
+    protected void SubmitButton_Click(object sender, EventArgs e)
+    {
         KBAIST kBaist = new KBAIST();
         DateTime startDateTime = kBaist.MakeSQLDateTime(ActivityDate.SelectedDate.Year, ActivityDate.SelectedDate.Month, ActivityDate.SelectedDate.Day, StartTime.SelectedValue.ToString());
         DateTime endDateTime = kBaist.MakeSQLDateTime(ActivityDate.SelectedDate.Year, ActivityDate.SelectedDate.Month, ActivityDate.SelectedDate.Day, EndTime.SelectedValue.ToString());
@@ -53,7 +56,7 @@ public partial class AddDailyActivity : System.Web.UI.Page
         //bool validated = ValidateInput(startDateTime, endDateTime, description, notes);
         if (dayIsAvailable)/* && validated*/
         {
-            kBaist.CreateActivity(startDateTime, endDateTime, DescriptionofActivity.Text, Notes.Text , int.Parse(ClassID.SelectedValue));
+            kBaist.CreateActivity(startDateTime, endDateTime, DescriptionofActivity.Text, Notes.Text, int.Parse(ClassID.SelectedValue));
             messageLabel.Text = "Activity Created Successfully!";
             DescriptionofActivity.Text = String.Empty;
             Notes.Text = String.Empty;
@@ -62,13 +65,16 @@ public partial class AddDailyActivity : System.Web.UI.Page
         {
             messageLabel.Text = "Choose another time! That time is already occupied by another activity";
         }
+        SetCookie(ActivityDate.SelectedDate);
     }
 
     protected void ActivityDate_SelectionChanged(object sender, EventArgs e)
     {
+        KBAIST kBaist = new KBAIST();
         DateTime selectedDay = ActivityDate.SelectedDate;
         GetActivitiesForDay(selectedDay);
-        TheDate.Text = " - " + MakeMuricanDate(selectedDay);
+        TheDate.Text = " - " + kBaist.MakeMuricanDate(selectedDay);
+        SetCookie(ActivityDate.SelectedDate);
     }
 
     private bool ValidateInput(DateTime start, DateTime end, string description, string notes)
@@ -118,13 +124,13 @@ public partial class AddDailyActivity : System.Web.UI.Page
         Activities4.Controls.Clear();
         KBAIST kBaist = new KBAIST();
         List<DailyActivity> activitiesForDay = kBaist.GetActivities(selectedDay, selectedDay.AddDays(1));
+        TheDate.Text = " - " + kBaist.MakeMuricanDate(selectedDay);
         if (activitiesForDay.Count > 0)
         {
             foreach (DailyActivity da in activitiesForDay)
             {
                 Panel p = new Panel();
                 p.Attributes.Add("class", "card");
-
                 LinkButton lb = new LinkButton();
                 lb.Text = "(-)";
                 lb.Attributes.Add("href", "AddDailyActivity.aspx?d=" + da.DailyActivityID);
@@ -134,7 +140,7 @@ public partial class AddDailyActivity : System.Web.UI.Page
                 Panel linkPanel = new Panel();
 
                 Label l = new Label();
-                l.Text = MakeNiceTime(da.StartDateTime);
+                l.Text = kBaist.MakeNiceTime(da.StartDateTime);
                 linkPanel.Controls.Add(l);
                 linkPanel.Controls.Add(lb);
                 p.Controls.Add(linkPanel);
@@ -144,13 +150,13 @@ public partial class AddDailyActivity : System.Web.UI.Page
                 l.Attributes.Add("id", "activity" + da.DailyActivityID + "DescriptionofActivity");
                 p.Controls.Add(l);
 
-                
+
                 l = new Label();
                 l.Text = "Notes: " + da.Notes;
                 p.Controls.Add(l);
 
                 l = new Label();
-                l.Text = MakeNiceTime(da.EndDateTime);
+                l.Text = kBaist.MakeNiceTime(da.EndDateTime);
                 p.Controls.Add(l);
 
                 switch (da.ClassDescription)
@@ -175,119 +181,47 @@ public partial class AddDailyActivity : System.Web.UI.Page
     private void RemoveActivity(int id)
     {
         KBAIST kb = new KBAIST();
-        bool b = kb.RemoveActivity(id);
-        if (b)
+        try
         {
-            Response.Redirect("AddDailyActivity.aspx?d=0");
+            if (id != 0)
+            {
+                bool b = kb.RemoveActivity(id);
+                if (b)
+                {
+                    messageLabel.Text = "Activity Deleted!";
+                }
+                else
+                {
+                    messageLabel.Text = "Something went wrong, activity was not deleted.";
+                }
+            }
         }
-        else
+        catch (Exception ex)
         {
             messageLabel.Text = "Something went wrong, activity was not deleted.";
         }
+        SetCookie(ActivityDate.SelectedDate);
     }
 
-    private string MakeMuricanDate(DateTime d)
+    private void SetCookie(DateTime d)
     {
-        string humanFriendlyDate = "";
-        string dayOfWeek = d.Date.DayOfWeek.ToString();
-        string month = "";
-        switch (d.Month)
-        {
-            case 1:
-                month = "January";
-                break;
-            case 2:
-                month = "February";
-                break;
-            case 3:
-                month = "March";
-                break;
-            case 4:
-                month = "April";
-                break;
-            case 5:
-                month = "May";
-                break;
-            case 6:
-                month = "June";
-                break;
-            case 7:
-                month = "July";
-                break;
-            case 8:
-                month = "August";
-                break;
-            case 9:
-                month = "September";
-                break;
-            case 10:
-                month = "October";
-                break;
-            case 11:
-                month = "November";
-                break;
-            case 12:
-                month = "December";
-                break;
-            default:
-                month = "?";
-                break;
-        }
-        string day = d.Day.ToString();
-        string year = d.Year.ToString();
-        humanFriendlyDate = string.Format("{0} {1} {2}, {3}", dayOfWeek,month,day,year );
-        return humanFriendlyDate;
+        HttpCookie cookie = new HttpCookie("SelectedDay", d.ToString());
+        Response.Cookies.Add(cookie);
     }
 
-    private string MakeNiceTime(DateTime d)
+    private void CheckForCookie()
     {
-        DateTime dAtNoon = d.Subtract(d.TimeOfDay);
-        dAtNoon = dAtNoon.AddHours(12);
-        string time = "";
-        if(d > dAtNoon)
+        if (Response.Cookies["SelectedDay"].Value != null)
         {
-            if (d.Hour != 12)
-            {
-                time = d.AddHours(12).TimeOfDay.ToString();
-            }
-            else
-            {
-                time = d.TimeOfDay.ToString();
-            }
-            time = time.Remove(5, 3);
-            if (d.Hour >= 13 && d.Hour < 22)
-            {
-                time = time.Substring(1);
-            }
-            time = time + " PM";
+            ActivityDate.SelectedDate = DateTime.Parse(Response.Cookies["SelectedDay"].Value);
+            GetActivitiesForDay(ActivityDate.SelectedDate);
         }
         else
         {
-
-            time = d.TimeOfDay.ToString();
-            time = time.Remove(5, 3);
-            if(d.Hour < 10)
-            {
-                time = time.Substring(1);
-            }
-            time = time + " AM";
-        }
-        return time;
-    }
-
-    private void Authenticate()
-    {
-        SecurityController s = HttpContext.Current.User as SecurityController;
-        if (s != null)
-        {
-            if (!s.IsInRole("Admin"))
-            {
-                Response.Redirect("Default.aspx");
-            }
-        }
-        else
-        {
-            Response.Redirect("Default.aspx");
+            SetCookie(DateTime.Today);
+            GetActivitiesForDay(DateTime.Today);
         }
     }
+
+
 }

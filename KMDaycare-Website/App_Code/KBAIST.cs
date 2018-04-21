@@ -56,12 +56,6 @@ public class KBAIST
             return false;
         }
     }
-
-    public DateTime MakeSQLDateTime(int year, int month, int day, string time)
-    {
-        DateTime date = DateTime.Parse(String.Format("{0}-{1}-{2} {3}", year, month, day, time));
-        return date;
-    }
     #endregion
 
     #region Account and User Methods
@@ -97,7 +91,7 @@ public class KBAIST
         }
     }
 
-    public bool UpdateAccount(string username,string childFirstName, string childLastName, string parent1FirstName, string parent1LastName, string parent2FirstName, string parent2LastName, string homeAddress, string postalCode, string emergencyContact)
+    public bool UpdateAccount(string username, string childFirstName, string childLastName, string parent1FirstName, string parent1LastName, string parent2FirstName, string parent2LastName, string homeAddress, string postalCode, string emergencyContact)
     {
         try
         {
@@ -123,7 +117,7 @@ public class KBAIST
                 return false;
             }
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             return false;
         }
@@ -184,7 +178,7 @@ public class KBAIST
             string role = users.GetUserRole(roleID);
             return role;
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             return e.Message;
         }
@@ -206,7 +200,7 @@ public class KBAIST
             bool success = users.ToggleUserActiveStatus(u, active);
             return success;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             return false;
         }
@@ -288,5 +282,102 @@ public class KBAIST
         }
     }
 
+    #endregion
+
+    #region HELPER METHODS
+    public string MakeMuricanDate(DateTime d)
+    {
+        string humanFriendlyDate = "";
+        string dayOfWeek = d.Date.DayOfWeek.ToString();
+        string month = "";
+        switch (d.Month)
+        {
+            case 1:
+                month = "January";
+                break;
+            case 2:
+                month = "February";
+                break;
+            case 3:
+                month = "March";
+                break;
+            case 4:
+                month = "April";
+                break;
+            case 5:
+                month = "May";
+                break;
+            case 6:
+                month = "June";
+                break;
+            case 7:
+                month = "July";
+                break;
+            case 8:
+                month = "August";
+                break;
+            case 9:
+                month = "September";
+                break;
+            case 10:
+                month = "October";
+                break;
+            case 11:
+                month = "November";
+                break;
+            case 12:
+                month = "December";
+                break;
+            default:
+                month = "?";
+                break;
+        }
+        string day = d.Day.ToString();
+        string year = d.Year.ToString();
+        humanFriendlyDate = string.Format("{0} {1} {2}, {3}", dayOfWeek, month, day, year);
+        return humanFriendlyDate;
+    }
+
+    public string MakeNiceTime(DateTime d)
+    {
+        DateTime dAtNoon = d.Subtract(d.TimeOfDay);
+        dAtNoon = dAtNoon.AddHours(12);
+        string time = "";
+        if (d > dAtNoon)
+        {
+            if (d.Hour != 12)
+            {
+                time = d.AddHours(12).TimeOfDay.ToString();
+            }
+            else
+            {
+                time = d.TimeOfDay.ToString();
+            }
+            time = time.Remove(5, 3);
+            if (d.Hour >= 13 && d.Hour < 22)
+            {
+                time = time.Substring(1);
+            }
+            time = time + " PM";
+        }
+        else
+        {
+
+            time = d.TimeOfDay.ToString();
+            time = time.Remove(5, 3);
+            if (d.Hour < 10)
+            {
+                time = time.Substring(1);
+            }
+            time = time + " AM";
+        }
+        return time;
+    }
+
+    public DateTime MakeSQLDateTime(int year, int month, int day, string time)
+    {
+        DateTime date = DateTime.Parse(String.Format("{0}-{1}-{2} {3}", year, month, day, time));
+        return date;
+    }
     #endregion
 }

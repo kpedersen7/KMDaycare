@@ -18,6 +18,7 @@ public partial class Admin : System.Web.UI.MasterPage
                 Configuration webConfigApp = WebConfigurationManager.OpenWebConfiguration("~");
                 string url = webConfigApp.AppSettings.Settings["albumURL"].Value;
                 PhotoAlbumLink.Attributes.Add("href", url);
+                PhotoAlbumLink1.Attributes.Add("href", url);
             }
         }
     }
