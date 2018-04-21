@@ -33,16 +33,12 @@ public partial class AddDailyActivity : System.Web.UI.Page
     {
         if (!Page.IsPostBack)
         {
-            CheckForCookie();
             if (Request.QueryString["d"] != null)
             {
                 RemoveActivity(int.Parse(Request.QueryString["d"]));
             }
         }
-        else
-        {
-            CheckForCookie();
-        }
+        CheckForCookie();
     }
 
     protected void SubmitButton_Click(object sender, EventArgs e)
@@ -65,14 +61,13 @@ public partial class AddDailyActivity : System.Web.UI.Page
         {
             messageLabel.Text = "Choose another time! That time is already occupied by another activity";
         }
-        SetCookie(ActivityDate.SelectedDate);
+        CheckForCookie();
     }
 
     protected void ActivityDate_SelectionChanged(object sender, EventArgs e)
     {
         KBAIST kBaist = new KBAIST();
         DateTime selectedDay = ActivityDate.SelectedDate;
-        GetActivitiesForDay(selectedDay);
         TheDate.Text = " - " + kBaist.MakeMuricanDate(selectedDay);
         SetCookie(ActivityDate.SelectedDate);
     }
@@ -131,8 +126,9 @@ public partial class AddDailyActivity : System.Web.UI.Page
             {
                 Panel p = new Panel();
                 p.Attributes.Add("class", "card");
+
                 LinkButton lb = new LinkButton();
-                lb.Text = "(-)";
+                lb.Text = "(x)";
                 lb.Attributes.Add("href", "AddDailyActivity.aspx?d=" + da.DailyActivityID);
                 lb.Attributes.Add("class", "pull-right");
                 p.Controls.Add(lb);
@@ -200,7 +196,7 @@ public partial class AddDailyActivity : System.Web.UI.Page
         {
             messageLabel.Text = "Something went wrong, activity was not deleted.";
         }
-        SetCookie(ActivityDate.SelectedDate);
+        CheckForCookie();
     }
 
     private void SetCookie(DateTime d)
@@ -213,8 +209,8 @@ public partial class AddDailyActivity : System.Web.UI.Page
     {
         if (Response.Cookies["SelectedDay"].Value != null)
         {
-            ActivityDate.SelectedDate = DateTime.Parse(Response.Cookies["SelectedDay"].Value);
-            GetActivitiesForDay(ActivityDate.SelectedDate);
+            DateTime selectedDate = DateTime.Parse(Response.Cookies["SelectedDay"].Value);
+            GetActivitiesForDay(selectedDate);
         }
         else
         {

@@ -413,22 +413,22 @@ ALTER PROCEDURE FindAvailabilityfordailyactivity(@StartDateTime DATETIME, @EndDa
 DECLARE @ReturnCode INT
 SET @ReturnCode = 1
 IF @StartDateTime IS NULL
-	RAISERROR('FindAvailability - Required Parameter : @@StartDateTime',16,1)
+	RAISERROR('FindAvailabilityfordailyactivity - Required Parameter : @@StartDateTime',16,1)
 IF @EndDateTime IS NULL
-	RAISERROR('FindAvailability - Required Parameter : @@EndDateTime',16,1)
+	RAISERROR('FindAvailabilityfordailyactivity - Required Parameter : @@EndDateTime',16,1)
 IF @ClassID IS NULL
-	RAISERROR('FindAvailability - Required Parameter : @@EndDateTime',16,1)
+	RAISERROR('FindAvailabilityfordailyactivity - Required Parameter : @@EndDateTime',16,1)
 ELSE
 	BEGIN
 		SELECT DailyActivityID, StartDateTime, EndDateTime, [DescriptionofActivity], Notes, ClassID
 		FROM DailyActivity 
 		WHERE ClassID = @ClassID
-		AND((StartDateTime = @StartDateTime) -- event starts at the same time as another
-		OR(EndDateTime = @EndDateTime) -- event ends at the same time as another
-		OR(StartDateTime < @EndDateTime AND EndDateTime > @EndDateTime) -- event is inside another event completely
-		OR(StartDateTime > @StartDateTime AND EndDateTime < @EndDateTime) -- event engulfs another event completely
-		OR(StartDateTime < @EndDateTime AND StartDateTime > @EndDateTime) -- event start is inside another event
-		OR(EndDateTime < @StartDateTime AND EndDateTime > @EndDateTime)) -- event end is inside another event
+		AND((StartDateTime = @StartDateTime) -- activity starts at the same time as another
+		OR(EndDateTime = @EndDateTime) -- activity ends at the same time as another
+		OR(StartDateTime < @EndDateTime AND EndDateTime > @EndDateTime) -- activity is inside another event completely
+		OR(StartDateTime > @StartDateTime AND EndDateTime < @EndDateTime) -- activity engulfs another event completely
+		OR(StartDateTime < @EndDateTime AND StartDateTime > @EndDateTime) -- activity start is inside another event
+		OR(EndDateTime < @StartDateTime AND EndDateTime > @EndDateTime)) -- activity end is inside another event
 		IF @@ERROR = 0
 			SET @ReturnCode = 0
 		ELSE

@@ -2,9 +2,9 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server"></asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <h1>Event Calendar <asp:Label runat="server" ID="TheDate"></asp:Label></h1>
+    <h1>Event Calendar</h1>
     <div class="row">
-        <div class="col-6">
+        <div class="col-4">
             <asp:Label runat="server" ID="messageLabel" CssClass="form-heading"></asp:Label>
             <asp:Calendar runat="server" ID="EventDate" OnSelectionChanged="EventDate_SelectionChanged" BackColor="White" BorderColor="Black" DayNameFormat="Shortest" Font-Names="Times New Roman" Font-Size="10pt" ForeColor="Black" Height="220px" NextPrevFormat="FullMonth" TitleFormat="Month" Width="400px">
                 <DayHeaderStyle BackColor="#CCCCCC" Font-Bold="True" Font-Size="10pt" ForeColor="#333333" Height="20pt"></DayHeaderStyle>
@@ -19,7 +19,6 @@
             <asp:Panel runat="server" ID="AdminControlsPanel">
                 <asp:Panel runat="server" ID="AdminControls">
                     <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Add Event</a>
-
                     <div  class="form-horizontal" id="collapseExample">
                         <div class="card card-body">
                             <asp:Table runat="server" ID="addtable">
@@ -110,8 +109,9 @@
                 </asp:Panel>
             </asp:Panel>
         </div>
-        <div class="col-6">
-            <div id="EventsForDay" runat="server"></div>
+        <div class="col-2">
+            <h3><asp:Label runat="server" ID="TheDate"></asp:Label></h3>
+            <div id="EventsForDay" runat="server" style="border:2px solid #89D1F8;"></div>
         </div>
     </div>
 </asp:Content>

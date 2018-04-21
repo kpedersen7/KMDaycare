@@ -30,14 +30,14 @@ public partial class AddEvent : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         Authenticate();
-        DateTime selectedDay = EventDate.SelectedDate;
         if (!Page.IsPostBack)
         {
-            GetEventsForDay(selectedDay);
+            CheckForCookie();
         }
         else
         {
-            GetEventsForDay(selectedDay);
+            CheckForCookie();
+            GetEventsForDay(DateTime.Today);
         }
     }
 
@@ -87,14 +87,17 @@ public partial class AddEvent : System.Web.UI.Page
         {
             messageLabel.Text = "Choose another time! That time is already occupied by another event.";
         }
+        SetCookie(EventDate.SelectedDate);
+        CheckForCookie();
     }
 
     protected void EventDate_SelectionChanged(object sender, EventArgs e)
     {
         KBAIST kBaist = new KBAIST();
         DateTime selectedDay = EventDate.SelectedDate;
-        GetEventsForDay(selectedDay);
-        TheDate.Text = " - " + kBaist.MakeMuricanDate(selectedDay);
+        //GetEventsForDay(selectedDay);
+        TheDate.Text = kBaist.MakeMuricanDate(selectedDay);
+        SetCookie(selectedDay);
     }
 
     private bool ValidateInput(DateTime start, DateTime end, string description, string notes)
@@ -141,32 +144,42 @@ public partial class AddEvent : System.Web.UI.Page
         EventsForDay.Controls.Clear();
         KBAIST kBaist = new KBAIST();
         List<Event> eventsForDay = kBaist.GetEvents(selectedDay, selectedDay.AddDays(1));
+        TheDate.Text = kBaist.MakeMuricanDate(selectedDay);
         if (eventsForDay.Count > 0)
         {
             foreach (Event ev in eventsForDay)
             {
                 Panel p = new Panel();
                 p.Attributes.Add("class", "card");
+
+                LinkButton lb = new LinkButton();
+                lb.Text = "(x)";
+                lb.Attributes.Add("href", "AddEvent.aspx?d=" + ev.EventID);
+                lb.Attributes.Add("class", "pull-right");
+                p.Controls.Add(lb);
+
+                Panel linkPanel = new Panel();
+
                 Label l = new Label();
-                l.Text = ev.Description;
-                l.Attributes.Add("id", "event" + ev.EventID + "Description");
-                p.Controls.Add(l);
+                l.Text = kBaist.MakeNiceTime(ev.StartDateTime);
+                linkPanel.Controls.Add(l);
+                linkPanel.Controls.Add(lb);
+                p.Controls.Add(linkPanel);
+
                 l = new Label();
-                l.Text = kBaist.MakeNiceTime(ev.StartDateTime) + " to " + kBaist.MakeNiceTime(ev.EndDateTime);
+                l.Text = ev.Description;
                 p.Controls.Add(l);
                 l = new Label();
                 l.Text = "Notes: " + ev.Notes;
+                p.Controls.Add(l);
+                l = new Label();
+                l.Text = kBaist.MakeNiceTime(ev.EndDateTime);
                 p.Controls.Add(l);
 
                 SecurityController s = HttpContext.Current.User as SecurityController;
                 if (s.IsInRole("Admin"))
                 {
-                    LinkButton lb = new LinkButton();
-                    lb.Text = "Delete";
-                    lb.Attributes.Add("href", "AddEvent.aspx?d=" + ev.EventID);
-                    p.Controls.Add(lb);
                 }
-                
                 EventsForDay.Controls.Add(p);
             }
         }
@@ -243,8 +256,8 @@ public partial class AddEvent : System.Web.UI.Page
 "4:30 PM",
 "5:00 PM"
 };
-        List<string> dateList = new List<string>();
 
+        List<string> dateList = new List<string>();
         bool deleteFlag = false;
         foreach (Event ev in eventsForDay)
         {
@@ -261,7 +274,6 @@ public partial class AddEvent : System.Web.UI.Page
                 }
             }
         }
-
         ListItem koko;
         StartTime.Items.Clear();
         for (int k = 0; k < NewdateArray.Length; k++)
@@ -270,7 +282,6 @@ public partial class AddEvent : System.Web.UI.Page
             koko.Text = NewdateArray[k];
             koko.Value = NewdateArray[k];
             StartTime.Items.Add(koko);
-
         }
 
         deleteFlag = false;
@@ -289,11 +300,8 @@ public partial class AddEvent : System.Web.UI.Page
                     if (aEnd == dateRef[k])
                         deleteFlag = false;
                 }
-
-
             }
         }
-
         EndTime.Items.Clear();
         for (int k = 0; k < NewEndArray.Length; k++)
         {
@@ -303,12 +311,6 @@ public partial class AddEvent : System.Web.UI.Page
             EndTime.Items.Add(koko);
 
         }
-
-
-
-
-
-
     }
 
     private void RemoveEvent(int id)
@@ -336,6 +338,28 @@ public partial class AddEvent : System.Web.UI.Page
         catch (Exception ex)
         {
 
+        }
+        SetCookie(EventDate.SelectedDate);
+        CheckForCookie();
+    }
+
+    private void SetCookie(DateTime d)
+    {
+        HttpCookie cookie = new HttpCookie("SelectedDay", d.ToString());
+        Response.Cookies.Add(cookie);
+    }
+
+    private void CheckForCookie()
+    {
+        if (Response.Cookies["SelectedDay"].Value != null)
+        {
+            EventDate.SelectedDate = DateTime.Parse(Response.Cookies["SelectedDay"].Value);
+            GetEventsForDay(EventDate.SelectedDate);
+        }
+        else
+        {
+            SetCookie(DateTime.Today);
+            GetEventsForDay(DateTime.Today);
         }
     }
 }
