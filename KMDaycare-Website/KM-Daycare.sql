@@ -64,6 +64,7 @@ CREATE TABLE [User](
 	UserName varchar(50) NOT NULL FOREIGN KEY REFERENCES Member(UserName),
 	Password varchar(100) NOT NULL,
 	Role int NOT NULL FOREIGN KEY REFERENCES Role(RoleID),
+	Active int NOT NULL
 )
 
 CREATE TABLE [PasswordChangeTicket](
@@ -157,12 +158,6 @@ ELSE
 
 -------------------------------------------------MEMBER----------------------------------------------------
 GO
-
-DELETE FROM Member WHERE UserName = 'kPedersenPaula'
-DELETE From [User] Where Email = 'pedeyk@gmail.com' 
-DELETE FROM [PasswordChangeTicket] WHERE Email = 'pedeyk@gmail.com' 
-SELECT * FROM [User]
-SELECT * FROM Member
 CREATE PROCEDURE CreateMember(@userName varchar(20), @childFirstName varchar(20), @childLastName varchar(20), @parent1FirstName varchar(20), @parent1LastName varchar(20), @parent2FirstName varchar(20), @parent2LastName varchar(20), @homeAddress varchar(20), @postalCode varchar(6), @emergencyContact varchar(10)) AS
 DECLARE @ReturnCode INT
 SET @ReturnCode = 1

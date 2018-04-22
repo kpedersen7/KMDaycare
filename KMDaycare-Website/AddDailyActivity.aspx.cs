@@ -33,12 +33,16 @@ public partial class AddDailyActivity : System.Web.UI.Page
     {
         if (!Page.IsPostBack)
         {
+            CheckForCookie();
             if (Request.QueryString["d"] != null)
             {
                 RemoveActivity(int.Parse(Request.QueryString["d"]));
             }
         }
-        CheckForCookie();
+        else
+        {
+            CheckForCookie();
+        }
     }
 
     protected void SubmitButton_Click(object sender, EventArgs e)
@@ -69,7 +73,7 @@ public partial class AddDailyActivity : System.Web.UI.Page
         KBAIST kBaist = new KBAIST();
         DateTime selectedDay = ActivityDate.SelectedDate;
         TheDate.Text = " - " + kBaist.MakeMuricanDate(selectedDay);
-        SetCookie(ActivityDate.SelectedDate);
+        GetActivitiesForDay(selectedDay);
     }
 
     private bool ValidateInput(DateTime start, DateTime end, string description, string notes)
@@ -113,6 +117,7 @@ public partial class AddDailyActivity : System.Web.UI.Page
 
     private void GetActivitiesForDay(DateTime selectedDay)
     {
+        SetCookie(selectedDay);
         Activities1.Controls.Clear();
         Activities2.Controls.Clear();
         Activities3.Controls.Clear();
@@ -202,15 +207,15 @@ public partial class AddDailyActivity : System.Web.UI.Page
     private void SetCookie(DateTime d)
     {
         HttpCookie cookie = new HttpCookie("SelectedDay", d.ToString());
+        cookie.Expires = DateTime.Now.AddHours(1);
         Response.Cookies.Add(cookie);
     }
 
     private void CheckForCookie()
     {
-        if (Response.Cookies["SelectedDay"].Value != null)
+        if (Response.Cookies["SelectedDay"] != null)
         {
-            DateTime selectedDate = DateTime.Parse(Response.Cookies["SelectedDay"].Value);
-            GetActivitiesForDay(selectedDate);
+            GetActivitiesForDay(DateTime.Parse(Request.Cookies["SelectedDay"].Value));
         }
         else
         {
