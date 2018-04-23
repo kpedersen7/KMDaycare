@@ -171,7 +171,7 @@ public partial class AddDailyActivity : System.Web.UI.Page
                     case "PreSchool (4 Years+)":
                         Activities3.Controls.Add(p);
                         break;
-                    case "KinderGarten(5 Years +)":
+                    case "KinderGarten (5 Years+)":
                         Activities4.Controls.Add(p);
                         break;
                 }
@@ -189,7 +189,7 @@ public partial class AddDailyActivity : System.Web.UI.Page
                 bool b = kb.RemoveActivity(id);
                 if (b)
                 {
-                    messageLabel.Text = "Activity Deleted!";
+                    Response.Redirect("AddDailyActivity.aspx");
                 }
                 else
                 {

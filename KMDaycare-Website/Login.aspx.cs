@@ -27,7 +27,7 @@ public partial class Login : System.Web.UI.Page
         {
             User thisUser = kb.GetUser(username);
             string userRole = kb.GetUserRole(thisUser.Role);
-            FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(1, txtUserName.Text, DateTime.Now, DateTime.Now.AddMinutes(30), false, userRole);
+            FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(1, thisUser.UserName, DateTime.Now, DateTime.Now.AddMinutes(30), false, userRole);
             string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
             HttpCookie authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
             Response.Cookies.Add(authCookie);
