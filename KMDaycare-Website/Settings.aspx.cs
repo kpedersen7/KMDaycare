@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Configuration;
 using System.IO;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Configuration;
 
@@ -30,6 +32,7 @@ public partial class Settings : System.Web.UI.Page
         Image1.ImageUrl = "HomeGallery/image1.jpg";
         Image2.ImageUrl = "HomeGallery/image2.jpg";
         Image3.ImageUrl = "HomeGallery/image3.jpg";
+
         CurrentEmailLabel.Text = WebConfigurationManager.AppSettings["mailAccount"];
         CurrentAlbumURL.HRef = WebConfigurationManager.AppSettings["albumURL"];
     }
@@ -43,6 +46,7 @@ public partial class Settings : System.Web.UI.Page
                 fileupload1.SaveAs(Server.MapPath("~/HomeGallery/image1.jpg"));
                 DirectoryInfo dir = new DirectoryInfo(Server.MapPath("~/HomeGallery/image1.jpg"));
                 dir.Refresh();
+                feedbackLabel.Text += "Image 1 uploaded. ";
             }
             catch (Exception ex)
             {
@@ -56,6 +60,7 @@ public partial class Settings : System.Web.UI.Page
                 fileupload2.SaveAs(Server.MapPath("~/HomeGallery/image2.jpg"));
                 DirectoryInfo dir = new DirectoryInfo(Server.MapPath("~/HomeGallery/image2.jpg"));
                 dir.Refresh();
+                feedbackLabel.Text += "Image 2 uploaded. ";
             }
             catch (Exception ex)
             {
@@ -69,6 +74,7 @@ public partial class Settings : System.Web.UI.Page
                 fileupload3.SaveAs(Server.MapPath("~/HomeGallery/image3.jpg"));
                 DirectoryInfo dir = new DirectoryInfo(Server.MapPath("~/HomeGallery/image3.jpg"));
                 dir.Refresh();
+                feedbackLabel.Text += "Image 3 uploaded. ";
             }
             catch (Exception ex)
             {
@@ -93,6 +99,7 @@ public partial class Settings : System.Web.UI.Page
                     fileupload.SaveAs(Server.MapPath("~/Files/newsletter.pdf"));
                     DirectoryInfo dir = new DirectoryInfo(Server.MapPath("~/Files/"));
                     dir.Refresh();
+                    feedbackLabel.Text = "Newsletter updated.";
                 }
             }
             catch (Exception ex)
@@ -114,13 +121,16 @@ public partial class Settings : System.Web.UI.Page
         {
             email = SiteEmailAddress.Text.Trim();
             password = SiteEmailPassword.Text.Trim();
-            SetEmailServerAndPort(email);
-            Configuration webConfigApp = WebConfigurationManager.OpenWebConfiguration("~");
-            //HttpRuntimeSection section = config.GetSection("system.web/httpRuntime") as HttpRuntimeSection;
-            webConfigApp.AppSettings.Settings["mailAccount"].Value = email;
-            webConfigApp.AppSettings.Settings["mailPassword"].Value = password;
-            webConfigApp.Save();
-            Response.Redirect("Settings.aspx");
+            bool success = SignInToEmailAddress(email, password);
+            if (success)
+            {
+                feedbackLabel.Text = "Success! A confirmation email was sent to the email address entered.";
+            }
+            else
+            {
+                feedbackLabel.Text = "There was a problem setting this email, make sure the email address and password are correct.  You will not be able to send emails.";
+            }
+
         }
         else
         {
@@ -128,25 +138,53 @@ public partial class Settings : System.Web.UI.Page
         }
     }
 
-    private void SetEmailServerAndPort(string email)
+    private bool SignInToEmailAddress(string email, string password)
     {
-        Configuration webConfigApp = WebConfigurationManager.OpenWebConfiguration("~");
+        int port = 0;
+        string server = "";
         if (email.Contains("gmail"))
         {
-            webConfigApp.AppSettings.Settings["mailServer"].Value = "smtp.gmail.com";
-            webConfigApp.AppSettings.Settings["mailPort"].Value = "587";
+            server = "smtp.gmail.com";
+            port = 587;
         }
         if (email.Contains("outlook"))
         {
-            webConfigApp.AppSettings.Settings["mailServer"].Value = "smtp-mail.outlook.com";
-            webConfigApp.AppSettings.Settings["mailPort"].Value = "587";
+            server = "smtp-mail.outlook.com";
+            port = 587;
         }
         if (email.Contains("yahoo"))
         {
-            webConfigApp.AppSettings.Settings["mailServer"].Value = "smtp.mail.yahoo.com";
-            webConfigApp.AppSettings.Settings["mailPort"].Value = "465";
+            server = "smtp.mail.yahoo.com";
+            port = 465;
         }
-        webConfigApp.Save();
+        try
+        { 
+            //send email to the new credentials
+            MailAddress mailSender = new MailAddress(email, "Knottwood Montessori Daycare");
+            MailAddress mailRecipient = new MailAddress(email);
+            MailMessage message = new MailMessage(mailSender, mailRecipient);
+            message.IsBodyHtml = true;
+            message.Subject = "New email registered as Knottwood Montessori Daycare Sender Email";
+            message.Body = "<p>This email was successfully used to sign in as the sender email for Knottwood Montessori Daycare</p><p>(780) 461-3320</p>";
+            SmtpClient smtp = new SmtpClient(server, port);
+            smtp.Credentials = new NetworkCredential(email, password);
+            smtp.EnableSsl = true;
+            smtp.Send(message);
+
+            //save configurations to config file
+            Configuration webConfigApp = WebConfigurationManager.OpenWebConfiguration("~");
+            webConfigApp.AppSettings.Settings["mailAccount"].Value = email;
+            webConfigApp.AppSettings.Settings["mailPassword"].Value = password;
+            webConfigApp.AppSettings.Settings["mailServer"].Value = server;
+            webConfigApp.AppSettings.Settings["mailPort"].Value = port.ToString();
+            webConfigApp.Save();
+            return true;
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
+        
     }
 
     protected void AlbumURL_Save(object sender, EventArgs e)

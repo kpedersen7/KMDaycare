@@ -8,21 +8,33 @@ using System.Web.UI.WebControls;
 public partial class AddEvent : System.Web.UI.Page
 {
     protected void Page_PreInit(object sender, EventArgs e)
-    { 
-        Authenticate();
+    {
+        SecurityController s = HttpContext.Current.User as SecurityController;
+        if (s != null)
+        {
+            if (s.IsInRole("Parent"))
+            {
+                Page.MasterPageFile = "~/General.master";
+            }
+            if (!s.IsInRole("Admin") && !s.IsInRole("Parent"))
+            {
+                Response.Redirect("Default.aspx");
+            }
+        }
+        else
+        {
+            Response.Redirect("Default.aspx");
+        }
     }
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        Authenticate();
         if (!Page.IsPostBack)
         {
             CheckForCookie();
         }
-        else
-        {
-            CheckForCookie();
-        }
-        
+
     }
 
     #region AUTHENTICATION
@@ -37,12 +49,7 @@ public partial class AddEvent : System.Web.UI.Page
             }
             if (s.IsInRole("Parent"))
             {
-                Page.MasterPageFile = "~/General.master";
                 DoParentLoad();
-            }
-            if (!s.IsInRole("Admin") && !s.IsInRole("Parent"))
-            {
-                Response.Redirect("Default.aspx");
             }
         }
         else
@@ -73,7 +80,7 @@ public partial class AddEvent : System.Web.UI.Page
         DateTime endDateTime = kBaist.MakeSQLDateTime(EventDate.SelectedDate.Year, EventDate.SelectedDate.Month, EventDate.SelectedDate.Day, EndTime.SelectedValue.ToString());
         string description = Description.Text.Trim();
         string notes = Notes.Text.Trim();
-        bool validated = true;// ValidateInput(startDateTime, endDateTime, description, notes);
+        bool validated = ValidateInput(startDateTime, endDateTime, description, notes);
         bool dayIsAvailable = kBaist.CheckAvailability(startDateTime, endDateTime);
         if (dayIsAvailable && validated)
         {
@@ -84,23 +91,40 @@ public partial class AddEvent : System.Web.UI.Page
         }
         else if (!dayIsAvailable)
         {
-            messageLabel.Text = "Choose another time! That time is already occupied by another event.";
+            messageLabel.Text = "Event could not be created because the selected times conflict with a pre-existing event.";
         }
-        //CheckForCookie();
-        GetEventsForDay(startDateTime);
+        GetEventsForDay(DateTime.Parse(Request.Cookies["SelectedDay"].Value));
     }
 
     protected void EventDate_SelectionChanged(object sender, EventArgs e)
     {
         KBAIST kBaist = new KBAIST();
         DateTime selectedDay = EventDate.SelectedDate;
-        TheDate.Text = kBaist.MakeMuricanDate(selectedDay);
         GetEventsForDay(selectedDay);
     }
 
+    //unused method
     protected void StartTime_SelectedIndexChanged(object sender, EventArgs e)
     {
-
+        KBAIST kb = new KBAIST();
+        DateTime StartD = kb.MakeSQLDateTime(EventDate.SelectedDate.Year, EventDate.SelectedDate.Month, EventDate.SelectedDate.Day, StartTime.SelectedValue);
+        string[] values = new string[32];
+        int count = 0;
+        foreach (ListItem item in EndTime.Items)
+        {
+            values[count] = item.Value;
+            count++;
+        }
+        EndTime.Items.Clear();
+        for (int i = 0; i < values.Length; i++)
+        {
+            DateTime endD = kb.MakeSQLDateTime(EventDate.SelectedDate.Year, EventDate.SelectedDate.Month, EventDate.SelectedDate.Day, values[count]);
+            if (endD > StartD)
+            {
+                ListItem item = new ListItem(kb.MakeNiceTime(endD), endD.TimeOfDay.ToString());
+                EndTime.Items.Add(item);
+            }
+        }
     }
     #endregion
 
@@ -108,12 +132,12 @@ public partial class AddEvent : System.Web.UI.Page
     {
         try
         {
-            if (DateTime.Compare(start, end) >= 0)
+            if (end < start)
             {
                 messageLabel.Text = "The end time cannot be before, or the same as, the start time.";
                 return false;
             }
-            if (DateTime.Compare(start, DateTime.Now) <= 0)
+            if (start < DateTime.Now)
             {
                 messageLabel.Text = "The start time must be in the future.";
                 return false;
@@ -146,31 +170,45 @@ public partial class AddEvent : System.Web.UI.Page
     private void GetEventsForDay(DateTime selectedDay)
     {
         SetCookie(selectedDay);
+        StartTime.Items.Clear();
+        EndTime.Items.Clear();
         EventsForDay.Controls.Clear();
         KBAIST kBaist = new KBAIST();
+        TheDate.Text = kBaist.MakeMuricanDate(selectedDay);
         List<Event> eventsForDay = kBaist.GetEvents(selectedDay, selectedDay.AddDays(1));
-        DateTime day = DateTime.Today.AddHours(6);
-        while(day <= DateTime.Today.AddHours(18))
+        DateTime day = selectedDay.AddHours(6);
+        while (day <= (selectedDay.AddHours(18))) //making the time lists
         {
             ListItem li = new ListItem();
             li.Text = kBaist.MakeNiceTime(day);
             li.Value = day.TimeOfDay.ToString();
+            if (eventsForDay.Count > 0)
+            {
+                foreach (Event e in eventsForDay)
+                {
+                    if (day.TimeOfDay >= e.StartDateTime.TimeOfDay && day.TimeOfDay < e.EndDateTime.TimeOfDay)
+                    {
+                        li.Attributes.Add("disabled", "disabled");
+                    }
+                }
+            }
             StartTime.Items.Add(li);
+            EndTime.Items.Add(li);
             day = day.AddMinutes(30);
         }
-        if (eventsForDay.Count > 0)
+        if (eventsForDay.Count > 0) //Listing the events for the day
         {
             foreach (Event ev in eventsForDay)
             {
                 Panel p = new Panel();
                 p.Attributes.Add("class", "card");
 
-                
+
                 LinkButton lb = new LinkButton();
                 lb.Text = "(x)";
                 lb.Attributes.Add("href", "AddEvent.aspx?d=" + ev.EventID);
                 lb.Attributes.Add("class", "pull-right");
-                p.Controls.Add(lb);
+                //p.Controls.Add(lb);
 
                 Panel linkPanel = new Panel();
 
@@ -197,7 +235,7 @@ public partial class AddEvent : System.Web.UI.Page
                 EventsForDay.Controls.Add(p);
             }
         }
-//snippet
+        //snippet
     }
 
     private void RemoveEvent(int id)
@@ -219,32 +257,31 @@ public partial class AddEvent : System.Web.UI.Page
             }
             else
             {
-                messageLabel.Text = "Event Deleted Successfully!";
+                messageLabel.Text = "Event was deleted!";
+                CheckForCookie();
             }
         }
         catch (Exception ex)
         {
 
         }
-        CheckForCookie();
     }
 
     private void SetCookie(DateTime d)
     {
         HttpCookie cookie = new HttpCookie("SelectedDay", d.ToString());
-        cookie.Expires = DateTime.Now.AddHours(1);
+        cookie.Expires = DateTime.Now.AddMinutes(1);
         Response.Cookies.Add(cookie);
     }
 
     private void CheckForCookie()
     {
-        if (Response.Cookies["SelectedDay"] != null && Response.Cookies["SelectedDay"].Value != null)
+        if (Request.Cookies["SelectedDay"] != null && Request.Cookies["SelectedDay"].Value != null)
         {
             GetEventsForDay(DateTime.Parse(Request.Cookies["SelectedDay"].Value));
         }
         else
         {
-            SetCookie(DateTime.Today);
             GetEventsForDay(DateTime.Today);
         }
     }

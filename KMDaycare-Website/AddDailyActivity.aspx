@@ -19,7 +19,7 @@
 
             <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Add Activity</a>
 
-            <div class="collapse" id="collapseExample">
+            <div class="form-horizontal collapse" id="collapseExample">
                 <div class="card card-body">
                     <asp:Table runat="server" ID="addactivitytable">
                         <asp:TableRow>

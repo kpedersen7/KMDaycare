@@ -15,7 +15,7 @@
             </div>
             <div id="collapseOne" class="collapse show" data-parent="#accordion">
                 <div class="card-body">
-                    <a href="ViewNewsletter.aspx">Current Newsletter</a>
+                    <a href="ViewNewsletter.aspx" target="_blank">Current Newsletter</a>
                     <asp:FileUpload runat="server" ID="fileupload" />
                     <asp:Button ID="Button1" runat="server" OnClick="Newsletter_Save" Text="Save" Style="width: 85px" />
                 </div>
@@ -108,7 +108,7 @@
                     <asp:Table runat="server">
                         <asp:TableRow>
                             <asp:TableCell>
-                                <a runat="server" href="" id="CurrentAlbumURL">View Current Page</a>
+                                <a runat="server" href="" id="CurrentAlbumURL" target="_blank">View Current Page</a>
                             </asp:TableCell>
                         </asp:TableRow>
                         <asp:TableRow>

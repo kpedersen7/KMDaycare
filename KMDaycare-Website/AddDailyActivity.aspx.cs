@@ -41,7 +41,7 @@ public partial class AddDailyActivity : System.Web.UI.Page
         }
         else
         {
-            CheckForCookie();
+            //CheckForCookie();
         }
     }
 
@@ -63,16 +63,16 @@ public partial class AddDailyActivity : System.Web.UI.Page
         }
         else
         {
-            messageLabel.Text = "Choose another time! That time is already occupied by another activity";
+            messageLabel.Text = "The times you have picked conflict with a pre-existing event, please check the schedule and try again.";
         }
-        CheckForCookie();
+        GetActivitiesForDay(DateTime.Parse(Request.Cookies["SelectedDay"].Value));
+        //CheckForCookie();
     }
 
     protected void ActivityDate_SelectionChanged(object sender, EventArgs e)
     {
         KBAIST kBaist = new KBAIST();
         DateTime selectedDay = ActivityDate.SelectedDate;
-        TheDate.Text = " - " + kBaist.MakeMuricanDate(selectedDay);
         GetActivitiesForDay(selectedDay);
     }
 
@@ -123,8 +123,8 @@ public partial class AddDailyActivity : System.Web.UI.Page
         Activities3.Controls.Clear();
         Activities4.Controls.Clear();
         KBAIST kBaist = new KBAIST();
-        List<DailyActivity> activitiesForDay = kBaist.GetActivities(selectedDay, selectedDay.AddDays(1));
         TheDate.Text = " - " + kBaist.MakeMuricanDate(selectedDay);
+        List<DailyActivity> activitiesForDay = kBaist.GetActivities(selectedDay, selectedDay.AddDays(1));
         if (activitiesForDay.Count > 0)
         {
             foreach (DailyActivity da in activitiesForDay)
@@ -213,7 +213,7 @@ public partial class AddDailyActivity : System.Web.UI.Page
 
     private void CheckForCookie()
     {
-        if (Response.Cookies["SelectedDay"] != null)
+        if (Request.Cookies["SelectedDay"] != null && Request.Cookies["SelectedDay"].Value != null)
         {
             GetActivitiesForDay(DateTime.Parse(Request.Cookies["SelectedDay"].Value));
         }
