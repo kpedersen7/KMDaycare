@@ -248,7 +248,7 @@ public partial class AddEvent : System.Web.UI.Page
                 bool b = kb.RemoveEvent(id);
                 if (b)
                 {
-                    Response.Redirect("AddEvent.aspx?d=0");
+                    Response.Redirect("AddEvent.aspx");
                 }
                 else
                 {
