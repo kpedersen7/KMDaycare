@@ -96,6 +96,10 @@ public partial class CreateAccount : System.Web.UI.Page
             {
                 errorMessage += "Please enter postal code with no spaces. ";
             }
+            if (postalCode.Length > 6)
+            {
+                errorMessage += "Postal code is too long. ";
+            }
             if (!Regex.IsMatch(email, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"))
             {
                 errorMessage += "Email is invalid. ";

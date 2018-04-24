@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -197,18 +198,28 @@ public partial class MyAccount : System.Web.UI.Page
             if (string.IsNullOrEmpty(childFirstName) || string.IsNullOrEmpty(childLastName) || string.IsNullOrEmpty(parent1FirstName) || string.IsNullOrEmpty(parent1LastName) || string.IsNullOrEmpty(contactNumber))
             {
                 errorMessage += "One or more required fields are not filled out. ";
-                return false;
             }
             if (childFirstName.Length > 50 || childLastName.Length > 50 || parent1FirstName.Length > 50 || parent1LastName.Length > 50 || childFirstName.Length > 50 || contactNumber.Length > 10)
             {
                 errorMessage += "One or more required fields contain too many characters. ";
-                return false;
+            }
+            if (postalCode.Contains(" "))
+            {
+                errorMessage += "Please enter postal code with no spaces. ";
+            }
+            if (postalCode.Length > 6)
+            {
+                errorMessage += "Postal code is too long. ";
             }
             if (errorMessage != "")
             {
                 FeedbackLabel.Text = errorMessage;
+                return false;
             }
-            return true;
+            else
+            {
+                return true;
+            }
         }
         catch (Exception ex)
         {
