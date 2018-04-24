@@ -116,36 +116,42 @@ public partial class MyAccount : System.Web.UI.Page
     protected void SubmitUpdateButton_Click(object sender, EventArgs e)
     {
         KBAIST kb = new KBAIST();
-
-        string[] childName = ChildNameTextbox.Text.Trim().Split(null);
-        string childFirstName = childName[0];
-        string childLastName = childName[1];
-
-        string[] parent1Name = Parent1NameTextbox.Text.Trim().Split(null);
-        string parent1FirstName = parent1Name[0];
-        string parent1LastName = parent1Name[1];
-
-        string[] parent2Name = Parent2NameTextbox.Text.Trim().Split(null);
-        string parent2FirstName = parent1Name[0];
-        string parent2LastName = parent1Name[1];
-
-        string homeAddress = HomeAddressTextbox.Text.Trim();
-        string postalCode = PostalCodeTextbox.Text.Trim();
-        string contactNumber = ContactNumberTextbox.Text.Trim();
-        bool validated = ValidateInput(childFirstName, childLastName, parent1FirstName, parent1LastName, parent2FirstName, parent2LastName, homeAddress, postalCode, contactNumber);
-        if (validated)
+        try
         {
-            bool b = kb.UpdateAccount(Request.QueryString["m"], childFirstName, childLastName, parent1FirstName, parent1LastName, parent2FirstName, parent2LastName, homeAddress, postalCode, contactNumber);
-            if (b)
+            string[] childName = ChildNameTextbox.Text.Trim().Split(null);
+            string childFirstName = childName[0];
+            string childLastName = childName[1];
+
+            string[] parent1Name = Parent1NameTextbox.Text.Trim().Split(null);
+            string parent1FirstName = parent1Name[0];
+            string parent1LastName = parent1Name[1];
+
+            string[] parent2Name = Parent2NameTextbox.Text.Trim().Split(null);
+            string parent2FirstName = parent1Name[0];
+            string parent2LastName = parent1Name[1];
+
+            string homeAddress = HomeAddressTextbox.Text.Trim();
+            string postalCode = PostalCodeTextbox.Text.Trim();
+            string contactNumber = ContactNumberTextbox.Text.Trim();
+            bool validated = ValidateInput(childFirstName, childLastName, parent1FirstName, parent1LastName, parent2FirstName, parent2LastName, homeAddress, postalCode, contactNumber);
+            if (validated)
             {
-                FeedbackLabel.Text = "Account updated successfully!";
+                bool b = kb.UpdateAccount(Request.QueryString["m"], childFirstName, childLastName, parent1FirstName, parent1LastName, parent2FirstName, parent2LastName, homeAddress, postalCode, contactNumber);
+                if (b)
+                {
+                    FeedbackLabel.Text = "Account updated successfully!";
+                }
+                else
+                {
+                    FeedbackLabel.Text = "Account was not updated!";
+                }
             }
             else
             {
-                FeedbackLabel.Text = "Account was not updated!";
+                FeedbackLabel.Text = "One or more fields are not filled out properly.";
             }
         }
-        else
+        catch(Exception ex)
         {
             FeedbackLabel.Text = "One or more fields are not filled out properly.";
         }
