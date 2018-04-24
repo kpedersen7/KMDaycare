@@ -78,8 +78,9 @@
         }
 
             #thenavbar a {
-                color: white;
+                color: #c93756;
                 font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                font-weight: bolder;
                 border-radius: 5px;
                 padding-left: 10px;
                 padding-right: 10px;
