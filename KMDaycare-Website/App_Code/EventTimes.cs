@@ -9,10 +9,6 @@ using System.Data.SqlClient;
 /// </summary>
 public class EventTimes
 {
-    public EventTimes()
-    {
-    }
-
     public bool FindAvailability(DateTime StartDateTime, DateTime EndDateTime)
     {
         using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["KMDaycare"].ConnectionString))

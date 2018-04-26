@@ -12,19 +12,11 @@ using System.Configuration;
 /// </summary>
 public class DailyActivityTimes
 {
-    public DailyActivityTimes()
-    {
-        //
-        // TODO: Add constructor logic here
-        //
-    }
-
-
     public bool FindAvailabilityofActivity(DateTime StartDateTime, DateTime EndDateTime, int ClassID)
     {
         using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["KMDaycare"].ConnectionString))
         {
-            using (SqlCommand cmd = new SqlCommand("FindAvailabilityfordailyactivity", con))
+            using (SqlCommand cmd = new SqlCommand("FindAvailabilityForDailyActivity", con))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@StartDatetime", StartDateTime);
@@ -39,7 +31,7 @@ public class DailyActivityTimes
                     foundactivity.DailyActivityID = int.Parse(sqldr["DailyActivityID"].ToString());
                     foundactivity.StartDateTime = DateTime.Parse(sqldr["StartDateTime"].ToString());
                     foundactivity.EndDateTime = DateTime.Parse(sqldr["EndDateTime"].ToString());
-                    foundactivity.DescriptionofActivity = sqldr["DescriptionofActivity"].ToString();
+                    foundactivity.DescriptionofActivity = sqldr["DescriptionOfActivity"].ToString();
                     foundactivity.Notes = sqldr["Notes"].ToString();
                     foundactivity.ClassID = int.Parse(sqldr["ClassID"].ToString());
                     FoundActivities.Add(foundactivity);
@@ -71,7 +63,7 @@ public class DailyActivityTimes
                     cmd.Parameters.AddWithValue("@StartDatetime", activityForAdd.StartDateTime);
                     cmd.Parameters.AddWithValue("@EndDateTime", activityForAdd.EndDateTime);
                     cmd.Parameters.AddWithValue("@Notes", activityForAdd.Notes);
-                    cmd.Parameters.AddWithValue("@DescriptionofActivity", activityForAdd.DescriptionofActivity);
+                    cmd.Parameters.AddWithValue("@DescriptionOfActivity", activityForAdd.DescriptionofActivity);
                     cmd.Parameters.AddWithValue("@ClassID", activityForAdd.ClassID);
                     con.Open();
 
@@ -109,7 +101,7 @@ public class DailyActivityTimes
                         anActivity.DailyActivityID = int.Parse(sqldr["DailyActivityID"].ToString());
                         anActivity.StartDateTime = DateTime.Parse(sqldr["StartDateTime"].ToString());
                         anActivity.EndDateTime = DateTime.Parse(sqldr["EndDateTime"].ToString());
-                        anActivity.DescriptionofActivity = sqldr["DescriptionofActivity"].ToString();
+                        anActivity.DescriptionofActivity = sqldr["DescriptionOfActivity"].ToString();
                         anActivity.Notes = sqldr["Notes"].ToString();
                         anActivity.ClassDescription = sqldr["ClassDescription"].ToString();
                         activities.Add(anActivity);

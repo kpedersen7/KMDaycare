@@ -1,33 +1,3 @@
---CREATE User[aspnet] for login
---[NAIT\webbaist$]
-GRANT Execute on AddClass to [aspnet]
-GRANT Execute on AddDailyActivity to [aspnet]
-GRANT Execute on AddEvent to [aspnet]
-GRANT Execute on CreateMember to [aspnet]
-GRANT Execute on CreateTicket to [aspnet]
-GRANT Execute on CreateUser to [aspnet]
-GRANT Execute on DeleteActivity to [aspnet]
-GRANT Execute on DeleteEvent to [aspnet]
-GRANT Execute on FindAvailability to [aspnet]
-GRANT Execute on FindAvailabilityfordailyactivity to [aspnet]
-GRANT Execute on GetDailyActivities to [aspnet]
-GRANT Execute on GetEvents to [aspnet]
-GRANT Execute on GetMember to [aspnet]
-GRANT Execute on GetTicket to [aspnet]
-GRANT Execute on GetUser to [aspnet]
-GRANT Execute on GetUserByEmail to [aspnet]
-GRANT Execute on GetUserRole to [aspnet]
-GRANT Execute on SearchMembers to [aspnet]
-GRANT Execute on UpdateMember to [aspnet]
-GRANT Execute on UpdatePassword to [aspnet]
-GRANT Execute on VerifyLogin to [aspnet]
-GRANT Execute on ToggleUserActiveStatus to [aspnet]
---https://www.flickr.com/photos/160523648@N03/albums
---kmdaycaretestemail@gmail.com
---KMDaycare
---'pIbvhgmpVHahDBTYUgQvew=='
-SELECT * FROM [User]
-SELECT * FROM [Member]
 CREATE DATABASE KMDaycare
 GO
 USE KMDaycare
@@ -75,29 +45,46 @@ CREATE TABLE [PasswordChangeTicket](
 	Expiry DateTime NOT NULL
 )
 
+CREATE TABLE [Class](
+	ClassID INT PRIMARY KEY IDENTITY(1,1), 
+	ClassDescription varchar(50) NOT NULL
+)
+
+CREATE TABLE [DailyActivity](
+	DailyActivityID INT PRIMARY KEY IDENTITY(1,1), 
+	StartDateTime DateTime NOT NULL,
+	EndDateTime DateTime NOT NULL,
+	ClassID INT NOT NULL FOREIGN KEY REFERENCES [Class](ClassID),
+	DescriptionOfActivity varchar(100) NOT NULL,
+	Notes varchar(500) NOT NULL,
+)
+
 --------------------------------------EVENTS-------------------------------------------
 GO
 CREATE PROCEDURE FindAvailability(@StartDateTime DATETIME, @EndDateTime DATETIME) AS
 DECLARE @ReturnCode INT
 SET @ReturnCode = 1
-
 IF @StartDateTime IS NULL
-	RAISERROR('FindAvailability - Required Parameter : @@StartDateTime',16,1)
+	RAISERROR('FindAvailability - Required Parameter : @StartDateTime',16,1)
 IF @EndDateTime IS NULL
-	RAISERROR('FindAvailability - Required Parameter : @@EndDateTime',16,1)
+	RAISERROR('FindAvailability - Required Parameter : @EndDateTime',16,1)
 ELSE
 	BEGIN
 		SELECT EventID, StartDateTime, EndDateTime, [Description], Notes
 		FROM Event
-		WHERE StartDateTime BETWEEN @StartDateTime AND @EndDateTime 
-		OR EndDateTime BETWEEN @StartDateTime AND @EndDateTime
-		OR StartDateTime > @StartDateTime AND EndDateTime < @EndDateTime
+		WHERE ((StartDateTime = @StartDateTime) -- event starts at the same time as another
+		OR(EndDateTime = @EndDateTime) -- event ends at the same time as another
+		OR(StartDateTime < @EndDateTime AND EndDateTime > @EndDateTime) -- event is inside another event completely
+		OR(StartDateTime > @StartDateTime AND EndDateTime < @EndDateTime) -- event engulfs another event completely
+		OR(StartDateTime < @EndDateTime AND StartDateTime > @EndDateTime) -- event start is inside another event
+		OR(EndDateTime < @StartDateTime AND EndDateTime > @EndDateTime)) -- event end is inside another event 
 		IF @@ERROR = 0
 			SET @ReturnCode = 0
 		ELSE
 			RAISERROR('FindAvailability - Select Error from Event table', 16,1)
 	END
-	RETURN @ReturnCode
+RETURN @ReturnCode
+
 GO
 CREATE PROCEDURE AddEvent(@StartDateTime DATETIME, @EndDateTime DATETIME, @Notes VARCHAR(500), @Description VARCHAR(50)) AS
 DECLARE @ReturnCode INT
@@ -346,12 +333,10 @@ ELSE
 			RAISERROR('UpdateMember - Update Error at Member table', 16,1)
 	END
 RETURN @ReturnCode
-
 -------------------------------------------------/MEMBER----------------------------------------------------
 
--------------------------------------------------/PASSWORD CHANGE TICKET-----------------------------------
-GO
 ----------------------------------------------PASSWORD TICKETS----------------------------
+GO
 CREATE PROCEDURE CreateTicket(@email varchar(50), @ticket varchar(10)) AS
 DECLARE @ReturnCode INT
 SET @ReturnCode = 1
@@ -402,18 +387,57 @@ BEGIN
 	ELSE
 		RAISERROR('UpdatePassword - Update Error at User table', 16,1)
 END
+-------------------------------------------------/PASSWORD CHANGE TICKET-----------------------------------
 
----------------------------DAILY ACTIVITIES ----------------------
+-------------------------------------------------CLASS----------------------------------------------------
 GO
-ALTER PROCEDURE FindAvailabilityfordailyactivity(@StartDateTime DATETIME, @EndDateTime DATETIME, @ClassID int) AS
+CREATE PROCEDURE AddClass( @ClassID int , @ClassDescription varchar(50)) AS
+DECLARE @ReturnCode INT
+SET @ReturnCode = 1
+	BEGIN
+		INSERT INTO Class( ClassID, ClassDescription)
+		VALUES (@ClassID, @ClassDescription) 
+		IF @@ERROR = 0
+			SET @ReturnCode = 0
+		ELSE
+			RAISERROR('AddAcitvity - Insert Error at Class table', 16,1)
+	END
+RETURN @ReturnCode
+
+-------------------------------------------------/CLASS----------------------------------------------------
+
+--------------------------------------------------DAILY ACTIVITIES ----------------------------------------
+GO
+CREATE PROCEDURE AddDailyActivity(@StartDateTime DATETIME, @EndDateTime DATETIME, @Notes VARCHAR(500), @DescriptionOfActivity VARCHAR(50), @ClassID int) AS
 DECLARE @ReturnCode INT
 SET @ReturnCode = 1
 IF @StartDateTime IS NULL
-	RAISERROR('FindAvailabilityfordailyactivity - Required Parameter : @@StartDateTime',16,1)
+	RAISERROR('AddDailyActivity - Required Parameter : @StartDateTime',16,1)
 IF @EndDateTime IS NULL
-	RAISERROR('FindAvailabilityfordailyactivity - Required Parameter : @@EndDateTime',16,1)
+	RAISERROR('AddDailyActivity - Required Parameter : @EndDateTime',16,1)
+IF @DescriptionofActivity IS NULL
+	RAISERROR('AddDailyActivity - Required Parameter : @Description',16,1)
+ELSE
+	BEGIN
+		INSERT INTO DailyActivity(StartDateTime, EndDateTime, DescriptionOfActivity, Notes, ClassID)
+		VALUES (@StartDateTime, @EndDatetime, @DescriptionOfActivity, @Notes, @ClassID) 
+		IF @@ERROR = 0
+			SET @ReturnCode = 0
+		ELSE
+			RAISERROR('AddAcitvity - Insert Error at DailyActivity table', 16,1)
+	END
+RETURN @ReturnCode
+
+GO
+CREATE PROCEDURE FindAvailabilityForDailyActivity(@StartDateTime DATETIME, @EndDateTime DATETIME, @ClassID int) AS
+DECLARE @ReturnCode INT
+SET @ReturnCode = 1
+IF @StartDateTime IS NULL
+	RAISERROR('FindAvailabilityfordailyactivity - Required Parameter : @StartDateTime',16,1)
+IF @EndDateTime IS NULL
+	RAISERROR('FindAvailabilityfordailyactivity - Required Parameter : @EndDateTime',16,1)
 IF @ClassID IS NULL
-	RAISERROR('FindAvailabilityfordailyactivity - Required Parameter : @@EndDateTime',16,1)
+	RAISERROR('FindAvailabilityfordailyactivity - Required Parameter : @EndDateTime',16,1)
 ELSE
 	BEGIN
 		SELECT DailyActivityID, StartDateTime, EndDateTime, [DescriptionofActivity], Notes, ClassID
@@ -432,27 +456,42 @@ ELSE
 	END
 RETURN @ReturnCode
 
-----------------------------------------------------------------------------------
-ALTER PROCEDURE FindAvailability(@StartDateTime DATETIME, @EndDateTime DATETIME) AS
+GO
+CREATE PROCEDURE GetDailyActivities(@minDay Datetime, @maxDay Datetime) AS
 DECLARE @ReturnCode INT
 SET @ReturnCode = 1
-IF @StartDateTime IS NULL
-	RAISERROR('FindAvailability - Required Parameter : @StartDateTime',16,1)
-IF @EndDateTime IS NULL
-	RAISERROR('FindAvailability - Required Parameter : @EndDateTime',16,1)
+IF @minDay IS NULL
+	RAISERROR(' GetDailyActivities - Required Parameter : @minDay',16,1)
+IF @maxDay IS NULL
+	RAISERROR(' GetDailyActivities - Required Parameter : @maxDay',16,1)
 ELSE
 	BEGIN
-		SELECT EventID, StartDateTime, EndDateTime, [Description], Notes
-		FROM Event
-		WHERE ((StartDateTime = @StartDateTime) -- event starts at the same time as another
-		OR(EndDateTime = @EndDateTime) -- event ends at the same time as another
-		OR(StartDateTime < @EndDateTime AND EndDateTime > @EndDateTime) -- event is inside another event completely
-		OR(StartDateTime > @StartDateTime AND EndDateTime < @EndDateTime) -- event engulfs another event completely
-		OR(StartDateTime < @EndDateTime AND StartDateTime > @EndDateTime) -- event start is inside another event
-		OR(EndDateTime < @StartDateTime AND EndDateTime > @EndDateTime)) -- event end is inside another event 
+		SELECT DailyActivityID, StartDateTime, EndDateTime, [DescriptionofActivity], Notes, Class.ClassDescription
+		FROM DailyActivity inner join Class on  DailyActivity.ClassID = Class.ClassID
+		WHERE StartDateTime BETWEEN @minDay AND @maxDay
+		ORDER BY StartDateTime 
 		IF @@ERROR = 0
 			SET @ReturnCode = 0
 		ELSE
-			RAISERROR('FindAvailability - Select Error from Event table', 16,1)
+			RAISERROR('GetDailyActivities  - Select Error from DailyAcitvity table', 16,1)
 	END
 RETURN @ReturnCode
+
+GO
+CREATE PROCEDURE DeleteActivity(@DailyActivityID int) AS
+DECLARE @ReturnCode INT
+SET @ReturnCode = 1
+IF @DailyActivityID IS NULL
+	RAISERROR('DeleteActivity - Required Parameter : @eventID',16,1)
+ELSE
+	BEGIN
+		DELETE FROM [DailyActivity]  WHERE DailyActivityID = @DailyActivityID
+		IF @@ERROR = 0
+			SET @ReturnCode = 0
+		ELSE
+			RAISERROR('DeleteActivity - Delete Error from DailyActivity table', 16,1)
+	END
+	RETURN @ReturnCode
+---------------------------------------------------/DAILY ACTIVITIES-----------------------------------------
+
+
